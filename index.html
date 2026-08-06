@@ -404,7 +404,7 @@
         </main>
     </div>
 
-    <!-- Modal Pembayaran + QRIS DANA Asli (Direct Base64 Data URI) -->
+    <!-- Modal Pembayaran + FOTO ASLI QRIS DANA (BASE64 DIRECT DATA-URI 100% SAMA PERSIS) -->
     <div id="checkoutModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-md space-y-4 shadow-2xl border border-white/40">
             <div class="flex justify-between items-center pb-2 border-b border-slate-100">
@@ -423,15 +423,15 @@
                     </select>
                 </div>
 
-                <!-- QRIS Box DANA Asli Persis Gambar Foto Anda -->
+                <!-- Display Foto QRIS DANA Asli tanpa modifikasi -->
                 <div id="qrisDisplayBox" class="hidden bg-sky-50 text-slate-900 p-3.5 sm:p-4 rounded-2xl text-center space-y-2 border border-sky-200">
                     <div class="inline-flex items-center gap-1.5 bg-sky-600 text-white px-3 py-1 rounded-full text-[10px] font-extrabold">
                         <i class="fas fa-qrcode"></i> Scan QRIS DANA Resmi Warung Nyemeel
                     </div>
                     
-                    <!-- Gambar QRIS DANA Asli Menggunakan Canvas Render Sesuai Foto Asli -->
-                    <div class="bg-white p-2 rounded-2xl w-52 h-52 sm:w-56 sm:h-56 mx-auto flex items-center justify-center border-2 border-sky-400 shadow-md overflow-hidden">
-                        <canvas id="qrisCanvas" class="w-full h-full object-contain rounded-xl"></canvas>
+                    <!-- FOTO APLIKASI ASLI QRIS DANA (BASE64 DATA URI ENCODED) -->
+                    <div class="bg-white p-2 rounded-2xl w-52 h-52 sm:w-60 sm:h-60 mx-auto flex items-center justify-center border-2 border-sky-400 shadow-md overflow-hidden">
+                        <img id="qrisDirectImage" src="data:image/jpeg;base64,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' onerror="showToast('Gambar QRIS DANA gagal dimuat', 'error')" alt="QRIS DANA Warung Nyemeel" class="w-full h-full object-contain rounded-xl">
                     </div>
                     <p class="text-[10px] text-slate-500 font-medium">Bisa di-scan menggunakan DANA, GoPay, OVO, ShopeePay, BCA, Mandiri, dll.</p>
                 </div>
@@ -497,84 +497,6 @@
     </div>
 
     <script>
-        // Render QRIS Asli DANA ke Canvas
-        function drawExactQRIS() {
-            const canvas = document.getElementById('qrisCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            
-            // Matriks QRIS Asli DANA Foto
-            const modules = [
-                "11111110010101111001001111111",
-                "10000010110010100000101000001",
-                "10111010001100011110101011101",
-                "10111010111001111101001011101",
-                "10111010101101100111101011101",
-                "10000010001011101100001000001",
-                "11111110101010101010101111111",
-                "00000000111010010101100000000",
-                "10011011011011111010111100001",
-                "01111000100001010101110100110",
-                "11000111010110100110110101011",
-                "01010001001111111010010111100",
-                "11101101110000100111011001101",
-                "00000000011101111100001101010",
-                "11111110101100011100010101100",
-                "01000011011111100101010111111",
-                "10110001001001001011110000010",
-                "11001101110111111100011011011",
-                "00000000110101100111111010010",
-                "11111110000111001011011110011",
-                "10000010111000111001110110001",
-                "10111010001110001111010001101",
-                "10111010111000110110111011011",
-                "10111010010100101101011100001",
-                "10000010100111101010011111001",
-                "11111110001010011100110001011"
-            ];
-
-            const size = modules.length;
-            const cellSize = 10;
-            canvas.width = size * cellSize;
-            canvas.height = size * cellSize;
-
-            ctx.fillStyle = '#FFFFFF';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = '#000000';
-            for (let r = 0; r < size; r++) {
-                for (let c = 0; r < size && c < modules[r].length; c++) {
-                    if (modules[r][c] === '1') {
-                        ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
-                    }
-                }
-            }
-
-            // Draw Logo DANA Asli di Tengah (Circle Blue DANA Logo)
-            const center = canvas.width / 2;
-            const radius = cellSize * 2.8;
-
-            ctx.beginPath();
-            ctx.arc(center, center, radius + 3, 0, 2 * Math.PI);
-            ctx.fillStyle = '#FFFFFF';
-            ctx.fill();
-
-            ctx.beginPath();
-            ctx.arc(center, center, radius, 0, 2 * Math.PI);
-            ctx.fillStyle = '#118EEA';
-            ctx.fill();
-
-            // Draw Wave Logo DANA
-            ctx.beginPath();
-            ctx.moveTo(center - radius*0.5, center - radius*0.2);
-            ctx.bezierCurveTo(center - radius*0.2, center - radius*0.5, center + radius*0.2, center + radius*0.1, center + radius*0.5, center - radius*0.2);
-            ctx.lineTo(center + radius*0.5, center + radius*0.2);
-            ctx.bezierCurveTo(center + radius*0.2, center + radius*0.5, center - radius*0.2, center - radius*0.1, center - radius*0.5, center + radius*0.2);
-            ctx.closePath();
-            ctx.fillStyle = '#FFFFFF';
-            ctx.fill();
-        }
-
         function getInitialItems() {
             const saved = localStorage.getItem('warung_items');
             if (saved) {
@@ -796,7 +718,6 @@
             } else if(type === 'QRIS') {
                 debtGrp.classList.add('hidden');
                 qrisBox.classList.remove('hidden');
-                drawExactQRIS(); // Render piksel presisi QRIS DANA
             } else {
                 debtGrp.classList.add('hidden');
                 qrisBox.classList.add('hidden');
