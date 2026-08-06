@@ -13,7 +13,7 @@
     <div id="loginScreen" class="flex items-center justify-center min-h-screen p-4">
         <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border">
             <div class="text-center mb-6">
-                <i class="fas fa-store text-5xl text-orange-5xl text-orange-500 mb-2"></i>
+                <i class="fas fa-store text-5xl text-orange-500 mb-2"></i>
                 <h1 class="text-2xl font-bold text-gray-800">Warung Digital</h1>
                 <p class="text-sm text-gray-500">Masuk untuk mengelola kasir & laporan</p>
             </div>
@@ -165,77 +165,69 @@
             </div>
 
             <!-- Tab Laporan -->
-            <!-- Tab Laporan (Diperbarui dengan Filter Tanggal & Pencarian) -->
-<div id="content-laporan" class="hidden space-y-6">
-    <!-- Stat Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-500">
-            <p class="text-xs text-gray-500">Omset Hari Ini</p>
-            <h3 id="statToday" class="text-2xl font-bold text-gray-800">Rp 0</h3>
-        </div>
-        <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500">
-            <p class="text-xs text-gray-500">Omset Minggu Ini</p>
-            <h3 id="statWeek" class="text-2xl font-bold text-gray-800">Rp 0</h3>
-        </div>
-        <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500">
-            <p class="text-xs text-gray-500">Omset Bulan Ini</p>
-            <h3 id="statMonth" class="text-2xl font-bold text-gray-800">Rp 0</h3>
-        </div>
+            <div id="content-laporan" class="hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-500">
+                        <p class="text-xs text-gray-500">Omset Hari Ini</p>
+                        <h3 id="statToday" class="text-2xl font-bold text-gray-800">Rp 0</h3>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500">
+                        <p class="text-xs text-gray-500">Omset Minggu Ini</p>
+                        <h3 id="statWeek" class="text-2xl font-bold text-gray-800">Rp 0</h3>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500">
+                        <p class="text-xs text-gray-500">Omset Bulan Ini</p>
+                        <h3 id="statMonth" class="text-2xl font-bold text-gray-800">Rp 0</h3>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm space-y-4">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-2 border-b">
+                        <h2 class="font-bold text-lg">Riwayat Transaksi</h2>
+                        <div id="filterSummary" class="text-xs font-semibold text-orange-600 bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-200">
+                            Total Hasil Filter: Rp 0
+                        </div>
+                    </div>
+
+                    <!-- Toolbar Filter & Search -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-xs"></i>
+                            <input type="text" id="searchReport" oninput="renderReports()" placeholder="Cari item/tipe/waktu..." class="w-full pl-8 pr-3 py-2 text-xs border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-500 font-semibold mb-1">Dari Tanggal</label>
+                            <input type="date" id="startDate" onchange="renderReports()" class="w-full p-1.5 text-xs border rounded-lg outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-500 font-semibold mb-1">Sampai Tanggal</label>
+                            <input type="date" id="endDate" onchange="renderReports()" class="w-full p-1.5 text-xs border rounded-lg outline-none">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="resetReportFilter()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-semibold text-xs py-2 px-3 rounded-lg border transition flex items-center justify-center gap-1">
+                                <i class="fas fa-redo text-[10px]"></i> Reset Filter
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b bg-gray-50 text-xs text-gray-500">
+                                    <th class="p-2">Tanggal & Waktu</th>
+                                    <th class="p-2">Tipe</th>
+                                    <th class="p-2">Items</th>
+                                    <th class="p-2">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
     </div>
-
-    <!-- Riwayat Transaksi & Filter -->
-    <div class="bg-white p-4 rounded-xl shadow-sm space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-2 border-b">
-            <h2 class="font-bold text-lg">Riwayat Transaksi</h2>
-            <div id="filterSummary" class="text-xs font-semibold text-orange-600 bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-200">
-                Total Filtered: Rp 0
-            </div>
-        </div>
-
-        <!-- Toolbar Filter & Search -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            <!-- Input Cari -->
-            <div class="relative">
-                <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-xs"></i>
-                <input type="text" id="searchReport" oninput="renderReports()" placeholder="Cari item/tipe/waktu..." class="w-full pl-8 pr-3 py-2 text-xs border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none">
-            </div>
-
-            <!-- Tanggal Dari -->
-            <div>
-                <label class="block text-[10px] text-gray-500 font-semibold mb-1">Dari Tanggal</label>
-                <input type="date" id="startDate" onchange="renderReports()" class="w-full p-1.5 text-xs border rounded-lg outline-none">
-            </div>
-
-            <!-- Tanggal Sampai -->
-            <div>
-                <label class="block text-[10px] text-gray-500 font-semibold mb-1">Sampai Tanggal</label>
-                <input type="date" id="endDate" onchange="renderReports()" class="w-full p-1.5 text-xs border rounded-lg outline-none">
-            </div>
-
-            <!-- Tombol Reset -->
-            <div class="flex items-end">
-                <button onclick="resetReportFilter()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-semibold text-xs py-2 px-3 rounded-lg border transition flex items-center justify-center gap-1">
-                    <i class="fas fa-redo text-[10px]"></i> Reset Filter
-                </button>
-            </div>
-        </div>
-
-        <!-- Tabel Riwayat -->
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="border-b bg-gray-50 text-xs text-gray-500">
-                        <th class="p-2">Tanggal & Waktu</th>
-                        <th class="p-2">Tipe</th>
-                        <th class="p-2">Items</th>
-                        <th class="p-2">Total</th>
-                    </tr>
-                </thead>
-                <tbody id="salesTableBody"></tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
     <!-- Modal Pembayaran -->
     <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4 z-50">
@@ -348,9 +340,12 @@
 
         // Catalog & Cart Logic
         function renderCatalog() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const cat = document.getElementById('categoryFilter').value;
+            const searchInput = document.getElementById('searchInput');
+            const catInput = document.getElementById('categoryFilter');
+            const search = searchInput ? searchInput.value.toLowerCase() : '';
+            const cat = catInput ? catInput.value : 'all';
             const grid = document.getElementById('menuGrid');
+            if(!grid) return;
             grid.innerHTML = '';
 
             const filtered = items.filter(i => {
@@ -396,6 +391,7 @@
 
         function renderCart() {
             const container = document.getElementById('cartItems');
+            if(!container) return;
             container.innerHTML = '';
             let total = 0;
 
@@ -500,6 +496,7 @@
         // Manage Menu Logic
         function renderMenuTable() {
             const tbody = document.getElementById('menuTableBody');
+            if(!tbody) return;
             tbody.innerHTML = '';
             items.forEach(i => {
                 tbody.innerHTML += `
@@ -538,6 +535,7 @@
         // Debt Logic
         function renderDebtTable() {
             const tbody = document.getElementById('debtTableBody');
+            if(!tbody) return;
             tbody.innerHTML = '';
             debts.forEach(d => {
                 const itemSummary = d.items.map(i => `${i.name} (${i.qty})`).join(', ');
@@ -572,6 +570,95 @@
             }
         }
 
-        // Reports Logic
         // Render Laporan dengan Filter Tanggal dan Pencarian
-280f66990501ad7756673274e02798f7c8d19a32
+        function renderReports() {
+            const now = new Date();
+            let todayTotal = 0, weekTotal = 0, monthTotal = 0;
+
+            sales.forEach(s => {
+                const sDate = new Date(s.date);
+                const diffTime = Math.abs(now - sDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (sDate.toDateString() === now.toDateString()) todayTotal += s.total;
+                if (diffDays <= 7) weekTotal += s.total;
+                if (sDate.getMonth() === now.getMonth() && sDate.getFullYear() === now.getFullYear()) monthTotal += s.total;
+            });
+
+            if(document.getElementById('statToday')) document.getElementById('statToday').innerText = `Rp ${todayTotal.toLocaleString('id-ID')}`;
+            if(document.getElementById('statWeek')) document.getElementById('statWeek').innerText = `Rp ${weekTotal.toLocaleString('id-ID')}`;
+            if(document.getElementById('statMonth')) document.getElementById('statMonth').innerText = `Rp ${monthTotal.toLocaleString('id-ID')}`;
+
+            const searchQuery = (document.getElementById('searchReport')?.value || '').toLowerCase();
+            const startDateVal = document.getElementById('startDate')?.value;
+            const endDateVal = document.getElementById('endDate')?.value;
+
+            let filteredTotal = 0;
+            const tbody = document.getElementById('salesTableBody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            const filteredSales = sales.filter(s => {
+                const sDate = new Date(s.date);
+                const itemNames = s.items.map(i => i.name).join(' ').toLowerCase();
+                const formattedDate = (s.formattedDate || '').toLowerCase();
+                const typeStr = (s.type || '').toLowerCase();
+
+                const matchSearch = !searchQuery || 
+                    itemNames.includes(searchQuery) || 
+                    formattedDate.includes(searchQuery) || 
+                    typeStr.includes(searchQuery);
+
+                let matchDate = true;
+                if (startDateVal) {
+                    const start = new Date(startDateVal);
+                    start.setHours(0, 0, 0, 0);
+                    matchDate = matchDate && (sDate >= start);
+                }
+                if (endDateVal) {
+                    const end = new Date(endDateVal);
+                    end.setHours(23, 59, 59, 999);
+                    matchDate = matchDate && (sDate <= end);
+                }
+
+                return matchSearch && matchDate;
+            });
+
+            if (filteredSales.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="p-4 text-center text-gray-400 text-xs">
+                            Tidak ada transaksi yang cocok dengan filter.
+                        </td>
+                    </tr>
+                `;
+            } else {
+                filteredSales.slice().reverse().forEach(s => {
+                    filteredTotal += s.total;
+                    const itemSummary = s.items.map(i => `${i.name} x${i.qty}`).join(', ');
+                    tbody.innerHTML += `
+                        <tr class="border-b text-sm hover:bg-gray-50">
+                            <td class="p-2 text-xs text-gray-500">${s.formattedDate}</td>
+                            <td class="p-2"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-semibold">${s.type}</span></td>
+                            <td class="p-2 text-xs">${itemSummary}</td>
+                            <td class="p-2 font-bold">Rp ${s.total.toLocaleString('id-ID')}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            const summaryElem = document.getElementById('filterSummary');
+            if (summaryElem) {
+                summaryElem.innerText = `Total Hasil Filter: Rp ${filteredTotal.toLocaleString('id-ID')}`;
+            }
+        }
+
+        function resetReportFilter() {
+            if (document.getElementById('searchReport')) document.getElementById('searchReport').value = '';
+            if (document.getElementById('startDate')) document.getElementById('startDate').value = '';
+            if (document.getElementById('endDate')) document.getElementById('endDate').value = '';
+            renderReports();
+        }
+    </script>
+</body>
+</html>
