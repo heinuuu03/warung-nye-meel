@@ -37,16 +37,16 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        @keyframes slideInFromTop {
-            from { transform: translateY(-20px); opacity: 0; scale: 0.95; }
+        @keyframes toastFadeIn {
+            from { transform: translateY(-16px); opacity: 0; scale: 0.96; }
             to { transform: translateY(0); opacity: 1; scale: 1; }
         }
-        @keyframes slideOutToTop {
+        @keyframes toastFadeOut {
             from { transform: translateY(0); opacity: 1; scale: 1; }
-            to { transform: translateY(-20px); opacity: 0; scale: 0.95; }
+            to { transform: translateY(-16px); opacity: 0; scale: 0.96; }
         }
-        .toast-enter { animation: slideInFromTop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .toast-exit { animation: slideOutToTop 0.2s ease-in forwards; }
+        .toast-in { animation: toastFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .toast-out { animation: toastFadeOut 0.2s ease-in forwards; }
 
         @media print {
             body * { visibility: hidden; }
@@ -58,8 +58,8 @@
 </head>
 <body class="bg-amber-50/40 min-h-screen text-slate-800 font-sans antialiased selection:bg-brand selection:text-slate-900 pb-20 lg:pb-0">
 
-    <!-- Toast Notification Container (Disusun Rapi ke Bawah / Stacked) -->
-    <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2.5 pointer-events-none max-w-xs sm:max-w-sm w-full px-4"></div>
+    <!-- Toast Notification Container (Single Slot for Replacement) -->
+    <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none max-w-xs sm:max-w-sm w-full px-4 flex justify-center"></div>
 
     <!-- Screen Login -->
     <div id="loginScreen" class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-amber-100 via-yellow-50 to-amber-200">
@@ -680,18 +680,21 @@
             } catch (e) {}
         }
 
-        // STACKED TOAST NOTIFICATION RAPI & KEKINIAN
+        // TOAST NOTIFICATION BERGANTIAN (SINGLE SLOT SWAP)
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
             
+            // Hapus toast sebelumnya jika ada agar muncul bergantian tanpa menumpuk
+            container.innerHTML = '';
+
             const icons = {
                 success: 'fa-circle-check text-emerald-400',
                 error: 'fa-circle-xmark text-rose-400',
-                info: 'fa-circle-info text-sky-400'
+                info: 'fa-circle-info text-amber-400'
             };
 
-            toast.className = `toast-enter pointer-events-auto bg-slate-900/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700/80 text-xs font-bold w-full max-w-sm`;
+            const toast = document.createElement('div');
+            toast.className = `toast-in pointer-events-auto bg-slate-900/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700/80 text-xs font-bold w-full max-w-sm`;
             toast.innerHTML = `
                 <i class="fa-solid ${icons[type] || icons.info} text-base shrink-0"></i>
                 <span class="flex-1 text-slate-100">${message}</span>
@@ -699,11 +702,18 @@
 
             container.appendChild(toast);
 
-            setTimeout(() => {
-                toast.classList.remove('toast-enter');
-                toast.classList.add('toast-exit');
-                setTimeout(() => toast.remove(), 200);
-            }, 2200);
+            // Bersihkan timeout sebelumnya jika ada
+            if (window.activeToastTimeout) clearTimeout(window.activeToastTimeout);
+
+            window.activeToastTimeout = setTimeout(() => {
+                toast.classList.remove('toast-in');
+                toast.classList.add('toast-out');
+                setTimeout(() => {
+                    if (toast.parentNode === container) {
+                        container.removeChild(toast);
+                    }
+                }, 200);
+            }, 2000);
         }
 
         let confirmResolve = null;
