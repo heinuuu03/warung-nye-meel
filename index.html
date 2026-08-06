@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Warung Nyemeel - Bikin Nagih Terus</title>
-    <!-- Favicon Vektor Persisi Sesuai Logo Asli -->
+    <!-- Favicon Logo Kuning Asli -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2226%22 fill=%22%23FFC72C%22/><g transform=%22translate(25, 25) scale(0.5)%22 fill=%22%230F172A%22><path d=%22M50 15C33.4 15 20 28.4 20 45C20 47.8 22.2 50 25 50H75C77.8 50 80 47.8 80 45C80 28.4 66.6 15 50 15ZM25 55C22.2 55 20 57.2 20 60V75C20 83.3 26.7 90 35 90H65C73.3 90 80 83.3 80 75V60C80 57.2 77.8 55 75 55H25Z%22/></g><circle cx=%2280%22 cy=%2280%22 r=%2214%22 fill=%22%230F172A%22 stroke=%22white%22 stroke-width=%223%22/><circle cx=%2280%22 cy=%2280%22 r=%226%22 fill=%22%23FFC72C%22/></svg>">
     
     <!-- Google Font: Plus Jakarta Sans -->
@@ -37,16 +37,16 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        @keyframes slideIn {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        @keyframes slideInFromTop {
+            from { transform: translateY(-20px); opacity: 0; scale: 0.95; }
+            to { transform: translateY(0); opacity: 1; scale: 1; }
         }
-        @keyframes fadeOut {
-            from { opacity: 1; transform: scale(1); }
-            to { opacity: 0; transform: scale(0.95); }
+        @keyframes slideOutToTop {
+            from { transform: translateY(0); opacity: 1; scale: 1; }
+            to { transform: translateY(-20px); opacity: 0; scale: 0.95; }
         }
-        .toast-animate-in { animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .toast-animate-out { animation: fadeOut 0.2s ease-forward forwards; }
+        .toast-enter { animation: slideInFromTop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .toast-exit { animation: slideOutToTop 0.2s ease-in forwards; }
 
         @media print {
             body * { visibility: hidden; }
@@ -58,8 +58,8 @@
 </head>
 <body class="bg-amber-50/40 min-h-screen text-slate-800 font-sans antialiased selection:bg-brand selection:text-slate-900 pb-20 lg:pb-0">
 
-    <!-- Toast Notification -->
-    <div id="toastContainer" class="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none max-w-xs sm:max-w-sm w-full px-4"></div>
+    <!-- Toast Notification Container (Disusun Rapi ke Bawah / Stacked) -->
+    <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2.5 pointer-events-none max-w-xs sm:max-w-sm w-full px-4"></div>
 
     <!-- Screen Login -->
     <div id="loginScreen" class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-amber-100 via-yellow-50 to-amber-200">
@@ -680,6 +680,32 @@
             } catch (e) {}
         }
 
+        // STACKED TOAST NOTIFICATION RAPI & KEKINIAN
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const icons = {
+                success: 'fa-circle-check text-emerald-400',
+                error: 'fa-circle-xmark text-rose-400',
+                info: 'fa-circle-info text-sky-400'
+            };
+
+            toast.className = `toast-enter pointer-events-auto bg-slate-900/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700/80 text-xs font-bold w-full max-w-sm`;
+            toast.innerHTML = `
+                <i class="fa-solid ${icons[type] || icons.info} text-base shrink-0"></i>
+                <span class="flex-1 text-slate-100">${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 200);
+            }, 2200);
+        }
+
         let confirmResolve = null;
         function showCustomConfirm(title, message, btnText = "Ya, Hapus", iconClass = "fa-triangle-exclamation", isDanger = true) {
             document.getElementById('confirmModalTitle').innerText = title;
@@ -776,31 +802,6 @@
             localStorage.setItem('warung_sales', JSON.stringify(sales));
             localStorage.setItem('warung_debts', JSON.stringify(debts));
             localStorage.setItem('warung_expenses', JSON.stringify(expenses));
-        }
-
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            
-            const icons = {
-                success: 'fa-circle-check text-emerald-500',
-                error: 'fa-circle-xmark text-rose-500',
-                info: 'fa-circle-info text-sky-500'
-            };
-
-            toast.className = `toast-animate-in pointer-events-auto bg-slate-900 text-white px-3.5 py-2.5 rounded-2xl shadow-xl flex items-center gap-2.5 border border-slate-800 text-xs font-semibold`;
-            toast.innerHTML = `
-                <i class="fa-solid ${icons[type] || icons.info} text-sm"></i>
-                <span class="flex-1 text-[11px] sm:text-xs">${message}</span>
-            `;
-
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.remove('toast-animate-in');
-                toast.classList.add('toast-animate-out');
-                setTimeout(() => toast.remove(), 200);
-            }, 2500);
         }
 
         function handleLogin(e) {
@@ -1146,7 +1147,7 @@
             }
         }
 
-        // DISKON MANAGEMENT (Tambah, Edit, Hapus)
+        // DISKON MANAGEMENT
         function renderDiscountTable() {
             discounts = getInitialDiscounts();
             const tbody = document.getElementById('discountTableBody');
