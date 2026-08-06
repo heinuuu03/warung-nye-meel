@@ -13,9 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- QRCode JS Library Teknologi Paling Canggih & Stabil untuk Barcode -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
     <script>
         tailwind.config = {
             theme: {
@@ -51,11 +48,6 @@
         .toast-in { animation: toastFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .toast-out { animation: toastFadeOut 0.2s ease-in forwards; }
 
-        #qrcode canvas, #qrcode img {
-            margin: 0 auto;
-            border-radius: 12px;
-        }
-
         @media print {
             body * { visibility: hidden; }
             #receiptModal, #receiptModal * { visibility: visible; }
@@ -64,152 +56,158 @@
         }
     </style>
 </head>
-<body class="bg-amber-50/40 min-h-screen text-slate-800 font-sans antialiased selection:bg-brand selection:text-slate-900 pb-20 lg:pb-0">
+<body class="bg-slate-50 min-h-screen text-slate-800 font-sans antialiased selection:bg-brand selection:text-slate-900 pb-24 lg:pb-0">
 
     <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none max-w-xs sm:max-w-sm w-full px-4 flex justify-center"></div>
 
-    <!-- Screen Login -->
+    <!-- Screen Login (Modern Glassmorphism) -->
     <div id="loginScreen" class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-amber-100 via-yellow-50 to-amber-200">
-        <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-white/60 relative overflow-hidden">
-            <div class="absolute -top-12 -right-12 w-32 h-32 bg-brand/30 rounded-full blur-2xl"></div>
+        <div class="bg-white/90 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white/80 relative overflow-hidden">
+            <div class="absolute -top-16 -right-16 w-40 h-40 bg-brand/30 rounded-full blur-3xl"></div>
             
-            <div class="text-center mb-6 sm:mb-8 relative">
-                <div class="relative inline-flex items-center justify-center mb-3">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-tr from-amber-500 via-brand to-yellow-300 text-slate-950 rounded-2xl flex items-center justify-center shadow-xl shadow-brand/40 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
-                        <i class="fas fa-bowl-food text-2xl sm:text-3xl"></i>
+            <div class="text-center mb-8 relative">
+                <div class="relative inline-flex items-center justify-center mb-4">
+                    <div class="w-20 h-20 bg-gradient-to-tr from-amber-500 via-brand to-yellow-300 text-slate-950 rounded-3xl flex items-center justify-center shadow-xl shadow-brand/40 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+                        <i class="fas fa-bowl-food text-3xl"></i>
                     </div>
-                    <span class="absolute -bottom-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 bg-slate-900 text-brand text-[10px] sm:text-xs font-black rounded-full flex items-center justify-center border-2 border-white shadow-md">
+                    <span class="absolute -bottom-1 -right-1 w-6 h-6 bg-slate-900 text-brand text-xs font-black rounded-full flex items-center justify-center border-2 border-white shadow-md">
                         <i class="fas fa-cookie-bite"></i>
                     </span>
                 </div>
-                <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">WARUNG <span class="text-amber-500">NYEMEEL</span></h1>
-                <p class="text-xs font-semibold text-slate-400 mt-1">Bikin Nagih Terus</p>
+                <h1 class="text-2xl font-black text-slate-900 tracking-tight">WARUNG <span class="text-amber-500">NYEMEEL</span></h1>
+                <p class="text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">Bikin Nagih Terus</p>
             </div>
 
-            <form id="loginForm" class="space-y-3.5 sm:space-y-4 relative" onsubmit="handleLogin(event)">
+            <form id="loginForm" class="space-y-4 relative" onsubmit="handleLogin(event)">
                 <div>
-                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-1">Username</label>
-                    <input type="text" id="username" value="admin" required class="w-full px-3.5 py-2.5 sm:py-3 bg-slate-50 border border-slate-200/80 rounded-xl focus:ring-2 focus:ring-brand focus:border-brand focus:bg-white transition outline-none text-xs sm:text-sm font-semibold text-slate-800">
+                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-1.5">Username</label>
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-4 top-3.5 text-slate-400 text-xs"></i>
+                        <input type="text" id="username" value="admin" required class="w-full pl-11 pr-4 py-3 bg-slate-50/80 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-brand focus:border-brand focus:bg-white transition outline-none text-xs sm:text-sm font-semibold text-slate-800">
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-1">Password</label>
-                    <input type="password" id="password" value="1234" required class="w-full px-3.5 py-2.5 sm:py-3 bg-slate-50 border border-slate-200/80 rounded-xl focus:ring-2 focus:ring-brand focus:border-brand focus:bg-white transition outline-none text-xs sm:text-sm font-semibold text-slate-800">
+                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-1.5">Password</label>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-4 top-3.5 text-slate-400 text-xs"></i>
+                        <input type="password" id="password" value="1234" required class="w-full pl-11 pr-4 py-3 bg-slate-50/80 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-brand focus:border-brand focus:bg-white transition outline-none text-xs sm:text-sm font-semibold text-slate-800">
+                    </div>
                 </div>
-                <button type="submit" class="w-full bg-brand hover:bg-brand-dark text-slate-900 font-extrabold py-3 sm:py-3.5 rounded-xl shadow-lg shadow-brand/30 hover:shadow-brand/50 transition-all active:scale-[0.98] mt-2 text-xs sm:text-sm flex items-center justify-center gap-2">
+                <button type="submit" class="w-full bg-brand hover:bg-brand-dark text-slate-900 font-black py-3.5 rounded-2xl shadow-lg shadow-brand/30 hover:shadow-brand/50 transition-all active:scale-[0.98] mt-2 text-sm flex items-center justify-center gap-2">
                     Masuk Sistem <i class="fas fa-arrow-right text-xs"></i>
                 </button>
             </form>
-            <p class="text-[10px] sm:text-[11px] text-center text-slate-400 mt-5 sm:mt-6 font-semibold">Admin: <span class="bg-amber-100 text-amber-900 px-2 py-0.5 rounded-md font-mono">admin / 1234</span> | Kasir: <span class="bg-amber-100 text-amber-900 px-2 py-0.5 rounded-md font-mono">kasir / 1234</span></p>
+            <p class="text-[11px] text-center text-slate-400 mt-6 font-semibold">Admin: <span class="bg-amber-100 text-amber-900 px-2 py-0.5 rounded-md font-mono">admin / 1234</span></p>
         </div>
     </div>
 
     <!-- Main Application UI -->
     <div id="appScreen" class="hidden min-h-screen flex flex-col">
         <!-- Header Nav -->
-        <nav class="bg-slate-900 text-white px-4 sm:px-6 py-3 shadow-md sticky top-0 z-30 flex justify-between items-center">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-tr from-amber-500 to-brand text-slate-950 rounded-xl flex items-center justify-center shadow-md shadow-brand/20 shrink-0">
-                    <i class="fas fa-bowl-food text-xs sm:text-base font-black"></i>
+        <nav class="bg-slate-900 text-white px-4 sm:px-8 py-3.5 shadow-lg sticky top-0 z-30 flex justify-between items-center border-b border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-tr from-amber-500 to-brand text-slate-950 rounded-2xl flex items-center justify-center shadow-md shadow-brand/20 shrink-0">
+                    <i class="fas fa-bowl-food text-sm sm:text-base font-black"></i>
                 </div>
                 <div>
                     <h1 class="font-black text-sm sm:text-base tracking-tight text-white leading-none">WARUNG <span class="text-brand">NYEMEEL</span></h1>
-                    <span id="roleDisplayLabel" class="text-[8px] sm:text-[9px] font-bold text-amber-400 tracking-wider uppercase block mt-0.5">Admin Role</span>
+                    <span id="roleDisplayLabel" class="text-[9px] font-bold text-amber-400 tracking-wider uppercase block mt-0.5">Admin Role</span>
                 </div>
             </div>
-            <div class="flex items-center gap-2">
-                <span id="userBadge" class="text-[10px] sm:text-xs bg-slate-800 text-slate-300 font-bold px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg sm:rounded-xl border border-slate-700/60 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Admin
+            <div class="flex items-center gap-2.5">
+                <span id="userBadge" class="text-[11px] bg-slate-800 text-slate-200 font-bold px-3 py-1.5 rounded-xl border border-slate-700/80 flex items-center gap-2 shadow-inner">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Admin
                 </span>
-                <button onclick="handleLogout()" class="text-[10px] sm:text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl border border-rose-500/20 transition active:scale-95 flex items-center gap-1">
-                    <i class="fas fa-power-off text-[9px]"></i> <span class="hidden sm:inline">Keluar</span>
+                <button onclick="handleLogout()" class="text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold px-3.5 py-1.5 rounded-xl border border-rose-500/20 transition active:scale-95 flex items-center gap-1.5">
+                    <i class="fas fa-power-off text-[10px]"></i> <span class="hidden sm:inline">Keluar</span>
                 </button>
             </div>
         </nav>
 
-        <!-- Navigation Tabs -->
-        <div class="bg-white border-b border-slate-200/80 px-2 sm:px-6 flex gap-1 overflow-x-auto no-scrollbar sticky top-[53px] sm:top-[61px] z-20 shadow-sm">
-            <button onclick="switchTab('kasir')" id="tab-kasir" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-brand text-slate-900 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
-                <i class="fas fa-cash-register text-xs sm:text-sm"></i> Kasir
+        <!-- Navigation Tabs (Modern Pill-style) -->
+        <div class="bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-3 sm:px-8 py-2.5 flex gap-2 overflow-x-auto no-scrollbar sticky top-[57px] sm:top-[65px] z-20 shadow-sm">
+            <button onclick="switchTab('kasir')" id="tab-kasir" class="tab-btn px-4 py-2 font-extrabold text-xs rounded-xl bg-brand text-slate-950 flex items-center gap-2 transition whitespace-nowrap shrink-0 shadow-sm">
+                <i class="fas fa-cash-register"></i> Kasir
             </button>
-            <button onclick="switchTab('menu')" id="tab-menu" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
-                <i class="fas fa-boxes-stacked text-xs sm:text-sm"></i> Menu
+            <button onclick="switchTab('menu')" id="tab-menu" class="tab-btn px-4 py-2 font-extrabold text-xs rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2 transition whitespace-nowrap shrink-0">
+                <i class="fas fa-boxes-stacked"></i> Menu
             </button>
-            <button onclick="switchTab('diskon')" id="tab-diskon" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
-                <i class="fas fa-percent text-xs sm:text-sm"></i> Diskon
+            <button onclick="switchTab('diskon')" id="tab-diskon" class="tab-btn px-4 py-2 font-extrabold text-xs rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2 transition whitespace-nowrap shrink-0">
+                <i class="fas fa-percent"></i> Diskon
             </button>
-            <button onclick="switchTab('stok')" id="tab-stok" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
-                <i class="fas fa-cubes-stacked text-xs sm:text-sm"></i> Stok Bahan
+            <button onclick="switchTab('stok')" id="tab-stok" class="tab-btn px-4 py-2 font-extrabold text-xs rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2 transition whitespace-nowrap shrink-0">
+                <i class="fas fa-cubes-stacked"></i> Stok Bahan
             </button>
-            <button onclick="switchTab('pengeluaran')" id="tab-pengeluaran" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
-                <i class="fas fa-wallet text-xs sm:text-sm"></i> Pengeluaran
+            <button onclick="switchTab('pengeluaran')" id="tab-pengeluaran" class="tab-btn px-4 py-2 font-extrabold text-xs rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2 transition whitespace-nowrap shrink-0">
+                <i class="fas fa-wallet"></i> Pengeluaran
             </button>
-            <button onclick="switchTab('hutang')" id="tab-hutang" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-2 transition whitespace-nowrap shrink-0">
-                <i class="fas fa-book-bookmark text-xs sm:text-sm"></i> Hutang
+            <button onclick="switchTab('hutang')" id="tab-hutang" class="tab-btn px-4 py-2 font-extrabold text-xs rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2 transition whitespace-nowrap shrink-0">
+                <i class="fas fa-book-bookmark"></i> Hutang
             </button>
-            <button onclick="switchTab('laporan')" id="tab-laporan" class="admin-only-tab tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
-                <i class="fas fa-chart-pie text-xs sm:text-sm"></i> Laporan
+            <button onclick="switchTab('laporan')" id="tab-laporan" class="admin-only-tab tab-btn px-4 py-2 font-extrabold text-xs rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2 transition whitespace-nowrap shrink-0">
+                <i class="fas fa-chart-pie"></i> Laporan
             </button>
         </div>
 
         <!-- Tab Content Container -->
-        <main class="flex-1 p-3 sm:p-6 max-w-7xl w-full mx-auto">
+        <main class="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto space-y-6">
             
             <!-- Tab Kasir -->
-            <div id="content-kasir" class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                <div class="lg:col-span-2 space-y-3 sm:space-y-4">
-                    <div class="flex flex-row gap-2 bg-white p-2.5 sm:p-3 rounded-2xl shadow-sm border border-slate-200/80">
+            <div id="content-kasir" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex flex-row gap-3 bg-white p-3 rounded-2xl shadow-sm border border-slate-200/80">
                         <div class="relative flex-1">
-                            <i class="fas fa-search absolute left-3 top-3 text-slate-400 text-xs"></i>
-                            <input type="text" id="searchInput" oninput="renderCatalog()" placeholder="Cari makanan..." class="w-full pl-8 pr-3 py-2 text-xs bg-slate-50 border border-slate-200/80 rounded-xl focus:ring-2 focus:ring-brand focus:border-brand focus:bg-white outline-none font-semibold">
+                            <i class="fas fa-search absolute left-4 top-3.5 text-slate-400 text-xs"></i>
+                            <input type="text" id="searchInput" oninput="renderCatalog()" placeholder="Cari makanan atau minuman..." class="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand focus:border-brand focus:bg-white outline-none font-semibold">
                         </div>
-                        <select id="categoryFilter" onchange="renderCatalog()" class="bg-slate-50 border border-slate-200/80 text-slate-700 font-bold rounded-xl px-2.5 sm:px-4 py-2 text-xs outline-none focus:ring-2 focus:ring-brand shrink-0">
-                            <option value="all">Semua</option>
+                        <select id="categoryFilter" onchange="renderCatalog()" class="bg-slate-50 border border-slate-200 text-slate-700 font-bold rounded-xl px-4 py-2 text-xs outline-none focus:ring-2 focus:ring-brand shrink-0">
+                            <option value="all">Semua Kategori</option>
                             <option value="Makanan">Makanan</option>
                             <option value="Minuman">Minuman</option>
                         </select>
                     </div>
                     
-                    <div id="menuGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-4"></div>
+                    <div id="menuGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3.5"></div>
                 </div>
 
                 <!-- Cart Section -->
-                <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col h-auto lg:h-[calc(100vh-200px)] lg:sticky lg:top-24">
-                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-                        <h2 class="font-extrabold text-xs sm:text-sm text-slate-900 flex items-center gap-2">
-                            <span class="w-6 h-6 sm:w-7 sm:h-7 bg-brand/20 text-slate-900 rounded-lg flex items-center justify-center text-xs">
+                <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col h-auto lg:h-[calc(100vh-210px)] lg:sticky lg:top-28">
+                    <div class="flex items-center justify-between pb-3.5 border-b border-slate-100">
+                        <h2 class="font-black text-sm text-slate-900 flex items-center gap-2">
+                            <span class="w-7 h-7 bg-brand/20 text-slate-900 rounded-xl flex items-center justify-center text-xs">
                                 <i class="fas fa-shopping-bag"></i>
                             </span> Keranjang <span id="cartCountBadge" class="bg-amber-100 text-amber-900 text-[10px] font-black px-2 py-0.5 rounded-full hidden">0</span>
                         </h2>
-                        <button onclick="clearCart()" class="text-[11px] font-bold text-rose-500 hover:text-rose-600 hover:bg-rose-50 px-2 py-1 rounded-lg transition">Kosongkan</button>
+                        <button onclick="clearCart()" class="text-xs font-bold text-rose-500 hover:text-rose-600 hover:bg-rose-50 px-2.5 py-1 rounded-xl transition">Kosongkan</button>
                     </div>
 
-                    <div class="py-2.5 grid grid-cols-2 gap-2 border-b border-slate-100">
-                        <select id="orderType" class="bg-slate-50 border border-slate-200 rounded-xl p-2 text-[11px] font-bold text-slate-700 outline-none">
-                            <option value="Dine-in">Makan di Tempat (Dine-in)</option>
-                            <option value="Takeaway">Dibungkus (Takeaway)</option>
+                    <div class="py-3 grid grid-cols-2 gap-2 border-b border-slate-100">
+                        <select id="orderType" class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-[11px] font-bold text-slate-700 outline-none">
+                            <option value="Dine-in">Makan di Tempat</option>
+                            <option value="Takeaway">Dibungkus</option>
                         </select>
-                        <select id="discountSelect" onchange="renderCart()" class="bg-slate-50 border border-slate-200 rounded-xl p-2 text-[11px] font-bold text-slate-700 outline-none">
+                        <select id="discountSelect" onchange="renderCart()" class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-[11px] font-bold text-slate-700 outline-none">
                             <option value="0">Tanpa Diskon</option>
                         </select>
                     </div>
 
                     <div id="cartItems" class="flex-1 overflow-y-auto divide-y divide-slate-100 my-2 pr-1 max-h-52 lg:max-h-none"></div>
 
-                    <div class="border-t border-slate-100 pt-3 sm:pt-4 space-y-2.5">
-                        <div class="flex justify-between text-[11px] font-bold text-slate-500">
+                    <div class="border-t border-slate-100 pt-4 space-y-3">
+                        <div class="flex justify-between text-xs font-bold text-slate-500">
                             <span>Subtotal</span>
                             <span id="cartSubtotal">Rp 0</span>
                         </div>
-                        <div class="flex justify-between text-[11px] font-bold text-slate-500">
-                            <span>Diskon & Pajak (Pajak 4%)</span>
+                        <div class="flex justify-between text-xs font-bold text-slate-500">
+                            <span>Diskon & Pajak (4%)</span>
                             <span id="cartTaxDiscount">Rp 0</span>
                         </div>
-                        <div class="flex justify-between items-baseline pt-1 border-t border-dashed border-slate-200">
-                            <span class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Bayar</span>
-                            <span id="cartTotal" class="font-black text-xl sm:text-2xl text-slate-900">Rp 0</span>
+                        <div class="flex justify-between items-baseline pt-2 border-t border-dashed border-slate-200">
+                            <span class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Total Bayar</span>
+                            <span id="cartTotal" class="font-black text-2xl text-slate-900">Rp 0</span>
                         </div>
-                        <button onclick="openCheckoutModal()" class="w-full bg-brand hover:bg-brand-dark text-slate-900 font-extrabold py-3 sm:py-3.5 rounded-xl shadow-lg shadow-brand/30 hover:shadow-brand/40 transition active:scale-[0.98] flex items-center justify-center gap-2 text-xs sm:text-sm">
+                        <button onclick="openCheckoutModal()" class="w-full bg-brand hover:bg-brand-dark text-slate-900 font-black py-4 rounded-2xl shadow-xl shadow-brand/30 hover:shadow-brand/50 transition active:scale-[0.98] flex items-center justify-center gap-2 text-sm">
                             <i class="fas fa-credit-card text-xs"></i> Proses Pembayaran
                         </button>
                     </div>
@@ -217,47 +215,47 @@
             </div>
 
             <!-- Tab Kelola Menu -->
-            <div id="content-menu" class="hidden space-y-4 sm:space-y-6">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80 h-fit">
-                        <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+            <div id="content-menu" class="hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 h-fit">
+                        <h2 class="font-black text-base text-slate-900 mb-4 flex items-center gap-2.5">
                             <i class="fas fa-plus-circle text-brand-dark"></i> Tambah Menu Baru
                         </h2>
-                        <form id="itemForm" onsubmit="saveItem(event)" class="space-y-3 sm:space-y-4">
+                        <form id="itemForm" onsubmit="saveItem(event)" class="space-y-4">
                             <input type="hidden" id="itemId">
                             <div>
-                                <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Nama Makanan / Minuman</label>
-                                <input type="text" id="itemName" placeholder="misal: Mie Ayam Komplit" required class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Nama Makanan / Minuman</label>
+                                <input type="text" id="itemName" placeholder="misal: Mie Ayam Komplit" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                             </div>
-                            <div class="grid grid-cols-2 gap-2.5">
+                            <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Kategori</label>
-                                    <select id="itemCategory" class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Kategori</label>
+                                    <select id="itemCategory" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                                         <option value="Makanan">Makanan</option>
                                         <option value="Minuman">Minuman</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Harga (Rp)</label>
-                                    <input type="number" id="itemPrice" placeholder="15000" required class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Harga (Rp)</label>
+                                    <input type="number" id="itemPrice" placeholder="15000" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                                 </div>
                             </div>
-                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3 rounded-xl shadow transition active:scale-98 text-xs">
-                                <i class="fas fa-save mr-1"></i> Simpan Ke Menu
+                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3.5 rounded-2xl shadow transition active:scale-98 text-xs">
+                                <i class="fas fa-save mr-1.5"></i> Simpan Ke Menu
                             </button>
                         </form>
                     </div>
 
-                    <div class="lg:col-span-2 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80">
-                        <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4">Daftar Menu Saat Ini</h2>
+                    <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
+                        <h2 class="font-black text-base text-slate-900 mb-4">Daftar Menu Saat Ini</h2>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left">
                                 <thead>
-                                    <tr class="border-b border-slate-100 text-[10px] sm:text-[11px] uppercase font-extrabold text-slate-400">
-                                        <th class="pb-2.5 px-1.5">Nama Menu</th>
-                                        <th class="pb-2.5 px-1.5">Kategori</th>
-                                        <th class="pb-2.5 px-1.5">Harga</th>
-                                        <th class="pb-2.5 px-1.5 text-right">Aksi</th>
+                                    <tr class="border-b border-slate-100 text-[11px] uppercase font-extrabold text-slate-400">
+                                        <th class="pb-3 px-2">Nama Menu</th>
+                                        <th class="pb-3 px-2">Kategori</th>
+                                        <th class="pb-3 px-2">Harga</th>
+                                        <th class="pb-3 px-2 text-right">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="menuTableBody" class="divide-y divide-slate-100 text-xs font-semibold"></tbody>
@@ -268,40 +266,40 @@
             </div>
 
             <!-- Tab Kelola Diskon -->
-            <div id="content-diskon" class="hidden space-y-4 sm:space-y-6">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80 h-fit">
-                        <h2 id="discountFormTitle" class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+            <div id="content-diskon" class="hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 h-fit">
+                        <h2 id="discountFormTitle" class="font-black text-base text-slate-900 mb-4 flex items-center gap-2.5">
                             <i class="fas fa-percent text-brand-dark"></i> Tambah Promo Diskon Baru
                         </h2>
-                        <form id="discountForm" onsubmit="saveDiscount(event)" class="space-y-3 sm:space-y-4">
+                        <form id="discountForm" onsubmit="saveDiscount(event)" class="space-y-4">
                             <input type="hidden" id="discountId">
                             <div>
-                                <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Nama / Keterangan Diskon</label>
-                                <input type="text" id="discountName" placeholder="misal: Promo Grand Opening" required class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Nama / Keterangan Diskon</label>
+                                <input type="text" id="discountName" placeholder="misal: Promo Grand Opening" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                             </div>
                             <div>
-                                <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Persentase Diskon (%)</label>
-                                <input type="number" id="discountPercent" placeholder="10" min="1" max="100" required class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Persentase Diskon (%)</label>
+                                <input type="number" id="discountPercent" placeholder="10" min="1" max="100" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                             </div>
                             <div class="flex gap-2">
-                                <button type="button" id="cancelDiscountEdit" onclick="resetDiscountForm()" class="hidden w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-extrabold py-3 rounded-xl transition text-xs">Batal</button>
-                                <button type="submit" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3 rounded-xl shadow transition active:scale-98 text-xs">
-                                    <i class="fas fa-save mr-1"></i> Simpan Diskon
+                                <button type="button" id="cancelDiscountEdit" onclick="resetDiscountForm()" class="hidden w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-extrabold py-3.5 rounded-2xl transition text-xs">Batal</button>
+                                <button type="submit" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-black py-3.5 rounded-2xl shadow transition active:scale-98 text-xs">
+                                    <i class="fas fa-save mr-1.5"></i> Simpan Diskon
                                 </button>
                             </div>
                         </form>
                     </div>
 
-                    <div class="lg:col-span-2 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80">
-                        <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4">Daftar Promo Diskon Aktif</h2>
+                    <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
+                        <h2 class="font-black text-base text-slate-900 mb-4">Daftar Promo Diskon Aktif</h2>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left">
                                 <thead>
-                                    <tr class="border-b border-slate-100 text-[10px] sm:text-[11px] uppercase font-extrabold text-slate-400">
-                                        <th class="pb-2.5 px-1.5">Nama Promo</th>
-                                        <th class="pb-2.5 px-1.5">Besar Diskon</th>
-                                        <th class="pb-2.5 px-1.5 text-right">Aksi</th>
+                                    <tr class="border-b border-slate-100 text-[11px] uppercase font-extrabold text-slate-400">
+                                        <th class="pb-3 px-2">Nama Promo</th>
+                                        <th class="pb-3 px-2">Besar Diskon</th>
+                                        <th class="pb-3 px-2 text-right">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="discountTableBody" class="divide-y divide-slate-100 text-xs font-semibold"></tbody>
@@ -311,45 +309,45 @@
                 </div>
             </div>
 
-            <!-- Tab Stok Bahan / Inventaris (Stock Opname) -->
-            <div id="content-stok" class="hidden space-y-4 sm:space-y-6">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80 h-fit">
-                        <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+            <!-- Tab Stok Bahan -->
+            <div id="content-stok" class="hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 h-fit">
+                        <h2 class="font-black text-base text-slate-900 mb-4 flex items-center gap-2.5">
                             <i class="fas fa-cubes-stacked text-brand-dark"></i> Tambah / Perbarui Stok Bahan
                         </h2>
-                        <form id="stockForm" onsubmit="saveStockItem(event)" class="space-y-3 sm:space-y-4">
+                        <form id="stockForm" onsubmit="saveStockItem(event)" class="space-y-4">
                             <input type="hidden" id="stockId">
                             <div>
-                                <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Nama Bahan Baku</label>
-                                <input type="text" id="stockName" placeholder="misal: Beras (Kg) / Telur (Butir)" required class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Nama Bahan Baku</label>
+                                <input type="text" id="stockName" placeholder="misal: Beras (Kg)" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                             </div>
-                            <div class="grid grid-cols-2 gap-2.5">
+                            <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Jumlah Stok</label>
-                                    <input type="number" id="stockQty" placeholder="50" required class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Jumlah Stok</label>
+                                    <input type="number" id="stockQty" placeholder="50" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                                 </div>
                                 <div>
-                                    <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Satuan</label>
-                                    <input type="text" id="stockUnit" placeholder="Kg / Pcs / Liter" required class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Satuan</label>
+                                    <input type="text" id="stockUnit" placeholder="Kg / Liter" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                                 </div>
                             </div>
-                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3 rounded-xl shadow transition active:scale-98 text-xs">
-                                <i class="fas fa-save mr-1"></i> Simpan Bahan
+                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3.5 rounded-2xl shadow transition active:scale-98 text-xs">
+                                <i class="fas fa-save mr-1.5"></i> Simpan Bahan
                             </button>
                         </form>
                     </div>
 
-                    <div class="lg:col-span-2 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80">
-                        <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4">Inventaris Bahan Baku Gudang</h2>
+                    <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
+                        <h2 class="font-black text-base text-slate-900 mb-4">Inventaris Bahan Baku Gudang</h2>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left">
                                 <thead>
-                                    <tr class="border-b border-slate-100 text-[10px] sm:text-[11px] uppercase font-extrabold text-slate-400">
-                                        <th class="pb-2.5 px-1.5">Nama Bahan</th>
-                                        <th class="pb-2.5 px-1.5">Sisa Stok</th>
-                                        <th class="pb-2.5 px-1.5">Status</th>
-                                        <th class="pb-2.5 px-1.5 text-right">Aksi</th>
+                                    <tr class="border-b border-slate-100 text-[11px] uppercase font-extrabold text-slate-400">
+                                        <th class="pb-3 px-2">Nama Bahan</th>
+                                        <th class="pb-3 px-2">Sisa Stok</th>
+                                        <th class="pb-3 px-2">Status</th>
+                                        <th class="pb-3 px-2 text-right">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="stockTableBody" class="divide-y divide-slate-100 text-xs font-semibold"></tbody>
@@ -360,56 +358,56 @@
             </div>
 
             <!-- Tab Kelola Pengeluaran -->
-            <div id="content-pengeluaran" class="hidden space-y-4 sm:space-y-6">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3">
-                    <div class="flex items-center gap-2 w-full sm:w-auto">
+            <div id="content-pengeluaran" class="hidden space-y-6">
+                <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3">
+                    <div class="flex items-center gap-2.5 w-full sm:w-auto">
                         <label class="text-xs font-extrabold text-slate-600 uppercase">Filter Tanggal:</label>
-                        <input type="date" id="filterDateExp" onchange="renderExpenseTable()" class="p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none">
-                        <button onclick="document.getElementById('filterDateExp').value=''; renderExpenseTable();" class="text-xs font-bold text-slate-500 hover:text-slate-800 px-2 py-1 bg-slate-100 rounded-lg">Reset</button>
+                        <input type="date" id="filterDateExp" onchange="renderExpenseTable()" class="p-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none">
+                        <button onclick="document.getElementById('filterDateExp').value=''; renderExpenseTable();" class="text-xs font-bold text-slate-500 hover:text-slate-800 px-3 py-2 bg-slate-100 rounded-xl">Reset</button>
                     </div>
-                    <button onclick="exportExpensesToExcel()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs py-2.5 px-4 rounded-xl transition shadow flex items-center justify-center gap-1.5">
+                    <button onclick="exportExpensesToExcel()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs py-3 px-5 rounded-2xl transition shadow flex items-center justify-center gap-2">
                         <i class="fas fa-file-excel"></i> Export Pengeluaran ke Excel (.csv)
                     </button>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-rose-500 absolute left-0 top-0"></div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Total Pengeluaran</p>
-                        <h3 id="recapTotalExp" class="text-base sm:text-lg font-black text-rose-600 mt-0.5">Rp 0</h3>
+                        <p class="text-[11px] font-extrabold text-slate-400 uppercase">Total Pengeluaran</p>
+                        <h3 id="recapTotalExp" class="text-lg font-black text-rose-600 mt-1">Rp 0</h3>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+                    <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-amber-500 absolute left-0 top-0"></div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Bahan Baku</p>
-                        <h3 id="recapExpBahan" class="text-base sm:text-lg font-black text-slate-900 mt-0.5">Rp 0</h3>
+                        <p class="text-[11px] font-extrabold text-slate-400 uppercase">Bahan Baku</p>
+                        <h3 id="recapExpBahan" class="text-lg font-black text-slate-900 mt-1">Rp 0</h3>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+                    <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-sky-500 absolute left-0 top-0"></div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Operasional</p>
-                        <h3 id="recapExpOps" class="text-base sm:text-lg font-black text-slate-900 mt-0.5">Rp 0</h3>
+                        <p class="text-[11px] font-extrabold text-slate-400 uppercase">Operasional</p>
+                        <h3 id="recapExpOps" class="text-lg font-black text-slate-900 mt-1">Rp 0</h3>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+                    <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-purple-500 absolute left-0 top-0"></div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Gaji & Lainnya</p>
-                        <h3 id="recapExpGaji" class="text-base sm:text-lg font-black text-slate-900 mt-0.5">Rp 0</h3>
+                        <p class="text-[11px] font-extrabold text-slate-400 uppercase">Gaji & Lainnya</p>
+                        <h3 id="recapExpGaji" class="text-lg font-black text-slate-900 mt-1">Rp 0</h3>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80 h-fit">
-                        <h2 id="expenseFormTitle" class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 h-fit">
+                        <h2 id="expenseFormTitle" class="font-black text-base text-slate-900 mb-4 flex items-center gap-2.5">
                             <i class="fas fa-minus-circle text-rose-500"></i> Catat Pengeluaran
                         </h2>
-                        <form id="expenseForm" onsubmit="saveExpense(event)" class="space-y-3 sm:space-y-4">
+                        <form id="expenseForm" onsubmit="saveExpense(event)" class="space-y-4">
                             <input type="hidden" id="expenseId">
                             <div>
-                                <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Keterangan / Barang</label>
-                                <input type="text" id="expenseDesc" placeholder="misal: Es Batu & Telur" required class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Keterangan / Barang</label>
+                                <input type="text" id="expenseDesc" placeholder="misal: Es Batu & Telur" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                             </div>
-                            <div class="grid grid-cols-2 gap-2.5">
+                            <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Kategori</label>
-                                    <select id="expenseCategory" class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Kategori</label>
+                                    <select id="expenseCategory" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                                         <option value="Bahan Baku">Bahan Baku</option>
                                         <option value="Operasional">Operasional</option>
                                         <option value="Gaji">Gaji Pegawai</option>
@@ -417,32 +415,30 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Nominal (Rp)</label>
-                                    <input type="number" id="expenseAmount" placeholder="50000" required class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Nominal (Rp)</label>
+                                    <input type="number" id="expenseAmount" placeholder="50000" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                                 </div>
                             </div>
                             <div class="flex gap-2">
-                                <button type="button" id="cancelExpenseEditBtn" onclick="resetExpenseForm()" class="hidden w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-extrabold py-3 rounded-xl transition text-xs">
-                                    Batal
-                                </button>
-                                <button type="submit" id="saveExpenseBtn" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3 rounded-xl shadow transition active:scale-98 text-xs">
-                                    <i class="fas fa-save mr-1"></i> Simpan
+                                <button type="button" id="cancelExpenseEditBtn" onclick="resetExpenseForm()" class="hidden w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-extrabold py-3.5 rounded-2xl transition text-xs">Batal</button>
+                                <button type="submit" id="saveExpenseBtn" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-black py-3.5 rounded-2xl shadow transition active:scale-98 text-xs">
+                                    <i class="fas fa-save mr-1.5"></i> Simpan
                                 </button>
                             </div>
                         </form>
                     </div>
 
-                    <div class="lg:col-span-2 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80">
-                        <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4">Riwayat Pengeluaran Operasional</h2>
+                    <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
+                        <h2 class="font-black text-base text-slate-900 mb-4">Riwayat Pengeluaran Operasional</h2>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left">
                                 <thead>
-                                    <tr class="border-b border-slate-100 text-[10px] sm:text-[11px] uppercase font-extrabold text-slate-400">
-                                        <th class="pb-2.5 px-1.5">Tanggal</th>
-                                        <th class="pb-2.5 px-1.5">Keterangan</th>
-                                        <th class="pb-2.5 px-1.5">Kategori</th>
-                                        <th class="pb-2.5 px-1.5">Nominal</th>
-                                        <th class="pb-2.5 px-1.5 text-right">Aksi</th>
+                                    <tr class="border-b border-slate-100 text-[11px] uppercase font-extrabold text-slate-400">
+                                        <th class="pb-3 px-2">Tanggal</th>
+                                        <th class="pb-3 px-2">Keterangan</th>
+                                        <th class="pb-3 px-2">Kategori</th>
+                                        <th class="pb-3 px-2">Nominal</th>
+                                        <th class="pb-3 px-2 text-right">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="expenseTableBody" class="divide-y divide-slate-100 text-xs font-semibold"></tbody>
@@ -454,47 +450,47 @@
 
             <!-- Tab Catatan Hutang -->
             <div id="content-hutang" class="hidden space-y-6">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3">
-                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3">
+                    <div class="flex items-center gap-2.5 w-full sm:w-auto">
                         <label class="text-xs font-extrabold text-slate-600 uppercase">Filter Tanggal:</label>
-                        <input type="date" id="filterDateDebt" onchange="renderDebtTable()" class="p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none">
-                        <button onclick="document.getElementById('filterDateDebt').value=''; renderDebtTable();" class="text-xs font-bold text-slate-500 hover:text-slate-800 px-2 py-1 bg-slate-100 rounded-lg">Reset</button>
+                        <input type="date" id="filterDateDebt" onchange="renderDebtTable()" class="p-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none">
+                        <button onclick="document.getElementById('filterDateDebt').value=''; renderDebtTable();" class="text-xs font-bold text-slate-500 hover:text-slate-800 px-3 py-2 bg-slate-100 rounded-xl">Reset</button>
                     </div>
-                    <button onclick="exportDebtsToExcel()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs py-2.5 px-4 rounded-xl transition shadow flex items-center justify-center gap-1.5">
+                    <button onclick="exportDebtsToExcel()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs py-3 px-5 rounded-2xl transition shadow flex items-center justify-center gap-2">
                         <i class="fas fa-file-excel"></i> Export Hutang ke Excel (.csv)
                     </button>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 flex items-center justify-between">
                         <div>
-                            <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Belum Bayar (Piutang Aktif)</p>
-                            <h3 id="recapTotalDebt" class="text-xl sm:text-2xl font-black text-rose-600 mt-0.5">Rp 0</h3>
+                            <p class="text-[11px] font-extrabold text-slate-400 uppercase">Belum Bayar (Piutang Aktif)</p>
+                            <h3 id="recapTotalDebt" class="text-2xl font-black text-rose-600 mt-1">Rp 0</h3>
                         </div>
-                        <span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-3 py-1 rounded-xl">Belum Lunas</span>
+                        <span class="bg-rose-100 text-rose-800 text-xs font-bold px-3.5 py-1.5 rounded-xl">Belum Lunas</span>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 flex items-center justify-between">
                         <div>
-                            <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Total Sudah Lunas (Arsip)</p>
-                            <h3 id="recapTotalPaidDebt" class="text-xl sm:text-2xl font-black text-emerald-600 mt-0.5">Rp 0</h3>
+                            <p class="text-[11px] font-extrabold text-slate-400 uppercase">Total Sudah Lunas (Arsip)</p>
+                            <h3 id="recapTotalPaidDebt" class="text-2xl font-black text-emerald-600 mt-1">Rp 0</h3>
                         </div>
-                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-3 py-1 rounded-xl">Sudah Lunas</span>
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3.5 py-1.5 rounded-xl">Sudah Lunas</span>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80">
-                    <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
+                    <h2 class="font-black text-base text-slate-900 mb-4 flex items-center gap-2.5">
                         <i class="fas fa-book-open text-rose-500"></i> Daftar Pelanggan Belum Bayar (Hutang Aktif)
                     </h2>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead>
-                                <tr class="border-b border-slate-100 text-[10px] sm:text-[11px] uppercase font-extrabold text-slate-400">
-                                    <th class="pb-2.5 px-1.5">Waktu</th>
-                                    <th class="pb-2.5 px-1.5">Pelanggan</th>
-                                    <th class="pb-2.5 px-1.5">Rincian Belanja</th>
-                                    <th class="pb-2.5 px-1.5">Total</th>
-                                    <th class="pb-2.5 px-1.5 text-right">Aksi</th>
+                                <tr class="border-b border-slate-100 text-[11px] uppercase font-extrabold text-slate-400">
+                                    <th class="pb-3 px-2">Waktu</th>
+                                    <th class="pb-3 px-2">Pelanggan</th>
+                                    <th class="pb-3 px-2">Rincian Belanja</th>
+                                    <th class="pb-3 px-2">Total</th>
+                                    <th class="pb-3 px-2 text-right">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="debtTableBody" class="divide-y divide-slate-100 text-xs font-semibold"></tbody>
@@ -502,18 +498,18 @@
                     </div>
                 </div>
 
-                <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80">
-                    <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
+                    <h2 class="font-black text-base text-slate-900 mb-4 flex items-center gap-2.5">
                         <i class="fas fa-circle-check text-emerald-500"></i> Riwayat Pelanggan yang Sudah Bayar (Lunas)
                     </h2>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead>
-                                <tr class="border-b border-slate-100 text-[10px] sm:text-[11px] uppercase font-extrabold text-slate-400">
-                                    <th class="pb-2.5 px-1.5">Waktu Transaksi</th>
-                                    <th class="pb-2.5 px-1.5">Pelanggan</th>
-                                    <th class="pb-2.5 px-1.5">Rincian Belanja</th>
-                                    <th class="pb-2.5 px-1.5 text-right">Total Dilunasi</th>
+                                <tr class="border-b border-slate-100 text-[11px] uppercase font-extrabold text-slate-400">
+                                    <th class="pb-3 px-2">Waktu Transaksi</th>
+                                    <th class="pb-3 px-2">Pelanggan</th>
+                                    <th class="pb-3 px-2">Rincian Belanja</th>
+                                    <th class="pb-3 px-2 text-right">Total Dilunasi</th>
                                 </tr>
                             </thead>
                             <tbody id="paidDebtTableBody" class="divide-y divide-slate-100 text-xs font-semibold"></tbody>
@@ -523,72 +519,72 @@
             </div>
 
             <!-- Tab Laporan Detail Laba Rugi -->
-            <div id="content-laporan" class="admin-only-content hidden space-y-4 sm:space-y-6">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+            <div id="content-laporan" class="admin-only-content hidden space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-emerald-500 absolute left-0 top-0"></div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Pemasukan Tunai/Lunas</p>
-                        <h3 id="statTotalSales" class="text-base sm:text-lg font-black text-emerald-600 mt-0.5">Rp 0</h3>
+                        <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Pemasukan Tunai/Lunas</p>
+                        <h3 id="statTotalSales" class="text-lg font-black text-emerald-600 mt-1">Rp 0</h3>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+                    <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-amber-500 absolute left-0 top-0"></div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Proyeksi Hutang (Dibayar Nanti)</p>
-                        <h3 id="statProjectedDebt" class="text-base sm:text-lg font-black text-amber-600 mt-0.5">Rp 0</h3>
+                        <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Proyeksi Hutang (Dibayar Nanti)</p>
+                        <h3 id="statProjectedDebt" class="text-lg font-black text-amber-600 mt-1">Rp 0</h3>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+                    <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-rose-500 absolute left-0 top-0"></div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Pengeluaran</p>
-                        <h3 id="statTotalExpenses" class="text-base sm:text-lg font-black text-rose-600 mt-0.5">Rp 0</h3>
+                        <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Pengeluaran</p>
+                        <h3 id="statTotalExpenses" class="text-lg font-black text-rose-600 mt-1">Rp 0</h3>
                     </div>
-                    <div id="netProfitCard" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+                    <div id="netProfitCard" class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div id="netProfitBar" class="w-1.5 h-full bg-brand absolute left-0 top-0"></div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Estimasi Laba Bersih (+ Potensi Hutang)</p>
-                        <h3 id="statNetProfit" class="text-base sm:text-lg font-black text-slate-900 mt-0.5">Rp 0</h3>
-                        <span id="statNetProfitStatus" class="inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-600 mt-1">Netral</span>
+                        <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Estimasi Laba Bersih (+ Potensi)</p>
+                        <h3 id="statNetProfit" class="text-lg font-black text-slate-900 mt-1">Rp 0</h3>
+                        <span id="statNetProfitStatus" class="inline-block text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 mt-1.5">Netral</span>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
-                    <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-sm">
-                        <p class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 uppercase">Tunai</p>
-                        <h4 id="statCash" class="text-sm sm:text-base font-black text-brand mt-0.5">Rp 0</h4>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="bg-slate-900 text-white p-4 rounded-3xl shadow-sm">
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase">Tunai</p>
+                        <h4 id="statCash" class="text-base font-black text-brand mt-1">Rp 0</h4>
                     </div>
-                    <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-sm">
-                        <p class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 uppercase">QRIS</p>
-                        <h4 id="statQris" class="text-sm sm:text-base font-black text-sky-400 mt-0.5">Rp 0</h4>
+                    <div class="bg-slate-900 text-white p-4 rounded-3xl shadow-sm">
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase">QRIS</p>
+                        <h4 id="statQris" class="text-base font-black text-sky-400 mt-1">Rp 0</h4>
                     </div>
-                    <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-sm">
-                        <p class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 uppercase">Transfer</p>
-                        <h4 id="statTransfer" class="text-sm sm:text-base font-black text-emerald-400 mt-0.5">Rp 0</h4>
+                    <div class="bg-slate-900 text-white p-4 rounded-3xl shadow-sm">
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase">Transfer</p>
+                        <h4 id="statTransfer" class="text-base font-black text-emerald-400 mt-1">Rp 0</h4>
                     </div>
-                    <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-sm">
-                        <p class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 uppercase">Akumulasi Pajak (4%)</p>
-                        <h4 id="statTotalTax" class="text-sm sm:text-base font-black text-amber-400 mt-0.5">Rp 0</h4>
+                    <div class="bg-slate-900 text-white p-4 rounded-3xl shadow-sm">
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase">Akumulasi Pajak (4%)</p>
+                        <h4 id="statTotalTax" class="text-base font-black text-amber-400 mt-1">Rp 0</h4>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80 space-y-3 sm:space-y-4">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2 sm:pb-4 border-b border-slate-100 gap-3">
-                        <h2 class="font-extrabold text-sm sm:text-base text-slate-900">Rincian Transaksi Pemasukan (Termasuk Pajak 4%)</h2>
-                        <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs py-2 px-3.5 rounded-xl transition shadow flex items-center justify-center gap-1.5">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-3">
+                        <h2 class="font-black text-base text-slate-900">Rincian Transaksi Pemasukan (Termasuk Pajak 4%)</h2>
+                        <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs py-3 px-5 rounded-2xl transition shadow flex items-center justify-center gap-2">
                             <i class="fas fa-file-excel"></i> Export ke Excel (.csv)
                         </button>
                     </div>
 
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                         <div class="relative col-span-2 sm:col-span-1">
-                            <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                            <input type="text" id="searchReport" oninput="renderReports()" placeholder="Cari item..." class="w-full pl-8 pr-2.5 py-1.5 text-xs bg-slate-50 border border-slate-200/80 rounded-xl outline-none focus:ring-2 focus:ring-brand font-semibold">
+                            <i class="fas fa-search absolute left-4 top-3 text-slate-400 text-xs"></i>
+                            <input type="text" id="searchReport" oninput="renderReports()" placeholder="Cari item..." class="w-full pl-10 pr-3 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-brand font-semibold">
                         </div>
                         <div>
-                            <input type="date" id="startDate" onchange="renderReports()" class="w-full px-2 py-1.5 text-[11px] bg-slate-50 border border-slate-200/80 rounded-xl outline-none focus:ring-2 focus:ring-brand font-semibold">
+                            <input type="date" id="startDate" onchange="renderReports()" class="w-full px-3 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-brand font-semibold">
                         </div>
                         <div>
-                            <input type="date" id="endDate" onchange="renderReports()" class="w-full px-2 py-1.5 text-[11px] bg-slate-50 border border-slate-200/80 rounded-xl outline-none focus:ring-2 focus:ring-brand font-semibold">
+                            <input type="date" id="endDate" onchange="renderReports()" class="w-full px-3 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-brand font-semibold">
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <button onclick="resetReportFilter()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs py-1.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5">
-                                <i class="fas fa-arrows-rotate text-[10px]"></i> Reset
+                            <button onclick="resetReportFilter()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-xs py-2.5 px-4 rounded-2xl transition flex items-center justify-center gap-2">
+                                <i class="fas fa-arrows-rotate text-[10px]"></i> Reset Filter
                             </button>
                         </div>
                     </div>
@@ -596,12 +592,12 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead>
-                                <tr class="border-b border-slate-100 text-[10px] sm:text-[11px] uppercase font-extrabold text-slate-400">
-                                    <th class="pb-2.5 px-1.5">Waktu</th>
-                                    <th class="pb-2.5 px-1.5">Tipe / Meja</th>
-                                    <th class="pb-2.5 px-1.5">Item Dibeli</th>
-                                    <th class="pb-2.5 px-1.5">Pajak (4%)</th>
-                                    <th class="pb-2.5 px-1.5 text-right">Total</th>
+                                <tr class="border-b border-slate-100 text-[11px] uppercase font-extrabold text-slate-400">
+                                    <th class="pb-3 px-2">Waktu</th>
+                                    <th class="pb-3 px-2">Tipe / Meja</th>
+                                    <th class="pb-3 px-2">Item Dibeli</th>
+                                    <th class="pb-3 px-2">Pajak (4%)</th>
+                                    <th class="pb-3 px-2 text-right">Total</th>
                                 </tr>
                             </thead>
                             <tbody id="salesTableBody" class="divide-y divide-slate-100 text-xs font-semibold"></tbody>
@@ -615,33 +611,33 @@
 
     <!-- MODAL KONFIRMASI MODERN -->
     <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-[60]">
-        <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-sm space-y-4 shadow-2xl border border-white/40 text-center">
-            <div id="confirmModalIcon" class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto text-2xl">
+        <div class="bg-white rounded-[2.5rem] p-6 w-full max-w-sm space-y-4 shadow-2xl border border-white/40 text-center">
+            <div id="confirmModalIcon" class="w-16 h-16 bg-amber-100 text-amber-600 rounded-3xl flex items-center justify-center mx-auto text-2xl shadow-inner">
                 <i class="fas fa-triangle-exclamation"></i>
             </div>
             <div>
-                <h3 id="confirmModalTitle" class="font-extrabold text-base text-slate-900">Konfirmasi Aksi</h3>
+                <h3 id="confirmModalTitle" class="font-black text-base text-slate-900">Konfirmasi Aksi</h3>
                 <p id="confirmModalMessage" class="text-xs font-medium text-slate-500 mt-1">Apakah Anda yakin ingin melanjutkan aksi ini?</p>
             </div>
-            <div class="flex gap-2 pt-2">
-                <button onclick="closeConfirmModal(false)" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-xl transition">Batal</button>
-                <button id="confirmModalActionBtn" onclick="closeConfirmModal(true)" class="w-1/2 py-2.5 bg-slate-900 hover:bg-slate-800 text-brand font-extrabold text-xs rounded-xl shadow-md transition">Ya, Lanjutkan</button>
+            <div class="flex gap-2.5 pt-2">
+                <button onclick="closeConfirmModal(false)" class="w-1/2 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-2xl transition">Batal</button>
+                <button id="confirmModalActionBtn" onclick="closeConfirmModal(true)" class="w-1/2 py-3 bg-slate-900 hover:bg-slate-800 text-brand font-black text-xs rounded-2xl shadow-md transition">Ya, Lanjutkan</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Pembayaran + TEKNOLOGI PURE SVG QRIS (Dijamin 100% Muncul Tanpa Gambar Broken/Not Found) -->
+    <!-- Modal Pembayaran + TEKNOLOGI SVG MURNI UNTUK QRIS (DIJAMIN TIDAK ERROR / NOT FOUND) -->
     <div id="checkoutModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-md space-y-4 shadow-2xl border border-white/40">
-            <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-                <h3 class="font-extrabold text-sm sm:text-base text-slate-900">Konfirmasi Pembayaran</h3>
-                <button onclick="closeCheckoutModal()" class="text-slate-400 hover:text-slate-600 p-1"><i class="fas fa-times"></i></button>
+        <div class="bg-white rounded-[2.5rem] p-6 w-full max-w-md space-y-4 shadow-2xl border border-white/40">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                <h3 class="font-black text-base text-slate-900">Konfirmasi Pembayaran</h3>
+                <button onclick="closeCheckoutModal()" class="text-slate-400 hover:text-slate-600 p-1.5"><i class="fas fa-times text-sm"></i></button>
             </div>
             
-            <div class="space-y-3.5">
+            <div class="space-y-4">
                 <div>
-                    <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Metode Pembayaran</label>
-                    <select id="paymentType" onchange="handlePaymentTypeChange()" class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand">
+                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Metode Pembayaran</label>
+                    <select id="paymentType" onchange="handlePaymentTypeChange()" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand">
                         <option value="Tunai">Tunai / Cash</option>
                         <option value="QRIS">QRIS / DANA / e-Wallet</option>
                         <option value="Transfer">Transfer Bank</option>
@@ -649,15 +645,15 @@
                     </select>
                 </div>
 
-                <div id="qrisDisplayBox" class="hidden bg-sky-50 text-slate-900 p-3.5 sm:p-4 rounded-2xl text-center space-y-2 border border-sky-200">
-                    <div class="inline-flex items-center gap-1.5 bg-sky-600 text-white px-3 py-1 rounded-full text-[10px] font-extrabold">
+                <!-- Box QRIS SVG Murni Asli Sesuai Permintaan Anda -->
+                <div id="qrisDisplayBox" class="hidden bg-sky-50 text-slate-900 p-4 rounded-3xl text-center space-y-3 border border-sky-200">
+                    <div class="inline-flex items-center gap-2 bg-sky-600 text-white px-3.5 py-1.5 rounded-full text-[10px] font-extrabold shadow-sm">
                         <i class="fas fa-qrcode"></i> Scan QRIS DANA Resmi Warung Nyemeel
                     </div>
                     
-                    <!-- TEKNOLOGI SVG MURNI: Menggantikan file gambar eksternal yang sering error "not found" -->
-                    <div class="bg-white p-2 sm:p-3 rounded-3xl w-56 h-56 sm:w-64 sm:h-64 mx-auto flex items-center justify-center border border-slate-200 shadow-md">
+                    <div class="bg-white p-3 rounded-[2rem] w-60 h-60 mx-auto flex items-center justify-center border border-slate-200 shadow-md">
                         <svg class="w-full h-full" viewBox="0 0 290 290" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="290" height="290" rx="24" fill="white"/>
+                            <rect width="290" height="290" rx="20" fill="white"/>
                             <path d="M20 20H90V90H20V20ZM200 20H270V90H200V20ZM20 200H90V270H20V200Z" fill="black"/>
                             <path d="M30 30H80V80H30V30ZM210 30H260V80H210V30ZM30 210H80V260H30V210Z" fill="white"/>
                             <path d="M40 40H70V70H40V40ZM220 40H250V70H220V40ZM40 220H70V270H40V220Z" fill="black"/>
@@ -667,75 +663,75 @@
                             <path d="M20 170H40V190H20V170ZM50 160H70V180H50V160ZM80 170H100V190H80V170ZM110 170H130V180H110V170ZM140 160H160V180H140V160ZM170 170H190V190H170V170ZM200 160H220V180H200V160ZM230 170H250V190H230V170ZM260 160H270V190H260V160Z" fill="black"/>
                             <path d="M100 200H110V220H100V200ZM120 210H150V220H120V210ZM160 200H180V230H160V200ZM190 210H210V220H190V210ZM220 200H240V230H220V200ZM250 210H270V220H250V210Z" fill="black"/>
                             <path d="M100 230H130V240H100V230ZM140 240H160V260H140V240ZM170 230H190V250H170V230ZM200 240H220V270H200V240ZM230 230H260V240H230V230ZM250 250H270V270H250V250Z" fill="black"/>
-                            <circle cx="145" cy="145" r="28" fill="white"/>
-                            <circle cx="145" cy="145" r="24" fill="#118EEA"/>
-                            <path d="M133 142C138 138 143 143 148 139C152 136 157 140 157 140V146C157 146 152 142 148 145C143 149 138 144 133 148V142Z" fill="white"/>
+                            <circle cx="145" cy="145" r="30" fill="white"/>
+                            <circle cx="145" cy="145" r="25" fill="#118EEA"/>
+                            <path d="M132 142C137 138 142 143 147 139C151 136 156 140 156 140V146C156 146 151 142 147 145C142 149 137 144 132 148V142Z" fill="white"/>
                         </svg>
                     </div>
-                    <p class="text-[10px] text-slate-500 font-medium">Bisa di-scan menggunakan DANA, GoPay, OVO, ShopeePay, BCA, Mandiri, dll.</p>
+                    <p class="text-[11px] text-slate-500 font-medium">Bisa di-scan menggunakan DANA, GoPay, OVO, ShopeePay, BCA, Mandiri, dll.</p>
                 </div>
 
                 <div id="debtNameGroup" class="hidden">
-                    <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Nama Pelanggan (Hutang)</label>
-                    <input type="text" id="customerName" placeholder="Masukkan nama pengutang..." class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase mb-1.5">Nama Pelanggan (Hutang)</label>
+                    <input type="text" id="customerName" placeholder="Masukkan nama pengutang..." class="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                 </div>
             </div>
 
-            <div class="flex justify-end gap-2 pt-2">
-                <button onclick="closeCheckoutModal()" class="px-4 py-2.5 text-xs font-extrabold text-slate-500 hover:bg-slate-100 rounded-xl">Batal</button>
-                <button onclick="processCheckout()" class="px-4 py-2.5 bg-brand hover:bg-brand-dark text-slate-900 font-extrabold text-xs rounded-xl shadow-md transition">Selesaikan Transaksi</button>
+            <div class="flex justify-end gap-2.5 pt-3">
+                <button onclick="closeCheckoutModal()" class="px-4 py-3 text-xs font-extrabold text-slate-500 hover:bg-slate-100 rounded-2xl">Batal</button>
+                <button onclick="processCheckout()" class="px-5 py-3 bg-brand hover:bg-brand-dark text-slate-900 font-black text-xs rounded-2xl shadow-lg transition">Selesaikan Transaksi</button>
             </div>
         </div>
     </div>
 
     <!-- Modal Struk Pembayaran Modern -->
     <div id="receiptModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-sm space-y-4 shadow-2xl border border-white/40">
-            <div id="receiptPrintArea" class="p-4 sm:p-5 bg-amber-50/50 border border-amber-200/80 rounded-2xl text-slate-800 text-xs font-semibold space-y-3 shadow-inner">
+        <div class="bg-white rounded-[2.5rem] p-6 w-full max-w-sm space-y-4 shadow-2xl border border-white/40">
+            <div id="receiptPrintArea" class="p-5 bg-amber-50/50 border border-amber-200/80 rounded-3xl text-slate-800 text-xs font-semibold space-y-3 shadow-inner">
                 <div class="text-center space-y-1">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-amber-400 text-slate-950 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-sm font-black text-lg sm:text-xl">
+                    <div class="w-12 h-12 bg-amber-400 text-slate-950 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-sm font-black text-xl">
                         <i class="fas fa-bowl-food"></i>
                     </div>
-                    <h4 class="font-black text-sm sm:text-base text-slate-900 tracking-tight leading-none uppercase">WARUNG NYEMEEL</h4>
-                    <p class="text-[9px] sm:text-[10px] font-semibold text-slate-500 leading-tight px-1">
+                    <h4 class="font-black text-base text-slate-900 tracking-tight leading-none uppercase">WARUNG NYEMEEL</h4>
+                    <p class="text-[10px] font-semibold text-slate-500 leading-tight px-1">
                         Jl. Kantil No.16 RT.001/003 Kelapa Gading Timur, Jakarta Utara
                     </p>
-                    <hr class="my-2 border-dashed border-slate-300">
+                    <hr class="my-2.5 border-dashed border-slate-300">
                 </div>
 
-                <div class="text-[10px] space-y-0.5 text-slate-600 font-medium">
+                <div class="text-[11px] space-y-1 text-slate-600 font-medium">
                     <p id="receiptDate" class="flex justify-between"><span>Waktu:</span> <span class="font-bold text-slate-800"></span></p>
                     <p id="receiptType" class="flex justify-between"><span>Metode:</span> <span class="font-black text-amber-600"></span></p>
                     <p id="receiptOrderType" class="flex justify-between"><span>Tipe / Meja:</span> <span class="font-bold text-slate-800"></span></p>
                 </div>
 
-                <hr class="my-2 border-dashed border-slate-300">
-                <div id="receiptItems" class="space-y-1.5 text-xs"></div>
-                <hr class="my-2 border-dashed border-slate-300">
+                <hr class="my-2.5 border-dashed border-slate-300">
+                <div id="receiptItems" class="space-y-2 text-xs"></div>
+                <hr class="my-2.5 border-dashed border-slate-300">
 
                 <div class="space-y-1 text-[11px] text-slate-600">
                     <div class="flex justify-between"><span>Subtotal:</span> <span id="receiptSubtotal" class="font-bold"></span></div>
                     <div class="flex justify-between"><span>Diskon:</span> <span id="receiptDiscount" class="font-bold text-emerald-600"></span></div>
                     <div class="flex justify-between"><span>Pajak (4%):</span> <span id="receiptTax" class="font-bold"></span></div>
                 </div>
-                <hr class="my-2 border-dashed border-slate-300">
+                <hr class="my-2.5 border-dashed border-slate-300">
 
-                <div class="flex justify-between items-baseline font-black text-xs sm:text-sm text-slate-900 pt-0.5">
+                <div class="flex justify-between items-baseline font-black text-sm text-slate-900 pt-0.5">
                     <span>TOTAL BAYAR</span>
-                    <span id="receiptTotal" class="text-sm sm:text-base text-amber-600"></span>
+                    <span id="receiptTotal" class="text-base text-amber-600"></span>
                 </div>
 
-                <div class="text-center pt-2.5 border-t border-dashed border-slate-300 space-y-0.5">
-                    <p class="text-[10px] sm:text-[11px] font-black text-slate-900 uppercase tracking-wide">"Bikin Nagih Terus"</p>
-                    <p class="text-[8px] sm:text-[9px] text-slate-400">Terima kasih atas kunjungan Anda!</p>
+                <div class="text-center pt-3 border-t border-dashed border-slate-300 space-y-1">
+                    <p class="text-[11px] font-black text-slate-900 uppercase tracking-wide">"Bikin Nagih Terus"</p>
+                    <p class="text-[9px] text-slate-400">Terima kasih atas kunjungan Anda!</p>
                 </div>
             </div>
 
-            <div class="flex justify-end gap-2 no-print">
-                <button onclick="window.print()" class="px-3.5 py-2 bg-slate-900 text-white font-extrabold text-xs rounded-xl hover:bg-slate-800 shadow transition flex items-center gap-1.5">
+            <div class="flex justify-end gap-2.5 no-print">
+                <button onclick="window.print()" class="px-4 py-2.5 bg-slate-900 text-white font-extrabold text-xs rounded-2xl hover:bg-slate-800 shadow transition flex items-center gap-1.5">
                     <i class="fas fa-print"></i> Cetak
                 </button>
-                <button onclick="closeReceiptModal()" class="px-3.5 py-2 bg-slate-200 text-slate-700 font-extrabold text-xs rounded-xl hover:bg-slate-300 transition">
+                <button onclick="closeReceiptModal()" class="px-4 py-2.5 bg-slate-200 text-slate-700 font-extrabold text-xs rounded-2xl hover:bg-slate-300 transition">
                     Tutup
                 </button>
             </div>
@@ -906,13 +902,13 @@
 
             if(u === 'admin' && p === '1234') {
                 currentUserRole = 'admin';
-                document.getElementById('userBadge').innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Admin';
+                document.getElementById('userBadge').innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Admin';
                 document.getElementById('roleDisplayLabel').innerText = 'Admin Role';
                 document.querySelectorAll('.admin-only-tab').forEach(el => el.classList.remove('hidden'));
                 finishLogin();
             } else if(u === 'kasir' && p === '1234') {
                 currentUserRole = 'kasir';
-                document.getElementById('userBadge').innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span> Kasir';
+                document.getElementById('userBadge').innerHTML = '<span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span> Kasir';
                 document.getElementById('roleDisplayLabel').innerText = 'Kasir Role';
                 document.querySelectorAll('.admin-only-tab').forEach(el => el.classList.add('hidden'));
                 finishLogin();
@@ -944,11 +940,11 @@
                 const tabElem = document.getElementById(`content-${t}`);
                 if(tabElem) tabElem.classList.add('hidden');
                 const btnElem = document.getElementById(`tab-${t}`);
-                if(btnElem) btnElem.className = "tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0";
+                if(btnElem) btnElem.className = "tab-btn px-4 py-2 font-extrabold text-xs rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2 transition whitespace-nowrap shrink-0";
             });
 
             document.getElementById(`content-${tabName}`).classList.remove('hidden');
-            document.getElementById(`tab-${tabName}`).className = "tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-brand text-slate-900 flex items-center gap-1.5 transition whitespace-nowrap shrink-0";
+            document.getElementById(`tab-${tabName}`).className = "tab-btn px-4 py-2 font-extrabold text-xs rounded-xl bg-brand text-slate-950 flex items-center gap-2 transition whitespace-nowrap shrink-0 shadow-sm";
             
             items = getInitialItems();
             discounts = getInitialDiscounts();
@@ -994,12 +990,12 @@
 
             filtered.forEach(i => {
                 grid.innerHTML += `
-                    <div class="bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 hover:border-brand hover:shadow-md cursor-pointer transition active:scale-[0.97] flex flex-col justify-between group" onclick="addToCart(${i.id})">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 hover:border-brand hover:shadow-md cursor-pointer transition active:scale-[0.97] flex flex-col justify-between group" onclick="addToCart(${i.id})">
                         <div>
-                            <span class="text-[8px] sm:text-[9px] font-black px-2 py-0.5 rounded-lg ${i.category === 'Makanan' ? 'bg-amber-100 text-amber-800' : 'bg-sky-100 text-sky-800'} uppercase tracking-wide">${i.category}</span>
-                            <h3 class="font-extrabold text-[11px] sm:text-xs text-slate-800 mt-1.5 sm:mt-2.5 group-hover:text-slate-900 line-clamp-2 leading-snug">${i.name}</h3>
+                            <span class="text-[9px] font-black px-2.5 py-0.5 rounded-lg ${i.category === 'Makanan' ? 'bg-amber-100 text-amber-800' : 'bg-sky-100 text-sky-800'} uppercase tracking-wide">${i.category}</span>
+                            <h3 class="font-extrabold text-xs text-slate-800 mt-2 group-hover:text-slate-900 line-clamp-2 leading-snug">${i.name}</h3>
                         </div>
-                        <p class="text-slate-900 font-black text-[11px] sm:text-xs mt-2 sm:mt-3">Rp ${i.price.toLocaleString('id-ID')}</p>
+                        <p class="text-slate-900 font-black text-xs mt-3">Rp ${i.price.toLocaleString('id-ID')}</p>
                     </div>
                 `;
             });
@@ -1065,15 +1061,15 @@
                 subtotal += sub;
                 totalQty += c.qty;
                 container.innerHTML += `
-                    <div class="flex justify-between items-center py-2.5">
+                    <div class="flex justify-between items-center py-3">
                         <div class="pr-2">
-                            <p class="font-extrabold text-[11px] sm:text-xs text-slate-800">${c.name}</p>
+                            <p class="font-extrabold text-xs text-slate-800">${c.name}</p>
                             <p class="text-[10px] font-bold text-slate-400">Rp ${c.price.toLocaleString('id-ID')}</p>
                         </div>
                         <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-200/60 shrink-0">
-                            <button onclick="updateCartQty(${c.id}, -1)" class="w-5 h-5 sm:w-6 sm:h-6 bg-white rounded-lg shadow-sm font-black text-xs text-slate-700 hover:bg-slate-100 flex items-center justify-center">-</button>
-                            <span class="text-xs font-bold px-1 text-slate-800">${c.qty}</span>
-                            <button onclick="updateCartQty(${c.id}, 1)" class="w-5 h-5 sm:w-6 sm:h-6 bg-white rounded-lg shadow-sm font-black text-xs text-slate-700 hover:bg-slate-100 flex items-center justify-center">+</button>
+                            <button onclick="updateCartQty(${c.id}, -1)" class="w-6 h-6 bg-white rounded-lg shadow-sm font-black text-xs text-slate-700 hover:bg-slate-100 flex items-center justify-center">-</button>
+                            <span class="text-xs font-bold px-1.5 text-slate-800">${c.qty}</span>
+                            <button onclick="updateCartQty(${c.id}, 1)" class="w-6 h-6 bg-white rounded-lg shadow-sm font-black text-xs text-slate-700 hover:bg-slate-100 flex items-center justify-center">+</button>
                         </div>
                     </div>
                 `;
@@ -1210,10 +1206,10 @@
             items.forEach(i => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50/80 transition">
-                        <td class="py-2.5 px-1.5 font-extrabold text-slate-800">${i.name}</td>
-                        <td class="py-2.5 px-1.5"><span class="text-[8px] font-black px-1.5 py-0.5 rounded ${i.category === 'Makanan' ? 'bg-amber-100 text-amber-800' : 'bg-sky-100 text-sky-800'}">${i.category}</span></td>
-                        <td class="py-2.5 px-1.5 font-black text-slate-900">Rp ${i.price.toLocaleString('id-ID')}</td>
-                        <td class="py-2.5 px-1.5 text-right">
+                        <td class="py-3 px-2 font-extrabold text-slate-800">${i.name}</td>
+                        <td class="py-3 px-2"><span class="text-[9px] font-black px-2 py-0.5 rounded ${i.category === 'Makanan' ? 'bg-amber-100 text-amber-800' : 'bg-sky-100 text-sky-800'}">${i.category}</span></td>
+                        <td class="py-3 px-2 font-black text-slate-900">Rp ${i.price.toLocaleString('id-ID')}</td>
+                        <td class="py-3 px-2 text-right">
                             <button onclick="deleteItem(${i.id})" class="text-amber-600 hover:text-amber-800 font-extrabold text-xs"><i class="fas fa-trash-can"></i></button>
                         </td>
                     </tr>
@@ -1261,9 +1257,9 @@
             discounts.forEach(d => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50/80 transition">
-                        <td class="py-2.5 px-1.5 font-extrabold text-slate-800">${d.name}</td>
-                        <td class="py-2.5 px-1.5 font-black text-amber-600">${d.percent}%</td>
-                        <td class="py-2.5 px-1.5 text-right space-x-1.5">
+                        <td class="py-3 px-2 font-extrabold text-slate-800">${d.name}</td>
+                        <td class="py-3 px-2 font-black text-amber-600">${d.percent}%</td>
+                        <td class="py-3 px-2 text-right space-x-2">
                             <button onclick="editDiscount(${d.id})" class="text-sky-600 hover:text-sky-800 font-extrabold text-xs"><i class="fas fa-edit"></i></button>
                             <button onclick="deleteDiscount(${d.id})" class="text-amber-600 hover:text-amber-800 font-extrabold text-xs"><i class="fas fa-trash-can"></i></button>
                         </td>
@@ -1333,19 +1329,19 @@
             if(!tbody) return;
             tbody.innerHTML = '';
             stocks.forEach(st => {
-                let statusBadge = '<span class="bg-emerald-100 text-emerald-800 text-[8px] font-black px-2 py-0.5 rounded">Aman</span>';
+                let statusBadge = '<span class="bg-emerald-100 text-emerald-800 text-[9px] font-black px-2 py-0.5 rounded">Aman</span>';
                 if(st.qty <= 5) {
-                    statusBadge = '<span class="bg-rose-100 text-rose-800 text-[8px] font-black px-2 py-0.5 rounded animate-pulse">Stok Menipis!</span>';
+                    statusBadge = '<span class="bg-rose-100 text-rose-800 text-[9px] font-black px-2 py-0.5 rounded animate-pulse">Stok Menipis!</span>';
                 }
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50/80 transition">
-                        <td class="py-2.5 px-1.5 font-extrabold text-slate-800">${st.name}</td>
-                        <td class="py-2.5 px-1.5 font-black text-slate-900">${st.qty} ${st.unit}</td>
-                        <td class="py-2.5 px-1.5">${statusBadge}</td>
-                        <td class="py-2.5 px-1.5 text-right space-x-1">
-                            <button onclick="adjustStock(${st.id}, 5)" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-2 py-1 rounded text-[10px]">+5</button>
-                            <button onclick="adjustStock(${st.id}, -5)" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-2 py-1 rounded text-[10px]">-5</button>
-                            <button onclick="deleteStock(${st.id})" class="text-amber-600 hover:text-amber-800 font-bold text-xs px-1"><i class="fas fa-trash"></i></button>
+                        <td class="py-3 px-2 font-extrabold text-slate-800">${st.name}</td>
+                        <td class="py-3 px-2 font-black text-slate-900">${st.qty} ${st.unit}</td>
+                        <td class="py-3 px-2">${statusBadge}</td>
+                        <td class="py-3 px-2 text-right space-x-1.5">
+                            <button onclick="adjustStock(${st.id}, 5)" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-2.5 py-1 rounded-lg text-xs">+5</button>
+                            <button onclick="adjustStock(${st.id}, -5)" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-2.5 py-1 rounded-lg text-xs">-5</button>
+                            <button onclick="deleteStock(${st.id})" class="text-amber-600 hover:text-amber-800 font-bold text-xs px-1.5"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -1416,11 +1412,11 @@
             filteredExpenses.slice().reverse().forEach(exp => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50/80 transition">
-                        <td class="py-2.5 px-1.5 text-[10px] font-semibold text-slate-400">${exp.formattedDate}</td>
-                        <td class="py-2.5 px-1.5 font-extrabold text-slate-800">${exp.desc}</td>
-                        <td class="py-2.5 px-1.5"><span class="text-[8px] font-black px-1.5 py-0.5 rounded bg-rose-100 text-rose-800">${exp.category}</span></td>
-                        <td class="py-2.5 px-1.5 font-black text-rose-600">Rp ${exp.amount.toLocaleString('id-ID')}</td>
-                        <td class="py-2.5 px-1.5 text-right space-x-1.5">
+                        <td class="py-3 px-2 text-[11px] font-semibold text-slate-400">${exp.formattedDate}</td>
+                        <td class="py-3 px-2 font-extrabold text-slate-800">${exp.desc}</td>
+                        <td class="py-3 px-2"><span class="text-[9px] font-black px-2 py-0.5 rounded bg-rose-100 text-rose-800">${exp.category}</span></td>
+                        <td class="py-3 px-2 font-black text-rose-600">Rp ${exp.amount.toLocaleString('id-ID')}</td>
+                        <td class="py-3 px-2 text-right space-x-2">
                             <button onclick="editExpense(${exp.id})" class="text-sky-600 hover:text-sky-800 font-extrabold text-xs"><i class="fas fa-edit"></i></button>
                             <button onclick="deleteExpense(${exp.id})" class="text-amber-600 hover:text-amber-800 font-extrabold text-xs"><i class="fas fa-trash-can"></i></button>
                         </td>
@@ -1532,7 +1528,6 @@
             filteredPaidDebts.forEach(pd => totalPaidDebt += pd.total);
             document.getElementById('recapTotalPaidDebt').innerText = `Rp ${totalPaidDebt.toLocaleString('id-ID')}`;
 
-            // Render Belum Bayar
             tbody.innerHTML = '';
             if(filteredDebts.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400 text-xs font-semibold">Tidak ada catatan hutang aktif</td></tr>`;
@@ -1541,19 +1536,18 @@
                     const itemSummary = d.items.map(i => `${i.name} (${i.qty})`).join(', ');
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50/80 transition">
-                            <td class="py-2.5 px-1.5 text-[10px] font-semibold text-slate-400">${d.date}</td>
-                            <td class="py-2.5 px-1.5 font-extrabold text-slate-800">${d.customer}</td>
-                            <td class="py-2.5 px-1.5 text-[11px] text-slate-600 font-medium">${itemSummary}</td>
-                            <td class="py-2.5 px-1.5 font-black text-rose-600">Rp ${d.total.toLocaleString('id-ID')}</td>
-                            <td class="py-2.5 px-1.5 text-right">
-                                <button onclick="payDebt(${d.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold transition shadow-sm">Lunas</button>
+                            <td class="py-3 px-2 text-[11px] font-semibold text-slate-400">${d.date}</td>
+                            <td class="py-3 px-2 font-extrabold text-slate-800">${d.customer}</td>
+                            <td class="py-3 px-2 text-xs text-slate-600 font-medium">${itemSummary}</td>
+                            <td class="py-3 px-2 font-black text-rose-600">Rp ${d.total.toLocaleString('id-ID')}</td>
+                            <td class="py-3 px-2 text-right">
+                                <button onclick="payDebt(${d.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">Lunas</button>
                             </td>
                         </tr>
                     `;
                 });
             }
 
-            // Render Sudah Lunas
             paidTbody.innerHTML = '';
             if(filteredPaidDebts.length === 0) {
                 paidTbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-400 text-xs font-semibold">Belum ada riwayat pelunasan hutang</td></tr>`;
@@ -1562,10 +1556,10 @@
                     const itemSummary = pd.items.map(i => `${i.name} (${i.qty})`).join(', ');
                     paidTbody.innerHTML += `
                         <tr class="hover:bg-slate-50/80 transition">
-                            <td class="py-2.5 px-1.5 text-[10px] font-semibold text-slate-400">${pd.paidDate}</td>
-                            <td class="py-2.5 px-1.5 font-extrabold text-slate-800">${pd.customer}</td>
-                            <td class="py-2.5 px-1.5 text-xs text-slate-600 font-medium">${itemSummary}</td>
-                            <td class="py-2.5 px-1.5 font-black text-emerald-600 text-right">Rp ${pd.total.toLocaleString('id-ID')}</td>
+                            <td class="py-3 px-2 text-[11px] font-semibold text-slate-400">${pd.paidDate}</td>
+                            <td class="py-3 px-2 font-extrabold text-slate-800">${pd.customer}</td>
+                            <td class="py-3 px-2 text-xs text-slate-600 font-medium">${itemSummary}</td>
+                            <td class="py-3 px-2 font-black text-emerald-600 text-right">Rp ${pd.total.toLocaleString('id-ID')}</td>
                         </tr>
                     `;
                 });
@@ -1706,19 +1700,19 @@
 
             profitElem.innerText = `Rp ${netProfitWithDebt.toLocaleString('id-ID')}`;
             if(netProfitWithDebt > 0) {
-                profitElem.className = "text-base sm:text-lg font-black text-emerald-600 mt-0.5";
+                profitElem.className = "text-base sm:text-lg font-black text-emerald-600 mt-1";
                 statusElem.innerText = "UNTUNG / LABA";
-                statusElem.className = "inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 mt-1";
+                statusElem.className = "inline-block text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 mt-1.5";
                 barElem.className = "w-1.5 h-full bg-emerald-500 absolute left-0 top-0";
             } else if(netProfitWithDebt < 0) {
-                profitElem.className = "text-base sm:text-lg font-black text-rose-600 mt-0.5";
+                profitElem.className = "text-base sm:text-lg font-black text-rose-600 mt-1";
                 statusElem.innerText = "RUGI";
-                statusElem.className = "inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-rose-100 text-rose-800 mt-1";
+                statusElem.className = "inline-block text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 mt-1.5";
                 barElem.className = "w-1.5 h-full bg-rose-500 absolute left-0 top-0";
             } else {
-                profitElem.className = "text-base sm:text-lg font-black text-slate-900 mt-0.5";
+                profitElem.className = "text-base sm:text-lg font-black text-slate-900 mt-1";
                 statusElem.innerText = "IMPAS / NETRAL";
-                statusElem.className = "inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-600 mt-1";
+                statusElem.className = "inline-block text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 mt-1.5";
                 barElem.className = "w-1.5 h-full bg-brand absolute left-0 top-0";
             }
 
@@ -1739,11 +1733,11 @@
 
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50/80 transition">
-                            <td class="py-2.5 px-1.5 text-[10px] font-semibold text-slate-400">${s.formattedDate}</td>
-                            <td class="py-2.5 px-1.5"><span class="${badgeColor} text-[8px] font-black px-1.5 py-0.5 rounded">${s.type} (${s.orderType || 'Dine-in'})</span></td>
-                            <td class="py-2.5 px-1.5 text-xs font-semibold text-slate-700">${itemSummary}</td>
-                            <td class="py-2.5 px-1.5 text-xs font-bold text-sky-600">Rp ${txTax.toLocaleString('id-ID')}</td>
-                            <td class="py-2.5 px-1.5 font-black text-slate-900 text-right">Rp ${s.total.toLocaleString('id-ID')}</td>
+                            <td class="py-3 px-2 text-[11px] font-semibold text-slate-400">${s.formattedDate}</td>
+                            <td class="py-3 px-2"><span class="${badgeColor} text-[9px] font-black px-2 py-0.5 rounded">${s.type} (${s.orderType || 'Dine-in'})</span></td>
+                            <td class="py-3 px-2 text-xs font-semibold text-slate-700">${itemSummary}</td>
+                            <td class="py-3 px-2 text-xs font-bold text-sky-600">Rp ${txTax.toLocaleString('id-ID')}</td>
+                            <td class="py-3 px-2 font-black text-slate-900 text-right">Rp ${s.total.toLocaleString('id-ID')}</td>
                         </tr>
                     `;
                 });
