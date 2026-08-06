@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Warung Nyemeel - Bikin Nagih Terus</title>
-    <!-- Favicon Logo Kuning Brand -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23FFC72C%22/><text x=%2250%%22 y=%2255%%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2260%22 font-weight=%22900%22 fill=%22%230F172A%22>WN</text></svg>">
+    <!-- Favicon Vektor Persisi Sesuai Logo Asli -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2226%22 fill=%22%23FFC72C%22/><g transform=%22translate(25, 25) scale(0.5)%22 fill=%22%230F172A%22><path d=%22M50 15C33.4 15 20 28.4 20 45C20 47.8 22.2 50 25 50H75C77.8 50 80 47.8 80 45C80 28.4 66.6 15 50 15ZM25 55C22.2 55 20 57.2 20 60V75C20 83.3 26.7 90 35 90H65C73.3 90 80 83.3 80 75V60C80 57.2 77.8 55 75 55H25Z%22/></g><circle cx=%2280%22 cy=%2280%22 r=%2214%22 fill=%22%230F172A%22 stroke=%22white%22 stroke-width=%223%22/><circle cx=%2280%22 cy=%2280%22 r=%226%22 fill=%22%23FFC72C%22/></svg>">
     
     <!-- Google Font: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -194,7 +194,7 @@
                             <span id="cartSubtotal">Rp 0</span>
                         </div>
                         <div class="flex justify-between text-[11px] font-bold text-slate-500">
-                            <span>Diskon & Pajak (Pajak 5%)</span>
+                            <span>Diskon & Pajak (Pajak 4%)</span>
                             <span id="cartTaxDiscount">Rp 0</span>
                         </div>
                         <div class="flex justify-between items-baseline pt-1 border-t border-dashed border-slate-200">
@@ -985,11 +985,11 @@
 
             const discountVal = parseInt(document.getElementById('discountSelect').value) || 0;
             const discountNominal = (subtotal * discountVal) / 100;
-            const taxNominal = subtotal * 0.05;
+            const taxNominal = subtotal * 0.04; // Pajak 4%
             const finalTotal = subtotal - discountNominal + taxNominal;
 
             document.getElementById('cartSubtotal').innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
-            document.getElementById('cartTaxDiscount').innerText = `-Rp ${discountNominal.toLocaleString('id-ID')} (+Pajak 5%)`;
+            document.getElementById('cartTaxDiscount').innerText = `-Rp ${discountNominal.toLocaleString('id-ID')} (+Pajak 4%)`;
             document.getElementById('cartTotal').innerText = `Rp ${Math.round(finalTotal).toLocaleString('id-ID')}`;
 
             if(badge) {
@@ -1031,7 +1031,7 @@
             const subtotal = cart.reduce((acc, c) => acc + (c.price * c.qty), 0);
             const discountVal = parseInt(document.getElementById('discountSelect').value) || 0;
             const discountNominal = (subtotal * discountVal) / 100;
-            const taxNominal = subtotal * 0.05;
+            const taxNominal = subtotal * 0.04; // Pajak 4%
             const total = Math.round(subtotal - discountNominal + taxNominal);
 
             const now = new Date();
@@ -1091,7 +1091,7 @@
 
             const discountVal = parseInt(document.getElementById('discountSelect').value) || 0;
             const discountNominal = (subtotal * discountVal) / 100;
-            const taxNominal = subtotal * 0.05;
+            const taxNominal = subtotal * 0.04;
             const finalTotal = Math.round(subtotal - discountNominal + taxNominal);
 
             document.getElementById('receiptTotal').innerText = `Rp ${finalTotal.toLocaleString('id-ID')}`;
