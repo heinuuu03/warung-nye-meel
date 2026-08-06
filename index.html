@@ -127,7 +127,7 @@
             <button onclick="switchTab('pengeluaran')" id="tab-pengeluaran" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
                 <i class="fas fa-wallet text-xs sm:text-sm"></i> Pengeluaran
             </button>
-            <button onclick="switchTab('hutang')" id="tab-hutang" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-2 transition whitespace-nowrap shrink-0">
+            <button onclick="switchTab('hutang')" id="tab-hutang" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
                 <i class="fas fa-book-bookmark text-xs sm:text-sm"></i> Hutang
             </button>
             <button onclick="switchTab('laporan')" id="tab-laporan" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
@@ -404,7 +404,7 @@
         </main>
     </div>
 
-    <!-- Modal Pembayaran + QRIS Payment Box -->
+    <!-- Modal Pembayaran + QRIS DANA Asli -->
     <div id="checkoutModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-md space-y-4 shadow-2xl border border-white/40">
             <div class="flex justify-between items-center pb-2 border-b border-slate-100">
@@ -417,23 +417,23 @@
                     <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Metode Pembayaran</label>
                     <select id="paymentType" onchange="handlePaymentTypeChange()" class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand">
                         <option value="Tunai">Tunai / Cash</option>
-                        <option value="QRIS">QRIS / e-Wallet (Otomatis)</option>
+                        <option value="QRIS">QRIS / DANA / e-Wallet</option>
                         <option value="Transfer">Transfer Bank</option>
                         <option value="Hutang">Catat Hutang</option>
                     </select>
                 </div>
 
-                <!-- QRIS Box Banner -->
-                <div id="qrisDisplayBox" class="hidden bg-slate-900 text-white p-4 rounded-2xl text-center space-y-2.5 border border-slate-800">
-                    <div class="inline-flex items-center gap-1.5 bg-slate-800 px-3 py-1 rounded-full text-[10px] font-bold text-sky-400">
-                        <i class="fas fa-qrcode"></i> Scan QRIS Resmi Warung Nyemeel
+                <!-- QRIS Box DANA Asli -->
+                <div id="qrisDisplayBox" class="hidden bg-sky-50 text-slate-900 p-4 rounded-2xl text-center space-y-2 border border-sky-200">
+                    <div class="inline-flex items-center gap-1.5 bg-sky-600 text-white px-3 py-1 rounded-full text-[10px] font-extrabold">
+                        <i class="fas fa-qrcode"></i> Scan QRIS DANA Resmi Warung Nyemeel
                     </div>
-                    <!-- Tampilan Ilustrasi QRIS Statis -->
-                    <div class="bg-white p-3 rounded-xl w-36 h-36 mx-auto flex flex-col items-center justify-center text-slate-900 border-2 border-brand shadow-md">
-                        <i class="fas fa-qrcode text-6xl text-slate-900"></i>
-                        <span class="text-[9px] font-black tracking-widest uppercase mt-1 text-slate-500">QRIS NATIONAL</span>
+                    
+                    <!-- Gambar QRIS DANA (Bisa pakai file qris-dana.jpg di GitHub Anda) -->
+                    <div class="bg-white p-2 rounded-2xl w-48 h-48 mx-auto flex items-center justify-center border-2 border-sky-400 shadow-md">
+                        <img src="qris-dana.jpg" onerror="this.onerror=null; this.src='qris-dana.png';" alt="QRIS DANA Warung Nyemeel" class="w-full h-full object-contain rounded-xl">
                     </div>
-                    <p class="text-[10px] text-slate-300 font-medium">Pelanggan scan kode di atas menggunakan GoPay, OVO, Dana, ShopeePay, atau Mobile Banking.</p>
+                    <p class="text-[10px] text-slate-500 font-medium">Bisa di-scan menggunakan DANA, GoPay, OVO, ShopeePay, BCA, Mandiri, dll.</p>
                 </div>
 
                 <div id="debtNameGroup" class="hidden">
