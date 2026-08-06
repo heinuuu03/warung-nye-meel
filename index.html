@@ -62,7 +62,7 @@
     <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none max-w-xs sm:max-w-sm w-full px-4 flex justify-center"></div>
 
-    <!-- Screen Login (Bento Glassmorphism Style) -->
+    <!-- Screen Login -->
     <div id="loginScreen" class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-amber-100 via-yellow-50 to-amber-200 dark:from-slate-950 dark:via-zinc-900 dark:to-slate-900">
         <div class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-2xl p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white/60 dark:border-zinc-800 relative overflow-hidden">
             <div class="absolute -top-16 -right-16 w-44 h-44 bg-brand/30 dark:bg-brand/10 rounded-full blur-3xl"></div>
@@ -116,7 +116,6 @@
                 </div>
             </div>
             <div class="flex items-center gap-2.5">
-                <!-- Theme Toggle OLED / Light -->
                 <button onclick="toggleDarkMode()" class="w-10 h-10 bg-slate-800 dark:bg-zinc-900 hover:bg-slate-700 text-amber-400 rounded-2xl border border-slate-700 flex items-center justify-center transition active:scale-95 shadow-inner" title="Ganti Mode Gelap/Terang">
                     <i id="themeIcon" class="fas fa-moon text-xs"></i>
                 </button>
@@ -129,7 +128,7 @@
             </div>
         </nav>
 
-        <!-- Navigation Tabs (Bento Pill Bar) -->
+        <!-- Navigation Tabs -->
         <div class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-slate-200 dark:border-zinc-800 px-4 sm:px-8 py-3 flex gap-2.5 overflow-x-auto no-scrollbar sticky top-[65px] z-20 shadow-sm">
             <button onclick="switchTab('kasir')" id="tab-kasir" class="tab-btn px-4 py-2.5 font-black text-xs rounded-2xl bg-brand text-slate-950 flex items-center gap-2 transition whitespace-nowrap shrink-0 shadow-sm">
                 <i class="fas fa-cash-register"></i> Kasir
@@ -154,13 +153,12 @@
             </button>
         </div>
 
-        <!-- Bento Grid Main Content Container -->
+        <!-- Main Content Container -->
         <main class="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto space-y-6">
             
             <!-- Tab Kasir -->
             <div id="content-kasir" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 space-y-4">
-                    <!-- AI Personalization / Smart Insight Banner -->
                     <div class="bg-gradient-to-r from-amber-500 via-brand to-yellow-300 p-4 rounded-3xl shadow-lg text-slate-950 flex items-center justify-between">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 bg-slate-950 text-brand rounded-2xl flex items-center justify-center text-sm shadow">
@@ -168,7 +166,7 @@
                             </div>
                             <div>
                                 <h4 class="font-black text-xs uppercase tracking-wider">AI Assistant Insight</h4>
-                                <p id="aiInsightText" class="text-[11px] font-bold text-slate-900 mt-0.5">Analisis: Stok Nasi Goreng & Es Teh sangat diminati hari ini.</p>
+                                <p id="aiInsightText" class="text-[11px] font-bold text-slate-900 mt-0.5">Analisis: Penjualan stabil, pastikan stok bahan baku harian tercatat.</p>
                             </div>
                         </div>
                         <span class="hidden sm:inline-block text-[10px] font-black bg-slate-950/10 px-2.5 py-1 rounded-xl uppercase">Active 2026</span>
@@ -177,7 +175,7 @@
                     <div class="flex flex-row gap-3 bg-white dark:bg-zinc-900 p-3 rounded-3xl shadow-sm border border-slate-200 dark:border-zinc-800">
                         <div class="relative flex-1">
                             <i class="fas fa-search absolute left-4 top-3.5 text-slate-400 text-xs"></i>
-                            <input type="text" id="searchInput" oninput="renderCatalog()" placeholder="Cari makanan atau minuman..." class="w-full pl-10 pr-4 py-3 text-xs bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-2xl outline-none font-semibold">
+                            <input type="text" id="searchInput" oninput="renderCatalog()" placeholder="Cari makanan atau minuman..." class="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-2xl outline-none font-semibold">
                         </div>
                         <select id="categoryFilter" onchange="renderCatalog()" class="bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-slate-200 font-bold rounded-2xl px-4 py-3 text-xs outline-none shrink-0">
                             <option value="all">Semua Kategori</option>
@@ -189,7 +187,7 @@
                     <div id="menuGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3.5"></div>
                 </div>
 
-                <!-- Cart Section (Bento Card) -->
+                <!-- Cart Section -->
                 <div class="bg-white dark:bg-zinc-900 p-6 rounded-[2.5rem] shadow-xl border border-slate-200 dark:border-zinc-800 flex flex-col h-auto lg:h-[calc(100vh-230px)] lg:sticky lg:top-32">
                     <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-zinc-800">
                         <h2 class="font-black text-sm text-slate-900 dark:text-white flex items-center gap-2">
@@ -258,7 +256,7 @@
                                     <input type="number" id="itemPrice" placeholder="15000" required class="w-full p-3 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-2xl text-xs font-semibold outline-none">
                                 </div>
                             </div>
-                            <button type="submit" class="w-full bg-slate-900 dark:bg-zinc-800 hover:bg-slate-800 text-white font-black py-4 rounded-2xl shadow transition text-xs">
+                            <button type="submit" class="w-full bg-slate-900 dark:bg-zinc-800 hover:bg-slate-800 text-white font-black py-3.5 rounded-2xl shadow transition text-xs">
                                 <i class="fas fa-save mr-1.5"></i> Simpan Ke Menu
                             </button>
                         </form>
@@ -388,7 +386,6 @@
                     </button>
                 </div>
 
-                <!-- Bento Grid Rekap Pengeluaran -->
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
                     <div class="bg-white dark:bg-zinc-900 p-5 rounded-[2rem] shadow-sm border border-slate-200 dark:border-zinc-800 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-rose-500 absolute left-0 top-0"></div>
@@ -541,29 +538,50 @@
                 </div>
             </div>
 
-            <!-- Tab Laporan Detail Laba Rugi -->
+            <!-- Tab Laporan Detail Laba/Rugi (Bento Dashboard dengan Drilldown Modal Harian) -->
             <div id="content-laporan" class="admin-only-content hidden space-y-6">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Bento Header Laporan & Tombol Buka Modal Harian -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2 bg-gradient-to-r from-slate-900 to-zinc-900 text-white p-6 rounded-[2.5rem] shadow-xl flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-brand/20 rounded-full blur-3xl"></div>
+                        <div>
+                            <span class="bg-brand text-slate-950 font-black text-[10px] uppercase px-3 py-1 rounded-full">Analytics Center 2026</span>
+                            <h2 class="text-xl font-black mt-2 tracking-tight">Pusat Analisis & Kalkulasi Laba Rugi</h2>
+                            <p class="text-xs text-slate-300 mt-1">Pantau performa keuangan harian, mingguan, dan potensi piutang secara real-time.</p>
+                        </div>
+                        <div class="mt-6">
+                            <button onclick="openDailyReportModal()" class="bg-brand hover:bg-brand-dark text-slate-950 font-black text-xs py-3 px-6 rounded-2xl shadow-lg transition active:scale-95 flex items-center gap-2">
+                                <i class="fas fa-calendar-day"></i> Buka Kalkulator Laba/Rugi Per Hari
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-zinc-900 p-6 rounded-[2.5rem] shadow-sm border border-slate-200 dark:border-zinc-800 flex flex-col justify-between">
+                        <div>
+                            <p class="text-[11px] font-extrabold text-slate-400 uppercase">Status Performa Keuangan</p>
+                            <h3 id="statNetProfit" class="text-xl font-black mt-1">Rp 0</h3>
+                        </div>
+                        <div id="netProfitCard">
+                            <span id="statNetProfitStatus" class="inline-block text-[10px] font-black uppercase px-3 py-1 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300">Netral</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="bg-white dark:bg-zinc-900 p-5 rounded-[2rem] shadow-sm border border-slate-200 dark:border-zinc-800 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-emerald-500 absolute left-0 top-0"></div>
-                        <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Pemasukan Tunai/Lunas</p>
-                        <h3 id="statTotalSales" class="text-xl font-black text-emerald-600 mt-1">Rp 0</h3>
+                        <p class="text-[11px] font-extrabold text-slate-400 uppercase">Total Pemasukan Tunai/Lunas</p>
+                        <h3 id="statTotalSales" class="text-lg font-black text-emerald-600 mt-1">Rp 0</h3>
                     </div>
                     <div class="bg-white dark:bg-zinc-900 p-5 rounded-[2rem] shadow-sm border border-slate-200 dark:border-zinc-800 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-amber-500 absolute left-0 top-0"></div>
-                        <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Proyeksi Hutang (Dibayar Nanti)</p>
-                        <h3 id="statProjectedDebt" class="text-xl font-black text-amber-600 mt-1">Rp 0</h3>
+                        <p class="text-[11px] font-extrabold text-slate-400 uppercase">Proyeksi Hutang Aktif</p>
+                        <h3 id="statProjectedDebt" class="text-lg font-black text-amber-600 mt-1">Rp 0</h3>
                     </div>
                     <div class="bg-white dark:bg-zinc-900 p-5 rounded-[2rem] shadow-sm border border-slate-200 dark:border-zinc-800 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-rose-500 absolute left-0 top-0"></div>
-                        <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Pengeluaran</p>
-                        <h3 id="statTotalExpenses" class="text-xl font-black text-rose-600 mt-1">Rp 0</h3>
-                    </div>
-                    <div id="netProfitCard" class="bg-white dark:bg-zinc-900 p-5 rounded-[2rem] shadow-sm border border-slate-200 dark:border-zinc-800 relative overflow-hidden">
-                        <div id="netProfitBar" class="w-1.5 h-full bg-brand absolute left-0 top-0"></div>
-                        <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Estimasi Laba Bersih (+ Potensi)</p>
-                        <h3 id="statNetProfit" class="text-xl font-black mt-1">Rp 0</h3>
-                        <span id="statNetProfitStatus" class="inline-block text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 mt-1.5">Netral</span>
+                        <p class="text-[11px] font-extrabold text-slate-400 uppercase">Total Pengeluaran</p>
+                        <h3 id="statTotalExpenses" class="text-lg font-black text-rose-600 mt-1">Rp 0</h3>
                     </div>
                 </div>
 
@@ -630,6 +648,41 @@
             </div>
 
         </main>
+    </div>
+
+    <!-- MODAL KALKULATOR LABA/RUGI PER HARI (Drilldown Detail Harian) -->
+    <div id="dailyReportModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white dark:bg-zinc-900 rounded-[2.5rem] p-6 w-full max-w-md space-y-5 shadow-2xl border border-white/40 dark:border-zinc-800">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-zinc-800">
+                <h3 class="font-black text-base text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fas fa-calculator text-brand"></i> Kalkulator Laba/Rugi Harian
+                </h3>
+                <button onclick="closeDailyReportModal()" class="text-slate-400 hover:text-slate-600 p-1.5"><i class="fas fa-times text-sm"></i></button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[11px] font-extrabold text-slate-500 dark:text-slate-400 uppercase mb-1.5">Pilih Tanggal</label>
+                    <input type="date" id="calcDate" onchange="calculateDailyProfit()" class="w-full p-3 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-2xl text-xs font-bold outline-none">
+                </div>
+
+                <!-- Hasil Kalkulasi Harian -->
+                <div class="bg-slate-50 dark:bg-zinc-800/60 p-4 rounded-3xl space-y-2.5 text-xs font-semibold border border-slate-200 dark:border-zinc-700">
+                    <div class="flex justify-between"><span>Total Pemasukan Harian:</span> <span id="calcSales" class="font-bold text-emerald-600">Rp 0</span></div>
+                    <div class="flex justify-between"><span>Akumulasi Pajak (4%):</span> <span id="calcTax" class="font-bold text-sky-600">Rp 0</span></div>
+                    <div class="flex justify-between"><span>Total Pengeluaran Harian:</span> <span id="calcExpenses" class="font-bold text-rose-600">Rp 0</span></div>
+                    <hr class="border-slate-200 dark:border-zinc-700 my-1">
+                    <div class="flex justify-between items-baseline font-black text-sm">
+                        <span>Laba Bersih Hari Ini:</span>
+                        <span id="calcNet" class="text-base text-slate-900 dark:text-white">Rp 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="closeDailyReportModal()" class="w-full py-3.5 bg-slate-900 dark:bg-zinc-800 text-brand font-black text-xs rounded-2xl shadow transition">Tutup</button>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL KONFIRMASI MODERN -->
@@ -779,7 +832,6 @@
             }
         }
 
-        // Check initial theme
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.classList.add('dark');
             document.getElementById('themeIcon').className = 'fas fa-sun text-xs text-amber-400';
@@ -866,6 +918,49 @@
         function closeConfirmModal(result) {
             document.getElementById('confirmModal').classList.add('hidden');
             if (confirmResolve) confirmResolve(result);
+        }
+
+        // DAILY REPORT DRILLDOWN MODAL LOGIC
+        function openDailyReportModal() {
+            document.getElementById('calcDate').value = new Date().toISOString().slice(0, 10);
+            calculateDailyProfit();
+            document.getElementById('dailyReportModal').classList.remove('hidden');
+        }
+
+        function closeDailyReportModal() {
+            document.getElementById('dailyReportModal').classList.add('hidden');
+        }
+
+        function calculateDailyProfit() {
+            const valDate = document.getElementById('calcDate').value;
+            if(!valDate) return;
+
+            let daySales = 0;
+            let dayTax = 0;
+            sales.forEach(s => {
+                const sDateStr = s.date ? s.date.slice(0, 10) : '';
+                if(sDateStr === valDate) {
+                    daySales += s.total;
+                    dayTax += (s.tax || (s.total * 0.04));
+                }
+            });
+
+            let dayExp = 0;
+            expenses.forEach(e => {
+                const eDateStr = e.date ? e.date.slice(0, 10) : '';
+                if(eDateStr === valDate) {
+                    dayExp += e.amount;
+                }
+            });
+
+            const dayNet = daySales - dayExp;
+
+            document.getElementById('calcSales').innerText = `Rp ${daySales.toLocaleString('id-ID')}`;
+            document.getElementById('calcTax').innerText = `Rp ${Math.round(dayTax).toLocaleString('id-ID')}`;
+            document.getElementById('calcExpenses').innerText = `Rp ${dayExp.toLocaleString('id-ID')}`;
+            const netEl = document.getElementById('calcNet');
+            netEl.innerText = `Rp ${dayNet.toLocaleString('id-ID')}`;
+            netEl.className = `text-base font-black ${dayNet >= 0 ? 'text-emerald-600' : 'text-rose-600'}`;
         }
 
         function getInitialItems() {
@@ -1121,7 +1216,7 @@
 
             const discountVal = parseInt(document.getElementById('discountSelect').value) || 0;
             const discountNominal = (subtotal * discountVal) / 100;
-            const taxNominal = subtotal * 0.04; // Pajak 4%
+            const taxNominal = subtotal * 0.04;
             const finalTotal = subtotal - discountNominal + taxNominal;
 
             document.getElementById('cartSubtotal').innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
@@ -1167,7 +1262,7 @@
             const subtotal = cart.reduce((acc, c) => acc + (c.price * c.qty), 0);
             const discountVal = parseInt(document.getElementById('discountSelect').value) || 0;
             const discountNominal = (subtotal * discountVal) / 100;
-            const taxNominal = subtotal * 0.04; // Pajak 4%
+            const taxNominal = subtotal * 0.04;
             const total = Math.round(subtotal - discountNominal + taxNominal);
 
             const now = new Date();
@@ -1560,7 +1655,6 @@
             paidDebts.forEach(pd => totalPaidDebt += pd.total);
             document.getElementById('recapTotalPaidDebt').innerText = `Rp ${totalPaidDebt.toLocaleString('id-ID')}`;
 
-            // Render Belum Bayar
             tbody.innerHTML = '';
             if(filterStatus === 'lunas') {
                 tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-slate-400 text-xs font-semibold">Menampilkan filter Sudah Lunas (Bagian ini disembunyikan)</td></tr>`;
@@ -1583,7 +1677,6 @@
                 });
             }
 
-            // Render Sudah Lunas dengan Waktu Pelunasan
             paidTbody.innerHTML = '';
             if(filterStatus === 'belum') {
                 paidTbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-slate-400 text-xs font-semibold">Menampilkan filter Belum Lunas (Bagian ini disembunyikan)</td></tr>`;
@@ -1611,8 +1704,9 @@
             debts.forEach(d => { csv += `"Belum Lunas","${d.date}","-","${d.customer}",${d.total}\n`; });
             paidDebts.forEach(pd => { csv += `"Lunas","${pd.date}","${pd.paidDate}","${pd.customer}",${pd.total}\n`; });
             const link = document.createElement("a");
-            link.href = encodeURI(csv);
-            link.download = `Laporan_Hutang_${new Date().toISOString().slice(0,10)}.csv`;
+            link.setAttribute("href", encodeURI(csv));
+            link.setAttribute("download", `Laporan_Hutang_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
             link.click();
             showToast('Hutang berhasil diexport ke Excel!', 'success');
         }
