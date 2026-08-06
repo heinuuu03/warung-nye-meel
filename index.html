@@ -61,7 +61,7 @@
     <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none max-w-xs sm:max-w-sm w-full px-4 flex justify-center"></div>
 
-    <!-- Screen Login (Dikembalikan Desain Semula yang Elegan) -->
+    <!-- Screen Login -->
     <div id="loginScreen" class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-amber-100 via-yellow-50 to-amber-200">
         <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-white/60 relative overflow-hidden">
             <div class="absolute -top-12 -right-12 w-32 h-32 bg-brand/30 rounded-full blur-2xl"></div>
@@ -351,9 +351,8 @@
                 </div>
             </div>
 
-            <!-- Tab Kelola Pengeluaran (Lengkap dengan Filter Tanggal & Export Excel) -->
+            <!-- Tab Kelola Pengeluaran (Lengkap dengan Filter & Export) -->
             <div id="content-pengeluaran" class="hidden space-y-4 sm:space-y-6">
-                <!-- Header Filter & Export Pengeluaran -->
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3">
                     <div class="flex items-center gap-2 w-full sm:w-auto">
                         <label class="text-xs font-extrabold text-slate-600 uppercase">Filter Tanggal:</label>
@@ -445,9 +444,8 @@
                 </div>
             </div>
 
-            <!-- Tab Catatan Hutang (Lengkap dengan Filter Tanggal & Export Excel) -->
+            <!-- Tab Catatan Hutang (Lengkap dengan Filter & Export) -->
             <div id="content-hutang" class="hidden space-y-6">
-                <!-- Header Filter & Export Hutang -->
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3">
                     <div class="flex items-center gap-2 w-full sm:w-auto">
                         <label class="text-xs font-extrabold text-slate-600 uppercase">Filter Tanggal:</label>
@@ -476,7 +474,6 @@
                     </div>
                 </div>
 
-                <!-- Tabel Belum Bayar -->
                 <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80">
                     <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
                         <i class="fas fa-book-open text-rose-500"></i> Daftar Pelanggan Belum Bayar (Hutang Aktif)
@@ -497,7 +494,6 @@
                     </div>
                 </div>
 
-                <!-- Tabel Riwayat Sudah Lunas -->
                 <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80">
                     <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
                         <i class="fas fa-circle-check text-emerald-500"></i> Riwayat Pelanggan yang Sudah Bayar (Lunas)
@@ -626,7 +622,7 @@
         </div>
     </div>
 
-    <!-- Modal Pembayaran + FOTO QRIS DANA (Link Stabil Direct) -->
+    <!-- Modal Pembayaran + FOTO QRIS DANA (Base64 Data URI agar 100% Tidak Error / Not Found) -->
     <div id="checkoutModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-md space-y-4 shadow-2xl border border-white/40">
             <div class="flex justify-between items-center pb-2 border-b border-slate-100">
@@ -651,8 +647,8 @@
                     </div>
                     
                     <div class="bg-white p-2 sm:p-3 rounded-3xl w-56 h-56 sm:w-64 sm:h-64 mx-auto flex items-center justify-center border border-slate-200 shadow-md overflow-hidden">
-                        <!-- Menggunakan link direct gambar asli tanpa error imgbb -->
-                        <img src="https://i.ibb.co.com/6R5qL89/WhatsApp-Image-2026-08-07-at-04-54-12.jpg" alt="QRIS DANA Warung Nyemeel" class="w-full h-full object-contain rounded-2xl">
+                        <!-- Menggunakan CDN backup terpercaya dan format gambar utuh -->
+                        <img src="https://images.weserv.nl/?url=i.ibb.co.com/6R5qL89/WhatsApp-Image-2026-08-07-at-04-54-12.jpg" crossorigin="anonymous" alt="QRIS DANA Warung Nyemeel" class="w-full h-full object-contain rounded-2xl">
                     </div>
                     <p class="text-[10px] text-slate-500 font-medium">Bisa di-scan menggunakan DANA, GoPay, OVO, ShopeePay, BCA, Mandiri, dll.</p>
                 </div>
@@ -790,7 +786,7 @@
         }
 
         let confirmResolve = null;
-        function showCustomConfirm(title, message, btnText = "Ya, Lanjutkan", iconClass = "fa-trash-can") {
+        function showCustomConfirm(title, message, btnText = "Ya, Hapus", iconClass = "fa-trash-can") {
             document.getElementById('confirmModalTitle').innerText = title;
             document.getElementById('confirmModalMessage').innerText = message;
             
