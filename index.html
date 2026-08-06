@@ -127,7 +127,7 @@
             <button onclick="switchTab('pengeluaran')" id="tab-pengeluaran" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
                 <i class="fas fa-wallet text-xs sm:text-sm"></i> Pengeluaran
             </button>
-            <button onclick="switchTab('hutang')" id="tab-hutang" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
+            <button onclick="switchTab('hutang')" id="tab-hutang" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-2 transition whitespace-nowrap shrink-0">
                 <i class="fas fa-book-bookmark text-xs sm:text-sm"></i> Hutang
             </button>
             <button onclick="switchTab('laporan')" id="tab-laporan" class="tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition whitespace-nowrap shrink-0">
@@ -153,7 +153,6 @@
                         </select>
                     </div>
                     
-                    <!-- Menu Grid Responsive -->
                     <div id="menuGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-4"></div>
                 </div>
 
@@ -405,9 +404,9 @@
         </main>
     </div>
 
-    <!-- Modal Pembayaran -->
+    <!-- Modal Pembayaran + QRIS Payment Box -->
     <div id="checkoutModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-md space-y-4 sm:space-y-5 shadow-2xl border border-white/40">
+        <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-md space-y-4 shadow-2xl border border-white/40">
             <div class="flex justify-between items-center pb-2 border-b border-slate-100">
                 <h3 class="font-extrabold text-sm sm:text-base text-slate-900">Konfirmasi Pembayaran</h3>
                 <button onclick="closeCheckoutModal()" class="text-slate-400 hover:text-slate-600 p-1"><i class="fas fa-times"></i></button>
@@ -416,13 +415,27 @@
             <div class="space-y-3.5">
                 <div>
                     <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Metode Pembayaran</label>
-                    <select id="paymentType" onchange="toggleDebtInput()" class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand">
+                    <select id="paymentType" onchange="handlePaymentTypeChange()" class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand">
                         <option value="Tunai">Tunai / Cash</option>
-                        <option value="QRIS">QRIS / e-Wallet</option>
+                        <option value="QRIS">QRIS / e-Wallet (Otomatis)</option>
                         <option value="Transfer">Transfer Bank</option>
                         <option value="Hutang">Catat Hutang</option>
                     </select>
                 </div>
+
+                <!-- QRIS Box Banner -->
+                <div id="qrisDisplayBox" class="hidden bg-slate-900 text-white p-4 rounded-2xl text-center space-y-2.5 border border-slate-800">
+                    <div class="inline-flex items-center gap-1.5 bg-slate-800 px-3 py-1 rounded-full text-[10px] font-bold text-sky-400">
+                        <i class="fas fa-qrcode"></i> Scan QRIS Resmi Warung Nyemeel
+                    </div>
+                    <!-- Tampilan Ilustrasi QRIS Statis -->
+                    <div class="bg-white p-3 rounded-xl w-36 h-36 mx-auto flex flex-col items-center justify-center text-slate-900 border-2 border-brand shadow-md">
+                        <i class="fas fa-qrcode text-6xl text-slate-900"></i>
+                        <span class="text-[9px] font-black tracking-widest uppercase mt-1 text-slate-500">QRIS NATIONAL</span>
+                    </div>
+                    <p class="text-[10px] text-slate-300 font-medium">Pelanggan scan kode di atas menggunakan GoPay, OVO, Dana, ShopeePay, atau Mobile Banking.</p>
+                </div>
+
                 <div id="debtNameGroup" class="hidden">
                     <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 uppercase mb-1">Nama Pelanggan (Hutang)</label>
                     <input type="text" id="customerName" placeholder="Masukkan nama pengutang..." class="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
@@ -441,8 +454,6 @@
         <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-sm space-y-4 shadow-2xl border border-white/40">
             <!-- Thermal Receipt Design -->
             <div id="receiptPrintArea" class="p-4 sm:p-5 bg-amber-50/50 border border-amber-200/80 rounded-2xl text-slate-800 text-xs font-semibold space-y-3 shadow-inner">
-                
-                <!-- Struk Header -->
                 <div class="text-center space-y-1">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 bg-amber-400 text-slate-950 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-sm font-black text-lg sm:text-xl">
                         <i class="fas fa-bowl-food"></i>
@@ -454,33 +465,26 @@
                     <hr class="my-2 border-dashed border-slate-300">
                 </div>
 
-                <!-- Meta Transaksi -->
                 <div class="text-[10px] space-y-0.5 text-slate-600 font-medium">
                     <p id="receiptDate" class="flex justify-between"><span>Waktu:</span> <span class="font-bold text-slate-800"></span></p>
                     <p id="receiptType" class="flex justify-between"><span>Metode:</span> <span class="font-black text-amber-600"></span></p>
                 </div>
 
                 <hr class="my-2 border-dashed border-slate-300">
-
-                <!-- Daftar Belanja -->
                 <div id="receiptItems" class="space-y-1.5 text-xs"></div>
-
                 <hr class="my-2 border-dashed border-slate-300">
 
-                <!-- Total -->
                 <div class="flex justify-between items-baseline font-black text-xs sm:text-sm text-slate-900 pt-0.5">
                     <span>TOTAL BELANJA</span>
                     <span id="receiptTotal" class="text-sm sm:text-base text-amber-600"></span>
                 </div>
 
-                <!-- Struk Footer Tagline -->
                 <div class="text-center pt-2.5 border-t border-dashed border-slate-300 space-y-0.5">
                     <p class="text-[10px] sm:text-[11px] font-black text-slate-900 uppercase tracking-wide">"Bikin Nagih Terus"</p>
                     <p class="text-[8px] sm:text-[9px] text-slate-400">Terima kasih atas kunjungan Anda!</p>
                 </div>
             </div>
 
-            <!-- Tombol Aksi Struk -->
             <div class="flex justify-end gap-2 no-print">
                 <button onclick="window.print()" class="px-3.5 py-2 bg-slate-900 text-white font-extrabold text-xs rounded-xl hover:bg-slate-800 shadow transition flex items-center gap-1.5">
                     <i class="fas fa-print"></i> Cetak
@@ -493,18 +497,22 @@
     </div>
 
     <script>
-        // System State Initializer (Mencegah data tertimpa atau hilang)
         function getInitialItems() {
             const saved = localStorage.getItem('warung_items');
             if (saved) {
-                try { return JSON.parse(saved); } catch(e){}
+                try {
+                    const parsed = JSON.parse(saved);
+                    if(Array.isArray(parsed) && parsed.length > 0) return parsed;
+                } catch(e){}
             }
-            return [
+            const defaultMenu = [
                 { id: 1, name: 'Nasi Goreng Special', category: 'Makanan', price: 15000 },
                 { id: 2, name: 'Es Teh Manis', category: 'Minuman', price: 5000 },
                 { id: 3, name: 'Mie Goreng Telur', category: 'Makanan', price: 12000 },
                 { id: 4, name: 'Kopi Hitam', category: 'Minuman', price: 4000 }
             ];
+            localStorage.setItem('warung_items', JSON.stringify(defaultMenu));
+            return defaultMenu;
         }
 
         let items = getInitialItems();
@@ -573,7 +581,7 @@
             document.getElementById(`content-${tabName}`).classList.remove('hidden');
             document.getElementById(`tab-${tabName}`).className = "tab-btn px-3.5 sm:px-5 py-3 font-extrabold text-[11px] sm:text-xs border-b-2 border-brand text-slate-900 flex items-center gap-1.5 transition whitespace-nowrap shrink-0";
             
-            items = getInitialItems(); // Re-sync data menu dari LocalStorage
+            items = getInitialItems();
             if(tabName === 'kasir') renderCatalog();
             if(tabName === 'menu') renderMenuTable();
             if(tabName === 'pengeluaran') renderExpenseTable();
@@ -588,7 +596,7 @@
         }
 
         function renderCatalog() {
-            items = getInitialItems(); // Memastikan selalu membaca data paling update
+            items = getInitialItems();
             const searchInput = document.getElementById('searchInput');
             const catInput = document.getElementById('categoryFilter');
             const search = searchInput ? searchInput.value.toLowerCase() : '';
@@ -692,17 +700,28 @@
         function openCheckoutModal() {
             if(cart.length === 0) return showToast('Keranjang masih kosong!', 'error');
             document.getElementById('checkoutModal').classList.remove('hidden');
+            handlePaymentTypeChange();
         }
 
         function closeCheckoutModal() {
             document.getElementById('checkoutModal').classList.add('hidden');
         }
 
-        function toggleDebtInput() {
+        function handlePaymentTypeChange() {
             const type = document.getElementById('paymentType').value;
-            const grp = document.getElementById('debtNameGroup');
-            if(type === 'Hutang') grp.classList.remove('hidden');
-            else grp.classList.add('hidden');
+            const debtGrp = document.getElementById('debtNameGroup');
+            const qrisBox = document.getElementById('qrisDisplayBox');
+
+            if(type === 'Hutang') {
+                debtGrp.classList.remove('hidden');
+                qrisBox.classList.add('hidden');
+            } else if(type === 'QRIS') {
+                debtGrp.classList.add('hidden');
+                qrisBox.classList.remove('hidden');
+            } else {
+                debtGrp.classList.add('hidden');
+                qrisBox.classList.add('hidden');
+            }
         }
 
         function processCheckout() {
