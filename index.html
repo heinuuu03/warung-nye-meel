@@ -351,9 +351,8 @@
                 </div>
             </div>
 
-            <!-- Tab Kelola Pengeluaran (Lengkap dengan Rekapan Kategori) -->
+            <!-- Tab Kelola Pengeluaran (Lengkap dengan Rekapan) -->
             <div id="content-pengeluaran" class="hidden space-y-4 sm:space-y-6">
-                <!-- Rekapan Pengeluaran -->
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-rose-500 absolute left-0 top-0"></div>
@@ -434,22 +433,31 @@
                 </div>
             </div>
 
-            <!-- Tab Catatan Hutang (Lengkap dengan Rekapan Total Piutang) -->
-            <div id="content-hutang" class="hidden space-y-4 sm:space-y-6">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Total Piutang / Hutang Pelanggan Aktif</p>
-                        <h3 id="recapTotalDebt" class="text-xl sm:text-2xl font-black text-rose-600 mt-0.5">Rp 0</h3>
+            <!-- Tab Catatan Hutang (Lengkap dengan Riwayat Lunas & Belum Lunas) -->
+            <div id="content-hutang" class="hidden space-y-6">
+                <!-- Kartu Rekapitulasi Hutang -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Belum Bayar (Piutang Aktif)</p>
+                            <h3 id="recapTotalDebt" class="text-xl sm:text-2xl font-black text-rose-600 mt-0.5">Rp 0</h3>
+                        </div>
+                        <span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-3 py-1 rounded-xl">Belum Lunas</span>
                     </div>
-                    <span class="bg-amber-100 text-amber-900 text-[11px] font-bold px-3 py-1 rounded-xl">Menunggu Pelunasan</span>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Total Sudah Lunas (Arsip)</p>
+                            <h3 id="recapTotalPaidDebt" class="text-xl sm:text-2xl font-black text-emerald-600 mt-0.5">Rp 0</h3>
+                        </div>
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-3 py-1 rounded-xl">Sudah Lunas</span>
+                    </div>
                 </div>
 
+                <!-- Tabel Belum Bayar -->
                 <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80">
-                    <div class="flex items-center justify-between mb-3 sm:mb-4">
-                        <h2 class="font-extrabold text-sm sm:text-base text-slate-900 flex items-center gap-2">
-                            <i class="fas fa-book text-rose-500"></i> Catatan Pelanggan Berhutang
-                        </h2>
-                    </div>
+                    <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+                        <i class="fas fa-book-open text-rose-500"></i> Daftar Pelanggan Belum Bayar (Hutang Aktif)
+                    </h2>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead>
@@ -465,9 +473,29 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- Tabel Riwayat Sudah Lunas -->
+                <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80">
+                    <h2 class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+                        <i class="fas fa-circle-check text-emerald-500"></i> Riwayat Pelanggan yang Sudah Bayar (Lunas)
+                    </h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="border-b border-slate-100 text-[10px] sm:text-[11px] uppercase font-extrabold text-slate-400">
+                                    <th class="pb-2.5 px-1.5">Waktu Transaksi</th>
+                                    <th class="pb-2.5 px-1.5">Pelanggan</th>
+                                    <th class="pb-2.5 px-1.5">Rincian Belanja</th>
+                                    <th class="pb-2.5 px-1.5 text-right">Total Dilunasi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paidDebtTableBody" class="divide-y divide-slate-100 text-xs font-semibold"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <!-- Tab Laporan Detail Laba Rugi (Lengkap dengan Proyeksi Hutang Dibayar Nanti) -->
+            <!-- Tab Laporan Detail Laba Rugi (Lengkap dengan Potensi Hutang Dibayar Nanti) -->
             <div id="content-laporan" class="admin-only-content hidden space-y-4 sm:space-y-6">
                 <!-- Summary Utama Laba Rugi -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -834,6 +862,7 @@
         let cart = [];
         let sales = JSON.parse(localStorage.getItem('warung_sales')) || [];
         let debts = JSON.parse(localStorage.getItem('warung_debts')) || [];
+        let paidDebts = JSON.parse(localStorage.getItem('warung_paid_debts')) || [];
         let expenses = JSON.parse(localStorage.getItem('warung_expenses')) || [];
 
         function saveData() {
@@ -842,6 +871,7 @@
             localStorage.setItem('warung_stocks', JSON.stringify(stocks));
             localStorage.setItem('warung_sales', JSON.stringify(sales));
             localStorage.setItem('warung_debts', JSON.stringify(debts));
+            localStorage.setItem('warung_paid_debts', JSON.stringify(paidDebts));
             localStorage.setItem('warung_expenses', JSON.stringify(expenses));
         }
 
@@ -1331,7 +1361,6 @@
         function renderExpenseTable() {
             const tbody = document.getElementById('expenseTableBody');
             if(!tbody) return;
-            tbody.innerHTML = '';
 
             let totalExp = 0, expBahan = 0, expOps = 0, expGaji = 0;
             expenses.forEach(exp => {
@@ -1346,11 +1375,11 @@
             document.getElementById('recapExpOps').innerText = `Rp ${expOps.toLocaleString('id-ID')}`;
             document.getElementById('recapExpGaji').innerText = `Rp ${expGaji.toLocaleString('id-ID')}`;
 
+            tbody.innerHTML = '';
             if(expenses.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400 text-xs font-semibold">Belum ada catatan pengeluaran</td></tr>`;
                 return;
             }
-
             expenses.slice().reverse().forEach(exp => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50/80 transition">
@@ -1432,31 +1461,55 @@
 
         function renderDebtTable() {
             const tbody = document.getElementById('debtTableBody');
-            if(!tbody) return;
-            tbody.innerHTML = '';
+            const paidTbody = document.getElementById('paidDebtTableBody');
+            if(!tbody || !paidTbody) return;
 
             let totalDebt = 0;
             debts.forEach(d => totalDebt += d.total);
             document.getElementById('recapTotalDebt').innerText = `Rp ${totalDebt.toLocaleString('id-ID')}`;
 
+            let totalPaidDebt = 0;
+            paidDebts.forEach(pd => totalPaidDebt += pd.total);
+            document.getElementById('recapTotalPaidDebt').innerText = `Rp ${totalPaidDebt.toLocaleString('id-ID')}`;
+
+            // Render Belum Bayar
+            tbody.innerHTML = '';
             if(debts.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400 text-xs font-semibold">Tidak ada catatan hutang aktif</td></tr>`;
-                return;
+            } else {
+                debts.forEach(d => {
+                    const itemSummary = d.items.map(i => `${i.name} (${i.qty})`).join(', ');
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="py-2.5 px-1.5 text-[10px] font-semibold text-slate-400">${d.date}</td>
+                            <td class="py-2.5 px-1.5 font-extrabold text-slate-800">${d.customer}</td>
+                            <td class="py-2.5 px-1.5 text-[11px] text-slate-600 font-medium">${itemSummary}</td>
+                            <td class="py-2.5 px-1.5 font-black text-rose-600">Rp ${d.total.toLocaleString('id-ID')}</td>
+                            <td class="py-2.5 px-1.5 text-right">
+                                <button onclick="payDebt(${d.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold transition shadow-sm">Lunas</button>
+                            </td>
+                        </tr>
+                    `;
+                });
             }
-            debts.forEach(d => {
-                const itemSummary = d.items.map(i => `${i.name} (${i.qty})`).join(', ');
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50/80 transition">
-                        <td class="py-2.5 px-1.5 text-[10px] font-semibold text-slate-400">${d.date}</td>
-                        <td class="py-2.5 px-1.5 font-extrabold text-slate-800">${d.customer}</td>
-                        <td class="py-2.5 px-1.5 text-[11px] text-slate-600 font-medium">${itemSummary}</td>
-                        <td class="py-2.5 px-1.5 font-black text-rose-600">Rp ${d.total.toLocaleString('id-ID')}</td>
-                        <td class="py-2.5 px-1.5 text-right">
-                            <button onclick="payDebt(${d.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold transition shadow-sm">Lunas</button>
-                        </td>
-                    </tr>
-                `;
-            });
+
+            // Render Sudah Lunas
+            paidTbody.innerHTML = '';
+            if(paidDebts.length === 0) {
+                paidTbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-400 text-xs font-semibold">Belum ada riwayat pelunasan hutang</td></tr>`;
+            } else {
+                paidDebts.slice().reverse().forEach(pd => {
+                    const itemSummary = pd.items.map(i => `${i.name} (${i.qty})`).join(', ');
+                    paidTbody.innerHTML += `
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="py-2.5 px-1.5 text-[10px] font-semibold text-slate-400">${pd.paidDate}</td>
+                            <td class="py-2.5 px-1.5 font-extrabold text-slate-800">${pd.customer}</td>
+                            <td class="py-2.5 px-1.5 text-xs text-slate-600 font-medium">${itemSummary}</td>
+                            <td class="py-2.5 px-1.5 font-black text-emerald-600 text-right">Rp ${pd.total.toLocaleString('id-ID')}</td>
+                        </tr>
+                    `;
+                });
+            }
         }
 
         async function payDebt(id) {
@@ -1470,10 +1523,19 @@
                 );
 
                 if (confirmed) {
+                    const nowStr = new Date().toLocaleDateString('id-ID') + ' ' + new Date().toLocaleTimeString('id-ID');
+                    
+                    const paidRecord = {
+                        ...debt,
+                        paidDate: nowStr
+                    };
+
+                    paidDebts.push(paidRecord);
+
                     sales.push({
                         id: Date.now(),
                         date: new Date().toISOString(),
-                        formattedDate: new Date().toLocaleDateString('id-ID') + ' ' + new Date().toLocaleTimeString('id-ID'),
+                        formattedDate: nowStr,
                         type: 'Pelunasan Hutang (' + debt.customer + ')',
                         items: debt.items,
                         total: debt.total,
@@ -1481,6 +1543,7 @@
                         tax: debt.tax || (debt.total * 0.04),
                         discount: debt.discount || 0
                     });
+
                     debts = debts.filter(d => d.id !== id);
                     playSuccessSound();
                     saveData();
