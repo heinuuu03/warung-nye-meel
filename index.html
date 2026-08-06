@@ -351,8 +351,32 @@
                 </div>
             </div>
 
-            <!-- Tab Kelola Pengeluaran -->
+            <!-- Tab Kelola Pengeluaran (Lengkap dengan Rekapan Kategori) -->
             <div id="content-pengeluaran" class="hidden space-y-4 sm:space-y-6">
+                <!-- Rekapan Pengeluaran -->
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+                        <div class="w-1.5 h-full bg-rose-500 absolute left-0 top-0"></div>
+                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Total Pengeluaran</p>
+                        <h3 id="recapTotalExp" class="text-base sm:text-lg font-black text-rose-600 mt-0.5">Rp 0</h3>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+                        <div class="w-1.5 h-full bg-amber-500 absolute left-0 top-0"></div>
+                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Bahan Baku</p>
+                        <h3 id="recapExpBahan" class="text-base sm:text-lg font-black text-slate-900 mt-0.5">Rp 0</h3>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+                        <div class="w-1.5 h-full bg-sky-500 absolute left-0 top-0"></div>
+                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Operasional</p>
+                        <h3 id="recapExpOps" class="text-base sm:text-lg font-black text-slate-900 mt-0.5">Rp 0</h3>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
+                        <div class="w-1.5 h-full bg-purple-500 absolute left-0 top-0"></div>
+                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Gaji & Lainnya</p>
+                        <h3 id="recapExpGaji" class="text-base sm:text-lg font-black text-slate-900 mt-0.5">Rp 0</h3>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                     <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80 h-fit">
                         <h2 id="expenseFormTitle" class="font-extrabold text-sm sm:text-base text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
@@ -410,8 +434,16 @@
                 </div>
             </div>
 
-            <!-- Tab Catatan Hutang -->
-            <div id="content-hutang" class="hidden space-y-4">
+            <!-- Tab Catatan Hutang (Lengkap dengan Rekapan Total Piutang) -->
+            <div id="content-hutang" class="hidden space-y-4 sm:space-y-6">
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase">Total Piutang / Hutang Pelanggan Aktif</p>
+                        <h3 id="recapTotalDebt" class="text-xl sm:text-2xl font-black text-rose-600 mt-0.5">Rp 0</h3>
+                    </div>
+                    <span class="bg-amber-100 text-amber-900 text-[11px] font-bold px-3 py-1 rounded-xl">Menunggu Pelunasan</span>
+                </div>
+
                 <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80">
                     <div class="flex items-center justify-between mb-3 sm:mb-4">
                         <h2 class="font-extrabold text-sm sm:text-base text-slate-900 flex items-center gap-2">
@@ -435,52 +467,50 @@
                 </div>
             </div>
 
-            <!-- Tab Laporan Detail Laba Rugi (Lengkap dengan Pajak 4%) -->
+            <!-- Tab Laporan Detail Laba Rugi (Lengkap dengan Proyeksi Hutang Dibayar Nanti) -->
             <div id="content-laporan" class="admin-only-content hidden space-y-4 sm:space-y-6">
                 <!-- Summary Utama Laba Rugi -->
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 sm:gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-emerald-500 absolute left-0 top-0"></div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Pemasukan</p>
-                        <h3 id="statTotalSales" class="text-lg sm:text-xl font-black text-emerald-600 mt-0.5">Rp 0</h3>
+                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Pemasukan Tunai/Lunas</p>
+                        <h3 id="statTotalSales" class="text-base sm:text-lg font-black text-emerald-600 mt-0.5">Rp 0</h3>
                     </div>
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
-                        <div class="w-1.5 h-full bg-sky-500 absolute left-0 top-0"></div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Akumulasi Pajak (4%)</p>
-                        <h3 id="statTotalTax" class="text-lg sm:text-xl font-black text-sky-600 mt-0.5">Rp 0</h3>
+                        <div class="w-1.5 h-full bg-amber-500 absolute left-0 top-0"></div>
+                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Proyeksi Hutang (Dibayar Nanti)</p>
+                        <h3 id="statProjectedDebt" class="text-base sm:text-lg font-black text-amber-600 mt-0.5">Rp 0</h3>
                     </div>
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-1.5 h-full bg-rose-500 absolute left-0 top-0"></div>
                         <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Total Pengeluaran</p>
-                        <h3 id="statTotalExpenses" class="text-lg sm:text-xl font-black text-rose-600 mt-0.5">Rp 0</h3>
+                        <h3 id="statTotalExpenses" class="text-base sm:text-lg font-black text-rose-600 mt-0.5">Rp 0</h3>
                     </div>
                     <div id="netProfitCard" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div id="netProfitBar" class="w-1.5 h-full bg-brand absolute left-0 top-0"></div>
-                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Estimasi Laba/Rugi</p>
-                        <h3 id="statNetProfit" class="text-lg sm:text-xl font-black text-slate-900 mt-0.5">Rp 0</h3>
+                        <p class="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Estimasi Laba Bersih (+ Potensi Hutang)</p>
+                        <h3 id="statNetProfit" class="text-base sm:text-lg font-black text-slate-900 mt-0.5">Rp 0</h3>
                         <span id="statNetProfitStatus" class="inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-600 mt-1">Netral</span>
                     </div>
                 </div>
 
-                <!-- Breakdown Rincian Metode Pembayaran -->
-                <div class="grid grid-cols-3 gap-2.5 sm:gap-4">
-                    <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-sm flex flex-col sm:flex-row sm:items-center justify-between">
-                        <div>
-                            <p class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 uppercase">Tunai</p>
-                            <h4 id="statCash" class="text-sm sm:text-lg font-black text-brand mt-0.5">Rp 0</h4>
-                        </div>
+                <!-- Breakdown Rincian Metode Pembayaran & Pajak -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
+                    <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-sm">
+                        <p class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 uppercase">Tunai</p>
+                        <h4 id="statCash" class="text-sm sm:text-base font-black text-brand mt-0.5">Rp 0</h4>
                     </div>
-                    <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-sm flex flex-col sm:flex-row sm:items-center justify-between">
-                        <div>
-                            <p class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 uppercase">QRIS</p>
-                            <h4 id="statQris" class="text-sm sm:text-lg font-black text-sky-400 mt-0.5">Rp 0</h4>
-                        </div>
+                    <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-sm">
+                        <p class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 uppercase">QRIS</p>
+                        <h4 id="statQris" class="text-sm sm:text-base font-black text-sky-400 mt-0.5">Rp 0</h4>
                     </div>
-                    <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-sm flex flex-col sm:flex-row sm:items-center justify-between">
-                        <div>
-                            <p class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 uppercase">Transfer</p>
-                            <h4 id="statTransfer" class="text-sm sm:text-lg font-black text-emerald-400 mt-0.5">Rp 0</h4>
-                        </div>
+                    <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-sm">
+                        <p class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 uppercase">Transfer</p>
+                        <h4 id="statTransfer" class="text-sm sm:text-base font-black text-emerald-400 mt-0.5">Rp 0</h4>
+                    </div>
+                    <div class="bg-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-sm">
+                        <p class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 uppercase">Akumulasi Pajak (4%)</p>
+                        <h4 id="statTotalTax" class="text-sm sm:text-base font-black text-amber-400 mt-0.5">Rp 0</h4>
                     </div>
                 </div>
 
@@ -532,7 +562,7 @@
         </main>
     </div>
 
-    <!-- MODAL KONFIRMASI MODERN (Nuansa Tema Kuning/Gelap) -->
+    <!-- MODAL KONFIRMASI MODERN (Nuansa Warna Dasar) -->
     <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-[60]">
         <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-sm space-y-4 shadow-2xl border border-white/40 text-center">
             <div id="confirmModalIcon" class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto text-2xl">
@@ -544,7 +574,7 @@
             </div>
             <div class="flex gap-2 pt-2">
                 <button onclick="closeConfirmModal(false)" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-xl transition">Batal</button>
-                <button id="confirmModalActionBtn" onclick="closeConfirmModal(true)" class="w-1/2 py-2.5 bg-slate-900 hover:bg-slate-800 text-brand font-extrabold text-xs rounded-xl shadow-md transition">Ya, Hapus</button>
+                <button id="confirmModalActionBtn" onclick="closeConfirmModal(true)" class="w-1/2 py-2.5 bg-slate-900 hover:bg-slate-800 text-brand font-extrabold text-xs rounded-xl shadow-md transition">Ya, Lanjutkan</button>
             </div>
         </div>
     </div>
@@ -1302,10 +1332,25 @@
             const tbody = document.getElementById('expenseTableBody');
             if(!tbody) return;
             tbody.innerHTML = '';
+
+            let totalExp = 0, expBahan = 0, expOps = 0, expGaji = 0;
+            expenses.forEach(exp => {
+                totalExp += exp.amount;
+                if(exp.category === 'Bahan Baku') expBahan += exp.amount;
+                else if(exp.category === 'Operasional') expOps += exp.amount;
+                else expGaji += exp.amount;
+            });
+
+            document.getElementById('recapTotalExp').innerText = `Rp ${totalExp.toLocaleString('id-ID')}`;
+            document.getElementById('recapExpBahan').innerText = `Rp ${expBahan.toLocaleString('id-ID')}`;
+            document.getElementById('recapExpOps').innerText = `Rp ${expOps.toLocaleString('id-ID')}`;
+            document.getElementById('recapExpGaji').innerText = `Rp ${expGaji.toLocaleString('id-ID')}`;
+
             if(expenses.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400 text-xs font-semibold">Belum ada catatan pengeluaran</td></tr>`;
                 return;
             }
+
             expenses.slice().reverse().forEach(exp => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50/80 transition">
@@ -1389,6 +1434,11 @@
             const tbody = document.getElementById('debtTableBody');
             if(!tbody) return;
             tbody.innerHTML = '';
+
+            let totalDebt = 0;
+            debts.forEach(d => totalDebt += d.total);
+            document.getElementById('recapTotalDebt').innerText = `Rp ${totalDebt.toLocaleString('id-ID')}`;
+
             if(debts.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400 text-xs font-semibold">Tidak ada catatan hutang aktif</td></tr>`;
                 return;
@@ -1498,13 +1548,18 @@
                 totalTaxAccumulated += (s.tax || (s.total * 0.04));
             });
 
+            let totalDebtActive = 0;
+            debts.forEach(d => totalDebtActive += d.total);
+
             const totalSales = cashTotal + qrisTotal + transferTotal;
             const totalExpenses = filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0);
             const netProfit = totalSales - totalExpenses;
+            const netProfitWithDebt = netProfit + totalDebtActive;
 
             document.getElementById('statTotalSales').innerText = `Rp ${totalSales.toLocaleString('id-ID')}`;
-            document.getElementById('statTotalTax').innerText = `Rp ${Math.round(totalTaxAccumulated).toLocaleString('id-ID')}`;
+            document.getElementById('statProjectedDebt').innerText = `Rp ${totalDebtActive.toLocaleString('id-ID')}`;
             document.getElementById('statTotalExpenses').innerText = `Rp ${totalExpenses.toLocaleString('id-ID')}`;
+            document.getElementById('statTotalTax').innerText = `Rp ${Math.round(totalTaxAccumulated).toLocaleString('id-ID')}`;
             document.getElementById('statCash').innerText = `Rp ${cashTotal.toLocaleString('id-ID')}`;
             document.getElementById('statQris').innerText = `Rp ${qrisTotal.toLocaleString('id-ID')}`;
             document.getElementById('statTransfer').innerText = `Rp ${transferTotal.toLocaleString('id-ID')}`;
@@ -1513,19 +1568,19 @@
             const statusElem = document.getElementById('statNetProfitStatus');
             const barElem = document.getElementById('netProfitBar');
 
-            profitElem.innerText = `Rp ${netProfit.toLocaleString('id-ID')}`;
-            if(netProfit > 0) {
-                profitElem.className = "text-lg sm:text-xl font-black text-emerald-600 mt-0.5";
+            profitElem.innerText = `Rp ${netProfitWithDebt.toLocaleString('id-ID')}`;
+            if(netProfitWithDebt > 0) {
+                profitElem.className = "text-base sm:text-lg font-black text-emerald-600 mt-0.5";
                 statusElem.innerText = "UNTUNG / LABA";
                 statusElem.className = "inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 mt-1";
                 barElem.className = "w-1.5 h-full bg-emerald-500 absolute left-0 top-0";
-            } else if(netProfit < 0) {
-                profitElem.className = "text-lg sm:text-xl font-black text-rose-600 mt-0.5";
+            } else if(netProfitWithDebt < 0) {
+                profitElem.className = "text-base sm:text-lg font-black text-rose-600 mt-0.5";
                 statusElem.innerText = "RUGI";
                 statusElem.className = "inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-rose-100 text-rose-800 mt-1";
                 barElem.className = "w-1.5 h-full bg-rose-500 absolute left-0 top-0";
             } else {
-                profitElem.className = "text-lg sm:text-xl font-black text-slate-900 mt-0.5";
+                profitElem.className = "text-base sm:text-lg font-black text-slate-900 mt-0.5";
                 statusElem.innerText = "IMPAS / NETRAL";
                 statusElem.className = "inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-600 mt-1";
                 barElem.className = "w-1.5 h-full bg-brand absolute left-0 top-0";
