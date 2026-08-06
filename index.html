@@ -10,9 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- QRCode JS Library untuk Generate Barcode QRIS Asli DANA -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
     <script>
         tailwind.config = {
             theme: {
@@ -47,11 +44,6 @@
         }
         .toast-animate-in { animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .toast-animate-out { animation: fadeOut 0.2s ease-forward forwards; }
-
-        #qrcode canvas, #qrcode img {
-            margin: 0 auto;
-            border-radius: 12px;
-        }
 
         @media print {
             body * { visibility: hidden; }
@@ -412,7 +404,7 @@
         </main>
     </div>
 
-    <!-- Modal Pembayaran + Generator QRIS Asli DANA EMVCo -->
+    <!-- Modal Pembayaran + FOTO QRIS DANA ASLI UTUH (BERBORDER PUTIH PRESISI) -->
     <div id="checkoutModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-md space-y-4 shadow-2xl border border-white/40">
             <div class="flex justify-between items-center pb-2 border-b border-slate-100">
@@ -431,15 +423,15 @@
                     </select>
                 </div>
 
-                <!-- Container QRIS DANA Generative -->
+                <!-- Box Foto QRIS DANA Asli Utuh dengan Border Putih Lengkung -->
                 <div id="qrisDisplayBox" class="hidden bg-sky-50 text-slate-900 p-3.5 sm:p-4 rounded-2xl text-center space-y-2 border border-sky-200">
                     <div class="inline-flex items-center gap-1.5 bg-sky-600 text-white px-3 py-1 rounded-full text-[10px] font-extrabold">
                         <i class="fas fa-qrcode"></i> Scan QRIS DANA Resmi Warung Nyemeel
                     </div>
                     
-                    <!-- Element Div QRCodeJS yang dijamin selalu muncul tanpa broken image -->
-                    <div class="bg-white p-3 rounded-2xl w-fit mx-auto flex items-center justify-center border-2 border-sky-400 shadow-md">
-                        <div id="qrcode"></div>
+                    <!-- FOTO ASLI FOTO QRIS DANA (DENGAN FALLBACK SCRIPT SAMA PERSIS TERMASUK BORDER PUTIH) -->
+                    <div class="bg-white p-1 rounded-3xl w-56 h-56 sm:w-64 sm:h-64 mx-auto flex items-center justify-center border-2 border-sky-300 shadow-md overflow-hidden">
+                        <img id="qrisMainImage" src="qris-dana.jpg" onerror="this.onerror=null; this.src='https://i.ibb.co/q1z6N3P/qris-dana.jpg';" alt="QRIS DANA Warung Nyemeel Asli Utuh" class="w-full h-full object-contain rounded-2xl">
                     </div>
                     <p class="text-[10px] text-slate-500 font-medium">Bisa di-scan menggunakan DANA, GoPay, OVO, ShopeePay, BCA, Mandiri, dll.</p>
                 </div>
@@ -505,26 +497,6 @@
     </div>
 
     <script>
-        // Payload Asli QRIS DANA Resmi Warung Nyemeel (NMK / EMVCo Standard)
-        const DANA_QRIS_PAYLOAD = "00020101021126590013ID.DANA.WWW011893600915354964687602095496468760303UMI51440014ID.LINKAJA.WWW011893600915354964687602095496468760303UMI5204581253033605802ID5914WARUNG NYEMEEL6013JAKARTA UTARA61051425062070703A0163048995";
-
-        let qrcodeInstance = null;
-
-        function renderQRIS() {
-            const qrContainer = document.getElementById("qrcode");
-            if (!qrContainer) return;
-            qrContainer.innerHTML = "";
-            
-            qrcodeInstance = new QRCode(qrContainer, {
-                text: DANA_QRIS_PAYLOAD,
-                width: 200,
-                height: 200,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.M
-            });
-        }
-
         function getInitialItems() {
             const saved = localStorage.getItem('warung_items');
             if (saved) {
@@ -746,7 +718,6 @@
             } else if(type === 'QRIS') {
                 debtGrp.classList.add('hidden');
                 qrisBox.classList.remove('hidden');
-                setTimeout(renderQRIS, 50); // Generates valid QRIS
             } else {
                 debtGrp.classList.add('hidden');
                 qrisBox.classList.add('hidden');
