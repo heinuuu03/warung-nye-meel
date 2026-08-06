@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Warung Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800 font-sans">
+
+    <!-- Screen Login -->
+    <div id="loginScreen" class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border">
+            <div class="text-center mb-6">
+                <i class="fas fa-store text-5xl text-orange-5xl text-orange-500 mb-2"></i>
+                <h1 class="text-2xl font-bold text-gray-800">Warung Digital</h1>
+                <p class="text-sm text-gray-500">Masuk untuk mengelola kasir & laporan</p>
+            </div>
+            <form id="loginForm" class="space-y-4" onsubmit="handleLogin(event)">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Username</label>
+                    <input type="text" id="username" value="admin" required class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Password</label>
+                    <input type="password" id="password" value="1234" required class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none">
+                </div>
+                <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold p-2.5 rounded-lg transition">Masuk Sistem</button>
+            </form>
+            <p class="text-xs text-center text-gray-400 mt-4">Default: admin / 1234</p>
+        </div>
+    </div>
+
+    <!-- Main Application UI -->
+    <div id="appScreen" class="hidden min-h-screen flex flex-col">
+        <!-- Navbar -->
+        <nav class="bg-orange-600 text-white p-4 shadow-md flex justify-between items-center sticky top-0 z-10">
+            <div class="flex items-center gap-2 font-bold text-lg">
+                <i class="fas fa-utensils"></i> Warung Digital
+            </div>
+            <div class="flex items-center gap-4">
+                <span id="userBadge" class="text-sm bg-orange-700 px-3 py-1 rounded-full">Admin</span>
+                <button onclick="handleLogout()" class="text-xs bg-red-500 hover:bg-red-600 px-3 py-1 rounded transition">Keluar</button>
+            </div>
+        </nav>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white border-b flex overflow-x-auto">
+            <button onclick="switchTab('kasir')" id="tab-kasir" class="tab-btn px-6 py-3 font-semibold border-b-2 border-orange-500 text-orange-600 flex items-center gap-2">
+                <i class="fas fa-cash-register"></i> Kasir
+            </button>
+            <button onclick="switchTab('menu')" id="tab-menu" class="tab-btn px-6 py-3 font-semibold border-b-2 border-transparent text-gray-500 hover:text-orange-500 flex items-center gap-2">
+                <i class="fas fa-box"></i> Kelola Menu
+            </button>
+            <button onclick="switchTab('hutang')" id="tab-hutang" class="tab-btn px-6 py-3 font-semibold border-b-2 border-transparent text-gray-500 hover:text-orange-500 flex items-center gap-2">
+                <i class="fas fa-book-open"></i> Catatan Hutang
+            </button>
+            <button onclick="switchTab('laporan')" id="tab-laporan" class="tab-btn px-6 py-3 font-semibold border-b-2 border-transparent text-gray-500 hover:text-orange-500 flex items-center gap-2">
+                <i class="fas fa-chart-bar"></i> Laporan
+            </button>
+        </div>
+
+        <!-- Tab Content Container -->
+        <main class="flex-1 p-4 max-w-7xl w-full mx-auto">
+            
+            <!-- Tab Kasir -->
+            <div id="content-kasir" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Catalog Section -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex flex-col sm:flex-row gap-3 bg-white p-3 rounded-xl shadow-sm">
+                        <div class="relative flex-1">
+                            <i class="fas fa-search absolute left-3 top-3.5 text-gray-400"></i>
+                            <input type="text" id="searchInput" oninput="renderCatalog()" placeholder="Cari makanan / minuman..." class="w-full pl-9 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none">
+                        </div>
+                        <select id="categoryFilter" onchange="renderCatalog()" class="border rounded-lg px-3 py-2 outline-none">
+                            <option value="all">Semua Kategori</option>
+                            <option value="Makanan">Makanan</option>
+                            <option value="Minuman">Minuman</option>
+                        </select>
+                    </div>
+                    <div id="menuGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
+                </div>
+
+                <!-- Cart Section -->
+                <div class="bg-white p-4 rounded-xl shadow-sm flex flex-col h-[calc(100vh-180px)] sticky top-20">
+                    <h2 class="font-bold text-lg mb-3 flex items-center justify-between">
+                        <span><i class="fas fa-shopping-cart text-orange-500"></i> Keranjang</span>
+                        <button onclick="clearCart()" class="text-xs text-red-500 hover:underline">Kosongkan</button>
+                    </h2>
+                    <div id="cartItems" class="flex-1 overflow-y-auto divide-y space-y-2"></div>
+                    <div class="border-t pt-3 mt-3 space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Total Harga</span>
+                            <span id="cartTotal" class="font-bold text-xl text-orange-600">Rp 0</span>
+                        </div>
+                        <button onclick="openCheckoutModal()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow transition">Bayar / Process</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Kelola Menu -->
+            <div id="content-menu" class="hidden space-y-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm max-w-xl">
+                    <h2 class="font-bold text-lg mb-4">Tambah / Edit Item</h2>
+                    <form id="itemForm" onsubmit="saveItem(event)" class="space-y-3">
+                        <input type="hidden" id="itemId">
+                        <div>
+                            <label class="block text-xs font-semibold mb-1">Nama Makanan/Minuman</label>
+                            <input type="text" id="itemName" required class="w-full p-2 border rounded-lg outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Kategori</label>
+                                <select id="itemCategory" class="w-full p-2 border rounded-lg outline-none">
+                                    <option value="Makanan">Makanan</option>
+                                    <option value="Minuman">Minuman</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Harga (Rp)</label>
+                                <input type="number" id="itemPrice" required class="w-full p-2 border rounded-lg outline-none">
+                            </div>
+                        </div>
+                        <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg transition">Simpan Item</button>
+                    </form>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm">
+                    <h2 class="font-bold text-lg mb-3">Daftar Menu Saat Ini</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b bg-gray-50 text-xs text-gray-500">
+                                    <th class="p-2">Nama</th>
+                                    <th class="p-2">Kategori</th>
+                                    <th class="p-2">Harga</th>
+                                    <th class="p-2">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="menuTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Catatan Hutang -->
+            <div id="content-hutang" class="hidden space-y-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm">
+                    <h2 class="font-bold text-lg mb-3"><i class="fas fa-book text-red-500"></i> Daftar Pelanggan Berhutang</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b bg-gray-50 text-xs text-gray-500">
+                                    <th class="p-2">Tanggal</th>
+                                    <th class="p-2">Nama Pelanggan</th>
+                                    <th class="p-2">Rincian Belanja</th>
+                                    <th class="p-2">Total Hutang</th>
+                                    <th class="p-2">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="debtTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Laporan -->
+            <div id="content-laporan" class="hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-500">
+                        <p class="text-xs text-gray-500">Omset Hari Ini</p>
+                        <h3 id="statToday" class="text-2xl font-bold text-gray-800">Rp 0</h3>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500">
+                        <p class="text-xs text-gray-500">Omset Minggu Ini</p>
+                        <h3 id="statWeek" class="text-2xl font-bold text-gray-800">Rp 0</h3>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500">
+                        <p class="text-xs text-gray-500">Omset Bulan Ini</p>
+                        <h3 id="statMonth" class="text-2xl font-bold text-gray-800">Rp 0</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm">
+                    <h2 class="font-bold text-lg mb-3">Riwayat Transaksi</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b bg-gray-50 text-xs text-gray-500">
+                                    <th class="p-2">Tanggal & Waktu</th>
+                                    <th class="p-2">Tipe</th>
+                                    <th class="p-2">Items</th>
+                                    <th class="p-2">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal Pembayaran -->
+    <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md space-y-4">
+            <h3 class="font-bold text-lg">Konfirmasi Pembayaran</h3>
+            <div>
+                <label class="block text-xs font-semibold mb-1">Metode Pembayaran</label>
+                <select id="paymentType" onchange="toggleDebtInput()" class="w-full p-2 border rounded-lg">
+                    <option value="Tunai">Tunai / Cash</option>
+                    <option value="Hutang">Catat Hutang</option>
+                </select>
+            </div>
+            <div id="debtNameGroup" class="hidden">
+                <label class="block text-xs font-semibold mb-1">Nama Pelanggan (Hutang)</label>
+                <input type="text" id="customerName" placeholder="Masukkan nama pengutang..." class="w-full p-2 border rounded-lg">
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeCheckoutModal()" class="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg">Batal</button>
+                <button onclick="processCheckout()" class="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700">Selesaikan Transaksi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Struk -->
+    <div id="receiptModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-sm space-y-4">
+            <div id="receiptPrintArea" class="p-4 border border-dashed rounded font-mono text-xs space-y-2">
+                <div class="text-center">
+                    <h4 class="font-bold text-sm">WARUNG DIGITAL</h4>
+                    <p class="text-[10px] text-gray-500">Jl. Makanan Enak No. 1</p>
+                    <hr class="my-2 border-dashed">
+                </div>
+                <p id="receiptDate"></p>
+                <p id="receiptType"></p>
+                <hr class="my-2 border-dashed">
+                <div id="receiptItems" class="space-y-1"></div>
+                <hr class="my-2 border-dashed">
+                <div class="flex justify-between font-bold text-sm">
+                    <span>TOTAL:</span>
+                    <span id="receiptTotal"></span>
+                </div>
+                <div class="text-center pt-2 text-[10px] text-gray-500">
+                    <p>Terima kasih atas kunjungan Anda!</p>
+                </div>
+            </div>
+            <div class="flex justify-end gap-2">
+                <button onclick="window.print()" class="px-3 py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700">Cetak Struk</button>
+                <button onclick="closeReceiptModal()" class="px-3 py-1.5 bg-gray-300 text-xs rounded hover:bg-gray-400">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initial Mock Data & LocalStorage
+        let items = JSON.parse(localStorage.getItem('warung_items')) || [
+            { id: 1, name: 'Nasi Goreng Special', category: 'Makanan', price: 15000 },
+            { id: 2, name: 'Es Teh Manis', category: 'Minuman', price: 5000 },
+            { id: 3, name: 'Mie Goreng Telur', category: 'Makanan', price: 12000 },
+            { id: 4, name: 'Kopi Hitam', category: 'Minuman', price: 4000 }
+        ];
+
+        let cart = [];
+        let sales = JSON.parse(localStorage.getItem('warung_sales')) || [];
+        let debts = JSON.parse(localStorage.getItem('warung_debts')) || [];
+
+        function saveData() {
+            localStorage.setItem('warung_items', JSON.stringify(items));
+            localStorage.setItem('warung_sales', JSON.stringify(sales));
+            localStorage.setItem('warung_debts', JSON.stringify(debts));
+        }
+
+        // Authentication logic
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            if(u === 'admin' && p === '1234') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('appScreen').classList.remove('hidden');
+                initApp();
+            } else {
+                alert('Username atau password salah!');
+            }
+        }
+
+        function handleLogout() {
+            document.getElementById('appScreen').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        // Navigation Tab Logic
+        function switchTab(tabName) {
+            ['kasir', 'menu', 'hutang', 'laporan'].forEach(t => {
+                document.getElementById(`content-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).className = "tab-btn px-6 py-3 font-semibold border-b-2 border-transparent text-gray-500 hover:text-orange-500 flex items-center gap-2";
+            });
+            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).className = "tab-btn px-6 py-3 font-semibold border-b-2 border-orange-500 text-orange-600 flex items-center gap-2";
+            
+            if(tabName === 'kasir') renderCatalog();
+            if(tabName === 'menu') renderMenuTable();
+            if(tabName === 'hutang') renderDebtTable();
+            if(tabName === 'laporan') renderReports();
+        }
+
+        function initApp() {
+            renderCatalog();
+            renderCart();
+        }
+
+        // Catalog & Cart Logic
+        function renderCatalog() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const cat = document.getElementById('categoryFilter').value;
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = '';
+
+            const filtered = items.filter(i => {
+                const matchSearch = i.name.toLowerCase().includes(search);
+                const matchCat = cat === 'all' || i.category === cat;
+                return matchSearch && matchCat;
+            });
+
+            filtered.forEach(i => {
+                grid.innerHTML += `
+                    <div class="bg-white p-3 rounded-xl shadow-sm border hover:border-orange-500 cursor-pointer transition flex flex-col justify-between" onclick="addToCart(${i.id})">
+                        <div>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full ${i.category === 'Makanan' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'} font-semibold">${i.category}</span>
+                            <h3 class="font-bold text-sm mt-1">${i.name}</h3>
+                        </div>
+                        <p class="text-orange-600 font-bold text-sm mt-2">Rp ${i.price.toLocaleString('id-ID')}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function addToCart(id) {
+            const item = items.find(i => i.id === id);
+            const exist = cart.find(c => c.id === id);
+            if(exist) exist.qty += 1;
+            else cart.push({ ...item, qty: 1 });
+            renderCart();
+        }
+
+        function updateCartQty(id, delta) {
+            const index = cart.findIndex(c => c.id === id);
+            if(index !== -1) {
+                cart[index].qty += delta;
+                if(cart[index].qty <= 0) cart.splice(index, 1);
+            }
+            renderCart();
+        }
+
+        function clearCart() {
+            cart = [];
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItems');
+            container.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(c => {
+                const subtotal = c.price * c.qty;
+                total += subtotal;
+                container.innerHTML += `
+                    <div class="flex justify-between items-center py-2">
+                        <div>
+                            <p class="font-bold text-sm">${c.name}</p>
+                            <p class="text-xs text-gray-500">Rp ${c.price.toLocaleString('id-ID')} x ${c.qty}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="updateCartQty(${c.id}, -1)" class="w-6 h-6 bg-gray-200 rounded font-bold text-xs">-</button>
+                            <span class="text-xs font-bold">${c.qty}</span>
+                            <button onclick="updateCartQty(${c.id}, 1)" class="w-6 h-6 bg-gray-200 rounded font-bold text-xs">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('cartTotal').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        // Checkout & Receipt Modal
+        function openCheckoutModal() {
+            if(cart.length === 0) return alert('Keranjang masih kosong!');
+            document.getElementById('checkoutModal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+        }
+
+        function toggleDebtInput() {
+            const type = document.getElementById('paymentType').value;
+            const grp = document.getElementById('debtNameGroup');
+            if(type === 'Hutang') grp.classList.remove('hidden');
+            else grp.classList.add('hidden');
+        }
+
+        function processCheckout() {
+            const type = document.getElementById('paymentType').value;
+            const total = cart.reduce((acc, c) => acc + (c.price * c.qty), 0);
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('id-ID') + ' ' + now.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+
+            if(type === 'Hutang') {
+                const name = document.getElementById('customerName').value;
+                if(!name) return alert('Masukkan nama pelanggan hutang!');
+                debts.push({
+                    id: Date.now(),
+                    date: dateStr,
+                    customer: name,
+                    items: [...cart],
+                    total: total
+                });
+            } else {
+                sales.push({
+                    id: Date.now(),
+                    date: now.toISOString(),
+                    formattedDate: dateStr,
+                    type: 'Tunai',
+                    items: [...cart],
+                    total: total
+                });
+            }
+
+            saveData();
+            showReceipt(dateStr, type);
+            closeCheckoutModal();
+            cart = [];
+            renderCart();
+        }
+
+        function showReceipt(dateStr, type) {
+            document.getElementById('receiptDate').innerText = `Tanggal: ${dateStr}`;
+            document.getElementById('receiptType').innerText = `Pembayaran: ${type}`;
+            const container = document.getElementById('receiptItems');
+            container.innerHTML = '';
+
+            let total = 0;
+            cart.forEach(c => {
+                const sub = c.price * c.qty;
+                total += sub;
+                container.innerHTML += `
+                    <div class="flex justify-between">
+                        <span>${c.name} x${c.qty}</span>
+                        <span>Rp ${sub.toLocaleString('id-ID')}</span>
+                    </div>
+                `;
+            });
+
+            document.getElementById('receiptTotal').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+            document.getElementById('receiptModal').classList.remove('hidden');
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.add('hidden');
+        }
+
+        // Manage Menu Logic
+        function renderMenuTable() {
+            const tbody = document.getElementById('menuTableBody');
+            tbody.innerHTML = '';
+            items.forEach(i => {
+                tbody.innerHTML += `
+                    <tr class="border-b text-sm">
+                        <td class="p-2 font-semibold">${i.name}</td>
+                        <td class="p-2">${i.category}</td>
+                        <td class="p-2">Rp ${i.price.toLocaleString('id-ID')}</td>
+                        <td class="p-2">
+                            <button onclick="deleteItem(${i.id})" class="text-red-500 hover:underline text-xs">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function saveItem(e) {
+            e.preventDefault();
+            const name = document.getElementById('itemName').value;
+            const category = document.getElementById('itemCategory').value;
+            const price = parseInt(document.getElementById('itemPrice').value);
+
+            items.push({ id: Date.now(), name, category, price });
+            saveData();
+            document.getElementById('itemForm').reset();
+            renderMenuTable();
+        }
+
+        function deleteItem(id) {
+            if(confirm('Yakin ingin menghapus item ini?')) {
+                items = items.filter(i => i.id !== id);
+                saveData();
+                renderMenuTable();
+            }
+        }
+
+        // Debt Logic
+        function renderDebtTable() {
+            const tbody = document.getElementById('debtTableBody');
+            tbody.innerHTML = '';
+            debts.forEach(d => {
+                const itemSummary = d.items.map(i => `${i.name} (${i.qty})`).join(', ');
+                tbody.innerHTML += `
+                    <tr class="border-b text-sm">
+                        <td class="p-2 text-xs text-gray-500">${d.date}</td>
+                        <td class="p-2 font-bold">${d.customer}</td>
+                        <td class="p-2 text-xs">${itemSummary}</td>
+                        <td class="p-2 font-bold text-red-600">Rp ${d.total.toLocaleString('id-ID')}</td>
+                        <td class="p-2">
+                            <button onclick="payDebt(${d.id})" class="bg-green-600 text-white px-3 py-1 rounded text-xs font-semibold hover:bg-green-700">Lunas</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function payDebt(id) {
+            const debt = debts.find(d => d.id === id);
+            if(debt && confirm(`Tandai hutang ${debt.customer} sebesar Rp ${debt.total.toLocaleString('id-ID')} sebagai LUNAS?`)) {
+                sales.push({
+                    id: Date.now(),
+                    date: new Date().toISOString(),
+                    formattedDate: new Date().toLocaleDateString('id-ID') + ' ' + new Date().toLocaleTimeString('id-ID'),
+                    type: 'Pelunasan Hutang (' + debt.customer + ')',
+                    items: debt.items,
+                    total: debt.total
+                });
+                debts = debts.filter(d => d.id !== id);
+                saveData();
+                renderDebtTable();
+            }
+        }
+
+        // Reports Logic
+        function renderReports() {
+            const now = new Date();
+            let todayTotal = 0, weekTotal = 0, monthTotal = 0;
+
+            sales.forEach(s => {
+                const sDate = new Date(s.date);
+                const diffTime = Math.abs(now - sDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if(sDate.toDateString() === now.toDateString()) todayTotal += s.total;
+                if(diffDays <= 7) weekTotal += s.total;
+                if(sDate.getMonth() === now.getMonth() && sDate.getFullYear() === now.getFullYear()) monthTotal += s.total;
+            });
+
+            document.getElementById('statToday').innerText = `Rp ${todayTotal.toLocaleString('id-ID')}`;
+            document.getElementById('statWeek').innerText = `Rp ${weekTotal.toLocaleString('id-ID')}`;
+            document.getElementById('statMonth').innerText = `Rp ${monthTotal.toLocaleString('id-ID')}`;
+
+            const tbody = document.getElementById('salesTableBody');
+            tbody.innerHTML = '';
+            sales.slice().reverse().forEach(s => {
+                const itemSummary = s.items.map(i => `${i.name} x${i.qty}`).join(', ');
+                tbody.innerHTML += `
+                    <tr class="border-b text-sm">
+                        <td class="p-2 text-xs text-gray-500">${s.formattedDate}</td>
+                        <td class="p-2"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-semibold">${s.type}</span></td>
+                        <td class="p-2 text-xs">${itemSummary}</td>
+                        <td class="p-2 font-bold">Rp ${s.total.toLocaleString('id-ID')}</td>
+                    </tr>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
