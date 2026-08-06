@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Warung Nyemeel</title>
+    <title>Aplikasi Warung Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -48,7 +48,7 @@
                 <div class="w-20 h-20 bg-brand text-slate-900 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-brand/40 transform -rotate-3 hover:rotate-0 transition-all duration-300">
                     <i class="fas fa-store text-3xl"></i>
                 </div>
-                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Warung Nyemeel</h1>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Warung Digital</h1>
                 <p class="text-xs font-medium text-slate-500 mt-1">Sistem Kasir & Operasional Modern</p>
             </div>
             <form id="loginForm" class="space-y-4 relative" onsubmit="handleLogin(event)">
@@ -77,8 +77,8 @@
                     <i class="fas fa-utensils"></i>
                 </div>
                 <div>
-                    <h1 class="font-extrabold text-lg leading-none text-slate-900">Warung Nyemeel</h1>
-                    <span class="text-[10px] font-semibold text-slate-800 tracking-wide uppercase">Bikin Nagih Terus</span>
+                    <h1 class="font-extrabold text-lg leading-none text-slate-900">Warung Digital</h1>
+                    <span class="text-[10px] font-semibold text-slate-800 tracking-wide uppercase">Point of Sale</span>
                 </div>
             </div>
             <div class="flex items-center gap-3">
@@ -293,19 +293,19 @@
 
             <!-- Tab Laporan Detail Laba Rugi -->
             <div id="content-laporan" class="hidden space-y-6">
-                <!-- Stat Cards Laba Rugi -->
+                <!-- Summary Utama Laba Rugi -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-2 h-full bg-emerald-500 absolute left-0 top-0"></div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pemasukan (Omset)</p>
                         <h3 id="statTotalSales" class="text-2xl font-black text-emerald-600 mt-1">Rp 0</h3>
-                        <span class="text-[10px] text-slate-400 font-semibold">Berdasarkan Filter</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">Semua Pembayaran</span>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div class="w-2 h-full bg-rose-500 absolute left-0 top-0"></div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pengeluaran</p>
                         <h3 id="statTotalExpenses" class="text-2xl font-black text-rose-600 mt-1">Rp 0</h3>
-                        <span class="text-[10px] text-slate-400 font-semibold">Berdasarkan Filter</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">Operasional & Bahan</span>
                     </div>
                     <div id="netProfitCard" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 relative overflow-hidden">
                         <div id="netProfitBar" class="w-2 h-full bg-brand absolute left-0 top-0"></div>
@@ -315,12 +315,43 @@
                     </div>
                 </div>
 
+                <!-- Breakdown Rincian Metode Pembayaran -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-slate-900 text-white p-4 rounded-2xl shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase">Pemasukan Tunai</p>
+                            <h4 id="statCash" class="text-lg font-black text-brand">Rp 0</h4>
+                        </div>
+                        <div class="w-9 h-9 bg-slate-800 rounded-xl flex items-center justify-center text-brand">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900 text-white p-4 rounded-2xl shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase">Pemasukan QRIS</p>
+                            <h4 id="statQris" class="text-lg font-black text-sky-400">Rp 0</h4>
+                        </div>
+                        <div class="w-9 h-9 bg-slate-800 rounded-xl flex items-center justify-center text-sky-400">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900 text-white p-4 rounded-2xl shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase">Pemasukan Transfer</p>
+                            <h4 id="statTransfer" class="text-lg font-black text-emerald-400">Rp 0</h4>
+                        </div>
+                        <div class="w-9 h-9 bg-slate-800 rounded-xl flex items-center justify-center text-emerald-400">
+                            <i class="fas fa-building-columns"></i>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Riwayat & Filter Toolbar -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 space-y-4">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-slate-100">
                         <div>
                             <h2 class="font-extrabold text-lg text-slate-900">Rincian Transaksi Pemasukan</h2>
-                            <p class="text-xs text-slate-400 font-medium">Atur rentang tanggal untuk menghitung estimasi Laba / Rugi</p>
+                            <p class="text-xs text-slate-400 font-medium">Filter rentang tanggal untuk melihat statistik transaksi</p>
                         </div>
                     </div>
 
@@ -348,7 +379,7 @@
                             <thead>
                                 <tr class="border-b border-slate-100 text-xs uppercase font-bold text-slate-400">
                                     <th class="pb-3 px-2">Tanggal & Waktu</th>
-                                    <th class="pb-3 px-2">Tipe</th>
+                                    <th class="pb-3 px-2">Metode Bayar</th>
                                     <th class="pb-3 px-2">Item Dibeli</th>
                                     <th class="pb-3 px-2 text-right">Total Transaksi</th>
                                 </tr>
@@ -375,6 +406,8 @@
                     <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Metode Pembayaran</label>
                     <select id="paymentType" onchange="toggleDebtInput()" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-brand">
                         <option value="Tunai">Tunai / Cash</option>
+                        <option value="QRIS">QRIS / e-Wallet</option>
+                        <option value="Transfer">Transfer Bank</option>
                         <option value="Hutang">Catat Hutang</option>
                     </select>
                 </div>
@@ -396,8 +429,8 @@
         <div class="bg-white rounded-3xl p-6 w-full max-w-sm space-y-4 shadow-2xl border border-white/40">
             <div id="receiptPrintArea" class="p-4 bg-slate-50 border border-slate-200 rounded-2xl font-mono text-xs space-y-2 text-slate-800">
                 <div class="text-center">
-                    <h4 class="font-bold text-sm">WARUNG Nyemeel</h4>
-                    <p class="text-[10px] text-slate-400">Jl. Kantil No.16 RT.003/001 Kelapa Gading Timur Jakarta Utara</p>
+                    <h4 class="font-bold text-sm">WARUNG DIGITAL</h4>
+                    <p class="text-[10px] text-slate-400">Jl. Makanan Enak No. 1</p>
                     <hr class="my-2 border-dashed border-slate-300">
                 </div>
                 <p id="receiptDate"></p>
@@ -640,11 +673,11 @@
                     id: Date.now(),
                     date: now.toISOString(),
                     formattedDate: dateStr,
-                    type: 'Tunai',
+                    type: type, // 'Tunai', 'QRIS', atau 'Transfer'
                     items: [...cart],
                     total: total
                 });
-                showToast('Transaksi berhasil diproses!', 'success');
+                showToast(`Transaksi ${type} berhasil diproses!`, 'success');
             }
 
             saveData();
@@ -755,7 +788,6 @@
             const now = new Date();
 
             if(id) {
-                // Edit mode
                 const idx = expenses.findIndex(x => x.id == id);
                 if(idx !== -1) {
                     expenses[idx].desc = desc;
@@ -764,7 +796,6 @@
                     showToast('Pengeluaran berhasil diperbarui!', 'success');
                 }
             } else {
-                // Insert mode
                 expenses.push({
                     id: Date.now(),
                     date: now.toISOString(),
@@ -903,13 +934,24 @@
                 return matchDate;
             });
 
-            // 3. Kalkulasi Totals
-            const totalSales = filteredSales.reduce((acc, curr) => acc + curr.total, 0);
+            // 3. Kalkulasi per Metode Pembayaran
+            let cashTotal = 0, qrisTotal = 0, transferTotal = 0;
+            filteredSales.forEach(s => {
+                if (s.type === 'Tunai' || s.type.includes('Pelunasan')) cashTotal += s.total;
+                else if (s.type === 'QRIS') qrisTotal += s.total;
+                else if (s.type === 'Transfer') transferTotal += s.total;
+            });
+
+            const totalSales = cashTotal + qrisTotal + transferTotal;
             const totalExpenses = filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0);
             const netProfit = totalSales - totalExpenses;
 
+            // Update DOM Summary
             document.getElementById('statTotalSales').innerText = `Rp ${totalSales.toLocaleString('id-ID')}`;
             document.getElementById('statTotalExpenses').innerText = `Rp ${totalExpenses.toLocaleString('id-ID')}`;
+            document.getElementById('statCash').innerText = `Rp ${cashTotal.toLocaleString('id-ID')}`;
+            document.getElementById('statQris').innerText = `Rp ${qrisTotal.toLocaleString('id-ID')}`;
+            document.getElementById('statTransfer').innerText = `Rp ${transferTotal.toLocaleString('id-ID')}`;
             
             const profitElem = document.getElementById('statNetProfit');
             const statusElem = document.getElementById('statNetProfitStatus');
@@ -943,10 +985,15 @@
             } else {
                 filteredSales.slice().reverse().forEach(s => {
                     const itemSummary = s.items.map(i => `${i.name} x${i.qty}`).join(', ');
+                    
+                    let badgeColor = 'bg-emerald-100 text-emerald-800';
+                    if(s.type === 'QRIS') badgeColor = 'bg-sky-100 text-sky-800';
+                    if(s.type === 'Transfer') badgeColor = 'bg-purple-100 text-purple-800';
+
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50/80 transition">
                             <td class="py-3 px-2 text-xs font-medium text-slate-400">${s.formattedDate}</td>
-                            <td class="py-3 px-2"><span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-2 py-0.5 rounded">${s.type}</span></td>
+                            <td class="py-3 px-2"><span class="${badgeColor} text-[10px] font-extrabold px-2 py-0.5 rounded">${s.type}</span></td>
                             <td class="py-3 px-2 text-xs font-medium text-slate-700">${itemSummary}</td>
                             <td class="py-3 px-2 font-black text-slate-900 text-right">Rp ${s.total.toLocaleString('id-ID')}</td>
                         </tr>
