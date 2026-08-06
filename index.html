@@ -404,7 +404,24 @@
         </main>
     </div>
 
-    <!-- Modal Pembayaran + FOTO ASLI QRIS DANA SVG (GABUNGAN VECTOR DENGAN BORDER PUTIH PRESISI HASIL FOTO) -->
+    <!-- MODAL KONFIRMASI MODERN (Menggantikan confirm browser yang kaku) -->
+    <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-[60]">
+        <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-sm space-y-4 shadow-2xl border border-white/40 text-center">
+            <div id="confirmModalIcon" class="w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto text-2xl">
+                <i class="fas fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <h3 id="confirmModalTitle" class="font-extrabold text-base text-slate-900">Konfirmasi Aksi</h3>
+                <p id="confirmModalMessage" class="text-xs font-medium text-slate-500 mt-1">Apakah Anda yakin ingin melanjutkan aksi ini?</p>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeConfirmModal(false)" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-xl transition">Batal</button>
+                <button id="confirmModalActionBtn" onclick="closeConfirmModal(true)" class="w-1/2 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs rounded-xl shadow-md transition">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pembayaran + FOTO ASLI QRIS DANA SVG -->
     <div id="checkoutModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-md space-y-4 shadow-2xl border border-white/40">
             <div class="flex justify-between items-center pb-2 border-b border-slate-100">
@@ -429,22 +446,18 @@
                         <i class="fas fa-qrcode"></i> Scan QRIS DANA Resmi Warung Nyemeel
                     </div>
                     
-                    <!-- SVG QRIS DANA Murni Asli (100% Presisi, Anti-Pecah, Sangat Ringan) -->
                     <div class="bg-white p-2 sm:p-3 rounded-3xl w-56 h-56 sm:w-64 sm:h-64 mx-auto flex items-center justify-center border border-slate-200 shadow-md">
                         <svg class="w-full h-full" viewBox="0 0 290 290" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect width="290" height="290" rx="24" fill="white"/>
-                            <!-- QR Matrix Data Resmi -->
                             <path d="M20 20H90V90H20V20ZM200 20H270V90H200V20ZM20 200H90V270H20V200Z" fill="black"/>
                             <path d="M30 30H80V80H30V30ZM210 30H260V80H210V30ZM30 210H80V260H30V210Z" fill="white"/>
                             <path d="M40 40H70V70H40V40ZM220 40H250V70H220V40ZM40 220H70V270H40V220Z" fill="black"/>
-                            <!-- Matrix Pattern Inner -->
                             <path d="M100 20H110V40H100V20ZM120 20H140V30H120V20ZM150 20H180V40H150V20ZM110 40H130V60H110V40ZM140 50H160V70H140V50ZM170 40H190V60H170V40ZM100 70H120V90H100V70ZM130 80H150V100H130V80ZM160 70H180V90H160V70Z" fill="black"/>
                             <path d="M20 100H40V120H20V100ZM50 110H70V130H50V110ZM80 100H100V120H80V100ZM110 100H140V110H110V100ZM150 110H170V130H150V110ZM180 100H200V120H180V100ZM210 110H230V130H210V110ZM240 100H270V110H240V100Z" fill="black"/>
                             <path d="M30 130H50V150H30V130ZM60 140H90V150H60V140ZM100 130H120V160H100V130ZM180 130H200V150H180V130ZM210 140H240V150H210V140ZM250 130H270V160H250V130Z" fill="black"/>
                             <path d="M20 170H40V190H20V170ZM50 160H70V180H50V160ZM80 170H100V190H80V170ZM110 170H130V180H110V170ZM140 160H160V180H140V160ZM170 170H190V190H170V170ZM200 160H220V180H200V160ZM230 170H250V190H230V170ZM260 160H270V190H260V160Z" fill="black"/>
                             <path d="M100 200H110V220H100V200ZM120 210H150V220H120V210ZM160 200H180V230H160V200ZM190 210H210V220H190V210ZM220 200H240V230H220V200ZM250 210H270V220H250V210Z" fill="black"/>
                             <path d="M100 230H130V240H100V230ZM140 240H160V260H140V240ZM170 230H190V250H170V230ZM200 240H220V270H200V240ZM230 230H260V240H230V230ZM250 250H270V270H250V250Z" fill="black"/>
-                            <!-- Logo DANA Center Icon -->
                             <circle cx="145" cy="145" r="28" fill="white"/>
                             <circle cx="145" cy="145" r="24" fill="#118EEA"/>
                             <path d="M133 142C138 138 143 143 148 139C152 136 157 140 157 140V146C157 146 152 142 148 145C143 149 138 144 133 148V142Z" fill="white"/>
@@ -514,6 +527,72 @@
     </div>
 
     <script>
+        // WEB AUDIO API SOUND GENERATOR (CASH REGISTER CHIME/BEEP)
+        function playSuccessSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+
+                // Tone 1
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                gain1.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+                osc1.start(ctx.currentTime);
+                osc1.stop(ctx.currentTime + 0.15);
+
+                // Tone 2 (Chime high pitch)
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(1046.50, ctx.currentTime + 0.1); // C6
+                gain2.gain.setValueAtTime(0.4, ctx.currentTime + 0.1);
+                gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+                osc2.start(ctx.currentTime + 0.1);
+                osc2.stop(ctx.currentTime + 0.4);
+            } catch (e) {
+                console.log("Audio not supported or blocked by browser");
+            }
+        }
+
+        // CUSTOM MODAL CONFIRMATION HANDLER
+        let confirmResolve = null;
+
+        function showCustomConfirm(title, message, btnText = "Ya, Hapus", iconClass = "fa-triangle-exclamation", isDanger = true) {
+            document.getElementById('confirmModalTitle').innerText = title;
+            document.getElementById('confirmModalMessage').innerText = message;
+            
+            const btn = document.getElementById('confirmModalActionBtn');
+            btn.innerText = btnText;
+            
+            if (isDanger) {
+                btn.className = "w-1/2 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs rounded-xl shadow-md transition";
+                document.getElementById('confirmModalIcon').className = "w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto text-2xl";
+            } else {
+                btn.className = "w-1/2 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-md transition";
+                document.getElementById('confirmModalIcon').className = "w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto text-2xl";
+            }
+
+            document.getElementById('confirmModalIcon').innerHTML = `<i class="fas ${iconClass}"></i>`;
+            document.getElementById('confirmModal').classList.remove('hidden');
+
+            return new Promise((resolve) => {
+                confirmResolve = resolve;
+            });
+        }
+
+        function closeConfirmModal(result) {
+            document.getElementById('confirmModal').classList.add('hidden');
+            if (confirmResolve) confirmResolve(result);
+        }
+
         function getInitialItems() {
             const saved = localStorage.getItem('warung_items');
             if (saved) {
@@ -770,6 +849,7 @@
                 showToast(`Transaksi ${type} berhasil diproses!`, 'success');
             }
 
+            playSuccessSound(); // Bikin Suara Kasir
             saveData();
             showReceipt(dateStr, type);
             closeCheckoutModal();
@@ -836,8 +916,16 @@
             showToast(`Menu ${name} berhasil disimpan`, 'success');
         }
 
-        function deleteItem(id) {
-            if(confirm('Yakin ingin menghapus item ini?')) {
+        async function deleteItem(id) {
+            const confirmed = await showCustomConfirm(
+                "Hapus Menu", 
+                "Apakah Anda yakin ingin menghapus menu makanan/minuman ini dari daftar?", 
+                "Ya, Hapus",
+                "fa-trash-can",
+                true
+            );
+            
+            if (confirmed) {
                 items = items.filter(i => i.id !== id);
                 saveData();
                 renderMenuTable();
@@ -923,8 +1011,16 @@
             document.getElementById('saveExpenseBtn').innerHTML = `<i class="fas fa-save mr-1"></i> Simpan`;
         }
 
-        function deleteExpense(id) {
-            if(confirm('Yakin ingin menghapus catatan pengeluaran ini?')) {
+        async function deleteExpense(id) {
+            const confirmed = await showCustomConfirm(
+                "Hapus Pengeluaran", 
+                "Apakah Anda yakin ingin menghapus catatan pengeluaran ini?", 
+                "Ya, Hapus",
+                "fa-trash-can",
+                true
+            );
+
+            if (confirmed) {
                 expenses = expenses.filter(x => x.id != id);
                 saveData();
                 renderExpenseTable();
@@ -956,21 +1052,32 @@
             });
         }
 
-        function payDebt(id) {
+        async function payDebt(id) {
             const debt = debts.find(d => d.id === id);
-            if(debt && confirm(`Tandai hutang ${debt.customer} sebesar Rp ${debt.total.toLocaleString('id-ID')} sebagai LUNAS?`)) {
-                sales.push({
-                    id: Date.now(),
-                    date: new Date().toISOString(),
-                    formattedDate: new Date().toLocaleDateString('id-ID') + ' ' + new Date().toLocaleTimeString('id-ID'),
-                    type: 'Pelunasan Hutang (' + debt.customer + ')',
-                    items: debt.items,
-                    total: debt.total
-                });
-                debts = debts.filter(d => d.id !== id);
-                saveData();
-                renderDebtTable();
-                showToast(`Hutang ${debt.customer} telah dilunasi!`, 'success');
+            if(debt) {
+                const confirmed = await showCustomConfirm(
+                    "Pelunasan Hutang", 
+                    `Tandai hutang ${debt.customer} sebesar Rp ${debt.total.toLocaleString('id-ID')} sebagai LUNAS?`, 
+                    "Ya, Tandai Lunas",
+                    "fa-circle-check",
+                    false
+                );
+
+                if (confirmed) {
+                    sales.push({
+                        id: Date.now(),
+                        date: new Date().toISOString(),
+                        formattedDate: new Date().toLocaleDateString('id-ID') + ' ' + new Date().toLocaleTimeString('id-ID'),
+                        type: 'Pelunasan Hutang (' + debt.customer + ')',
+                        items: debt.items,
+                        total: debt.total
+                    });
+                    debts = debts.filter(d => d.id !== id);
+                    playSuccessSound(); // Bunyi Chime Suara Lunas
+                    saveData();
+                    renderDebtTable();
+                    showToast(`Hutang ${debt.customer} telah dilunasi!`, 'success');
+                }
             }
         }
 
