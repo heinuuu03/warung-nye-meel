@@ -117,7 +117,7 @@
                 <span id="userBadge" class="text-[10px] sm:text-xs bg-slate-800 dark:bg-zinc-900 text-slate-300 font-bold px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-slate-700/60 flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Admin
                 </span>
-                <button onclick="handleLogout()" class="text-[10px] sm:text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-xl border border-rose-500/20 transition active:scale-95 flex items-center gap-1">
+                <button onclick="handleLogout()" class="text-[10px] sm:text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl border border-rose-500/20 transition active:scale-95 flex items-center gap-1">
                     <i class="fas fa-power-off text-[9px]"></i> <span class="hidden sm:inline">Keluar</span>
                 </button>
             </div>
@@ -212,7 +212,7 @@
                 </div>
             </div>
 
-            <!-- Tab Kelola Menu -->
+            <!-- Tab Kelola Menu (Dilengkapi Auto-Formatting Titik Harga) -->
             <div id="content-menu" class="hidden space-y-4 sm:space-y-6">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                     <div class="bg-white dark:bg-zinc-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80 dark:border-zinc-800 h-fit">
@@ -235,7 +235,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 dark:text-slate-400 uppercase mb-1">Harga (Rp)</label>
-                                    <input type="number" id="itemPrice" placeholder="15000" required class="w-full p-2.5 sm:p-3 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                    <input type="text" id="itemPrice" placeholder="15.000" oninput="formatCurrencyInput(this)" required class="w-full p-2.5 sm:p-3 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                                 </div>
                             </div>
                             <button type="submit" class="w-full bg-slate-900 dark:bg-zinc-800 hover:bg-slate-800 text-white font-extrabold py-3 rounded-xl shadow transition active:scale-98 text-xs">
@@ -355,7 +355,7 @@
                 </div>
             </div>
 
-            <!-- Tab Kelola Pengeluaran -->
+            <!-- Tab Kelola Pengeluaran (Dilengkapi Auto-Formatting Titik Nominal) -->
             <div id="content-pengeluaran" class="hidden space-y-4 sm:space-y-6">
                 <div class="bg-white dark:bg-zinc-900 p-4 rounded-2xl shadow-sm border border-slate-200/80 dark:border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-3">
                     <div class="flex items-center gap-2 w-full sm:w-auto">
@@ -414,7 +414,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-[10px] sm:text-[11px] font-extrabold text-slate-600 dark:text-slate-400 uppercase mb-1">Nominal (Rp)</label>
-                                    <input type="number" id="expenseAmount" placeholder="50000" required class="w-full p-2.5 sm:p-3 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
+                                    <input type="text" id="expenseAmount" placeholder="50.000" oninput="formatCurrencyInput(this)" required class="w-full p-2.5 sm:p-3 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-xs font-semibold outline-none focus:ring-2 focus:ring-brand">
                                 </div>
                             </div>
                             <div class="flex gap-2">
@@ -520,7 +520,7 @@
                 </div>
             </div>
 
-            <!-- Tab Laporan Detail Laba Rugi (Dilengkapi Filter Periode Canggih & Kalkulator Harian) -->
+            <!-- Tab Laporan Detail Laba Rugi -->
             <div id="content-laporan" class="admin-only-content hidden space-y-4 sm:space-y-6">
                 <!-- Bento Header Laporan & Kalkulator Harian -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -544,7 +544,7 @@
                             <h3 id="statNetProfit" class="text-lg sm:text-xl font-black mt-1">Rp 0</h3>
                         </div>
                         <div id="netProfitCard">
-                            <span id="statNetProfitStatus" class="inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 mt-1">Netral</span>
+                            <span id="statNetProfitStatus" class="inline-block text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 mt-1">Netral</span>
                         </div>
                     </div>
                 </div>
@@ -610,7 +610,7 @@
                             </select>
                         </div>
                         <div>
-                            <input type="date" id="startDate" onchange="renderReports()" class="w-full px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700 rounded-xl outline-none font-semibold" title="Tanggal Mulai (Opsional)">
+                            <input type="date" id="startDate" onchange="renderReports()" class="w-full px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700 rounded-xl outline-none font-semibold" title="Tanggal Spesifik (Opsional)">
                         </div>
                         <div>
                             <button onclick="resetReportFilter()" class="w-full bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 font-extrabold text-xs py-1.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5">
@@ -803,6 +803,26 @@
 
     <script>
         let currentUserRole = 'admin';
+
+        // Helper Auto-Formatting Titik Rupiah saat mengetik
+        function formatCurrencyInput(input) {
+            let value = input.value.replace(/[^,\d]/g, '').toString();
+            let split = value.split(',');
+            let sisa = split[0].length % 3;
+            let rupiah = split[0].substr(0, sisa);
+            let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                let separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+            input.value = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+        }
+
+        function parseCurrency(val) {
+            if (!val) return 0;
+            return parseInt(val.toString().replace(/\./g, '').replace(/,/g, ''), 10) || 0;
+        }
 
         function toggleDarkMode() {
             const html = document.documentElement;
@@ -1348,7 +1368,7 @@
             e.preventDefault();
             const name = document.getElementById('itemName').value;
             const category = document.getElementById('itemCategory').value;
-            const price = parseInt(document.getElementById('itemPrice').value);
+            const price = parseCurrency(document.getElementById('itemPrice').value);
 
             items.push({ id: Date.now(), name, category, price });
             saveData();
@@ -1570,7 +1590,7 @@
             const id = document.getElementById('expenseId').value;
             const desc = document.getElementById('expenseDesc').value;
             const category = document.getElementById('expenseCategory').value;
-            const amount = parseInt(document.getElementById('expenseAmount').value);
+            const amount = parseCurrency(document.getElementById('expenseAmount').value);
             const now = new Date();
 
             if(id) {
@@ -1602,7 +1622,7 @@
                 document.getElementById('expenseId').value = exp.id;
                 document.getElementById('expenseDesc').value = exp.desc;
                 document.getElementById('expenseCategory').value = exp.category;
-                document.getElementById('expenseAmount').value = exp.amount;
+                document.getElementById('expenseAmount').value = exp.amount.toLocaleString('id-ID');
 
                 document.getElementById('expenseFormTitle').innerHTML = `<i class="fas fa-edit text-sky-500"></i> Edit Pengeluaran`;
                 document.getElementById('cancelExpenseEditBtn').classList.remove('hidden');
@@ -1741,13 +1761,13 @@
             }
         }
 
-        // FUNGSI RENDER LAPORAN DENGAN FILTER PERIODE PRESISI
+        // FUNGSI RENDER LAPORAN (SINKRONISASI PEMASUKAN, PENGELUARAN & HUTANG)
         function renderReports() {
             if(currentUserRole === 'kasir') return;
 
             const searchQuery = (document.getElementById('searchReport')?.value || '').toLowerCase();
             const periodVal = document.getElementById('filterPeriod')?.value || 'all';
-            const customDateVal = document.getElementById('startDate')?.value || '';
+            const specificDate = document.getElementById('startDate')?.value || '';
 
             const now = new Date();
             const todayStr = now.toISOString().slice(0, 10);
@@ -1764,7 +1784,7 @@
 
             const filterByPeriod = (rawDateStr) => {
                 if (!rawDateStr) return true;
-                if (customDateVal) return rawDateStr === customDateVal;
+                if (specificDate) return rawDateStr === specificDate;
 
                 if (periodVal === 'harian') {
                     return rawDateStr === todayStr;
@@ -1816,8 +1836,9 @@
 
             const totalSales = cashTotal + qrisTotal + transferTotal;
             const totalExpenses = filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0);
-            const netProfit = totalSales - totalExpenses;
-            const netProfitWithDebt = netProfit + totalDebtActive;
+            
+            // Rumus Presisi: (Total Pemasukan Tunai/Lunas) + (Proyeksi Hutang Aktif) - (Total Pengeluaran)
+            const netProfitWithDebt = (totalSales + totalDebtActive) - totalExpenses;
 
             document.getElementById('statTotalSales').innerText = `Rp ${totalSales.toLocaleString('id-ID')}`;
             document.getElementById('statProjectedDebt').innerText = `Rp ${totalDebtActive.toLocaleString('id-ID')}`;
@@ -1854,7 +1875,7 @@
             tbody.innerHTML = '';
 
             if (filteredSales.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-400 text-xs font-semibold">Tidak ada riwayat transaksi pada periode ini.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-400 text-xs font-semibold">Tidak ada transaksi pemasukan pada periode ini.</td></tr>`;
             } else {
                 filteredSales.slice().reverse().forEach(s => {
                     const itemSummary = s.items.map(i => `${i.name} x${i.qty}`).join(', ');
