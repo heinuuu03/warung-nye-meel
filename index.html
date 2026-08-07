@@ -520,7 +520,7 @@
                 </div>
             </div>
 
-            <!-- Tab Laporan Detail Laba Rugi -->
+            <!-- Tab Laporan Detail Laba Rugi (Dilengkapi Filter Periode Canggih & Kalkulator Harian) -->
             <div id="content-laporan" class="admin-only-content hidden space-y-4 sm:space-y-6">
                 <!-- Bento Header Laporan & Kalkulator Harian -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -529,7 +529,7 @@
                         <div>
                             <span class="bg-brand text-slate-950 font-black text-[10px] uppercase px-3 py-1 rounded-full">Analytics Center 2026</span>
                             <h2 class="text-lg sm:text-xl font-black mt-2 tracking-tight">Pusat Analisis & Kalkulasi Laba Rugi</h2>
-                            <p class="text-xs text-slate-300 mt-1">Pantau performa keuangan harian, mingguan, dan potensi piutang secara akurat.</p>
+                            <p class="text-xs text-slate-300 mt-1">Pantau performa keuangan berdasarkan filter periode atau tanggal spesifik.</p>
                         </div>
                         <div class="mt-6">
                             <button onclick="openDailyReportModal()" class="bg-brand hover:bg-brand-dark text-slate-950 font-black text-xs py-3 px-5 rounded-xl shadow-lg transition active:scale-95 flex items-center gap-2">
@@ -544,7 +544,7 @@
                             <h3 id="statNetProfit" class="text-lg sm:text-xl font-black mt-1">Rp 0</h3>
                         </div>
                         <div id="netProfitCard">
-                            <span id="statNetProfitStatus" class="inline-block text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 mt-1">Netral</span>
+                            <span id="statNetProfitStatus" class="inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 mt-1">Netral</span>
                         </div>
                     </div>
                 </div>
@@ -594,18 +594,25 @@
                         </button>
                     </div>
 
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                        <div class="relative col-span-2 sm:col-span-1">
+                    <!-- Toolbar Filter Baru: Harian, Mingguan, Bulanan, Tahunan -->
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
+                        <div class="relative col-span-1 sm:col-span-1">
                             <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
                             <input type="text" id="searchReport" oninput="renderReports()" placeholder="Cari item..." class="w-full pl-8 pr-2.5 py-1.5 text-xs bg-slate-50 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700 rounded-xl outline-none font-semibold">
                         </div>
                         <div>
-                            <input type="date" id="startDate" onchange="renderReports()" class="w-full px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700 rounded-xl outline-none font-semibold">
+                            <select id="filterPeriod" onchange="renderReports()" class="w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700 rounded-xl outline-none font-bold text-slate-700 dark:text-slate-200">
+                                <option value="all">Semua Periode</option>
+                                <option value="harian">Hari Ini</option>
+                                <option value="mingguan">Minggu Ini</option>
+                                <option value="bulanan">Bulan Ini</option>
+                                <option value="tahunan">Tahun Ini</option>
+                            </select>
                         </div>
                         <div>
-                            <input type="date" id="endDate" onchange="renderReports()" class="w-full px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700 rounded-xl outline-none font-semibold">
+                            <input type="date" id="startDate" onchange="renderReports()" class="w-full px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700 rounded-xl outline-none font-semibold" title="Tanggal Mulai (Opsional)">
                         </div>
-                        <div class="col-span-2 sm:col-span-1">
+                        <div>
                             <button onclick="resetReportFilter()" class="w-full bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 font-extrabold text-xs py-1.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5">
                                 <i class="fas fa-arrows-rotate text-[10px]"></i> Reset Filter
                             </button>
@@ -1734,12 +1741,42 @@
             }
         }
 
+        // FUNGSI RENDER LAPORAN DENGAN FILTER PERIODE PRESISI
         function renderReports() {
             if(currentUserRole === 'kasir') return;
 
             const searchQuery = (document.getElementById('searchReport')?.value || '').toLowerCase();
-            const startDateVal = document.getElementById('startDate')?.value;
-            const endDateVal = document.getElementById('endDate')?.value;
+            const periodVal = document.getElementById('filterPeriod')?.value || 'all';
+            const customDateVal = document.getElementById('startDate')?.value || '';
+
+            const now = new Date();
+            const todayStr = now.toISOString().slice(0, 10);
+
+            const getWeekStart = (d) => {
+                const date = new Date(d);
+                const day = date.getDay();
+                const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+                return new Date(date.setDate(diff)).toISOString().slice(0, 10);
+            };
+            const weekStartStr = getWeekStart(now);
+            const monthStartStr = now.toISOString().slice(0, 7); // YYYY-MM
+            const yearStartStr = now.getFullYear().toString(); // YYYY
+
+            const filterByPeriod = (rawDateStr) => {
+                if (!rawDateStr) return true;
+                if (customDateVal) return rawDateStr === customDateVal;
+
+                if (periodVal === 'harian') {
+                    return rawDateStr === todayStr;
+                } else if (periodVal === 'mingguan') {
+                    return rawDateStr >= weekStartStr && rawDateStr <= todayStr;
+                } else if (periodVal === 'bulanan') {
+                    return rawDateStr.startsWith(monthStartStr);
+                } else if (periodVal === 'tahunan') {
+                    return rawDateStr.startsWith(yearStartStr);
+                }
+                return true;
+            };
 
             const filteredSales = sales.filter(s => {
                 const sDateStr = s.rawDate || (s.date ? s.date.slice(0, 10) : '');
@@ -1752,27 +1789,12 @@
                     formattedDate.includes(searchQuery) || 
                     typeStr.includes(searchQuery);
 
-                let matchDate = true;
-                if (startDateVal) {
-                    matchDate = matchDate && (sDateStr >= startDateVal);
-                }
-                if (endDateVal) {
-                    matchDate = matchDate && (sDateStr <= endDateVal);
-                }
-
-                return matchSearch && matchDate;
+                return matchSearch && filterByPeriod(sDateStr);
             });
 
             const filteredExpenses = expenses.filter(exp => {
                 const expDateStr = exp.date ? exp.date.slice(0, 10) : '';
-                let matchDate = true;
-                if (startDateVal) {
-                    matchDate = matchDate && (expDateStr >= startDateVal);
-                }
-                if (endDateVal) {
-                    matchDate = matchDate && (expDateStr <= endDateVal);
-                }
-                return matchDate;
+                return filterByPeriod(expDateStr);
             });
 
             let cashTotal = 0, qrisTotal = 0, transferTotal = 0, totalTaxAccumulated = 0;
@@ -1785,7 +1807,12 @@
             });
 
             let totalDebtActive = 0;
-            debts.forEach(d => totalDebtActive += d.total);
+            debts.forEach(d => {
+                const dDateStr = d.rawDate || (d.date ? d.date.slice(0, 10) : '');
+                if (filterByPeriod(dDateStr)) {
+                    totalDebtActive += d.total;
+                }
+            });
 
             const totalSales = cashTotal + qrisTotal + transferTotal;
             const totalExpenses = filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0);
@@ -1827,7 +1854,7 @@
             tbody.innerHTML = '';
 
             if (filteredSales.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-400 text-xs font-semibold">Tidak ada riwayat transaksi yang sesuai filter.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-400 text-xs font-semibold">Tidak ada riwayat transaksi pada periode ini.</td></tr>`;
             } else {
                 filteredSales.slice().reverse().forEach(s => {
                     const itemSummary = s.items.map(i => `${i.name} x${i.qty}`).join(', ');
@@ -1872,8 +1899,8 @@
 
         function resetReportFilter() {
             if (document.getElementById('searchReport')) document.getElementById('searchReport').value = '';
+            if (document.getElementById('filterPeriod')) document.getElementById('filterPeriod').value = 'all';
             if (document.getElementById('startDate')) document.getElementById('startDate').value = '';
-            if (document.getElementById('endDate')) document.getElementById('endDate').value = '';
             renderReports();
             showToast('Filter laporan telah direset', 'info');
         }
