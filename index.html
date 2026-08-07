@@ -212,7 +212,7 @@
                 </div>
             </div>
 
-            <!-- Tab Kelola Menu (Dilengkapi Auto-Formatting Titik Harga) -->
+            <!-- Tab Kelola Menu -->
             <div id="content-menu" class="hidden space-y-4 sm:space-y-6">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                     <div class="bg-white dark:bg-zinc-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80 dark:border-zinc-800 h-fit">
@@ -355,7 +355,7 @@
                 </div>
             </div>
 
-            <!-- Tab Kelola Pengeluaran (Dilengkapi Auto-Formatting Titik Nominal) -->
+            <!-- Tab Kelola Pengeluaran -->
             <div id="content-pengeluaran" class="hidden space-y-4 sm:space-y-6">
                 <div class="bg-white dark:bg-zinc-900 p-4 rounded-2xl shadow-sm border border-slate-200/80 dark:border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-3">
                     <div class="flex items-center gap-2 w-full sm:w-auto">
@@ -544,7 +544,7 @@
                             <h3 id="statNetProfit" class="text-lg sm:text-xl font-black mt-1">Rp 0</h3>
                         </div>
                         <div id="netProfitCard">
-                            <span id="statNetProfitStatus" class="inline-block text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 mt-1">Netral</span>
+                            <span id="statNetProfitStatus" class="inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 mt-1">Netral</span>
                         </div>
                     </div>
                 </div>
@@ -594,9 +594,9 @@
                         </button>
                     </div>
 
-                    <!-- Toolbar Filter Baru: Harian, Mingguan, Bulanan, Tahunan -->
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
-                        <div class="relative col-span-1 sm:col-span-1">
+                    <!-- Toolbar Filter Baru: Harian, Mingguan, Bulanan, Tahunan (Tanpa Date Picker Rentang) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div class="relative col-span-1">
                             <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
                             <input type="text" id="searchReport" oninput="renderReports()" placeholder="Cari item..." class="w-full pl-8 pr-2.5 py-1.5 text-xs bg-slate-50 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700 rounded-xl outline-none font-semibold">
                         </div>
@@ -608,9 +608,6 @@
                                 <option value="bulanan">Bulan Ini</option>
                                 <option value="tahunan">Tahun Ini</option>
                             </select>
-                        </div>
-                        <div>
-                            <input type="date" id="startDate" onchange="renderReports()" class="w-full px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700 rounded-xl outline-none font-semibold" title="Tanggal Spesifik (Opsional)">
                         </div>
                         <div>
                             <button onclick="resetReportFilter()" class="w-full bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 font-extrabold text-xs py-1.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5">
@@ -804,7 +801,6 @@
     <script>
         let currentUserRole = 'admin';
 
-        // Helper Auto-Formatting Titik Rupiah saat mengetik
         function formatCurrencyInput(input) {
             let value = input.value.replace(/[^,\d]/g, '').toString();
             let split = value.split(',');
@@ -1767,7 +1763,6 @@
 
             const searchQuery = (document.getElementById('searchReport')?.value || '').toLowerCase();
             const periodVal = document.getElementById('filterPeriod')?.value || 'all';
-            const specificDate = document.getElementById('startDate')?.value || '';
 
             const now = new Date();
             const todayStr = now.toISOString().slice(0, 10);
@@ -1784,8 +1779,6 @@
 
             const filterByPeriod = (rawDateStr) => {
                 if (!rawDateStr) return true;
-                if (specificDate) return rawDateStr === specificDate;
-
                 if (periodVal === 'harian') {
                     return rawDateStr === todayStr;
                 } else if (periodVal === 'mingguan') {
@@ -1837,7 +1830,7 @@
             const totalSales = cashTotal + qrisTotal + transferTotal;
             const totalExpenses = filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0);
             
-            // Rumus Presisi: (Total Pemasukan Tunai/Lunas) + (Proyeksi Hutang Aktif) - (Total Pengeluaran)
+            // Formula Presisi: (Total Pemasukan Tunai/Lunas) + (Proyeksi Hutang Aktif) - (Total Pengeluaran)
             const netProfitWithDebt = (totalSales + totalDebtActive) - totalExpenses;
 
             document.getElementById('statTotalSales').innerText = `Rp ${totalSales.toLocaleString('id-ID')}`;
@@ -1921,7 +1914,6 @@
         function resetReportFilter() {
             if (document.getElementById('searchReport')) document.getElementById('searchReport').value = '';
             if (document.getElementById('filterPeriod')) document.getElementById('filterPeriod').value = 'all';
-            if (document.getElementById('startDate')) document.getElementById('startDate').value = '';
             renderReports();
             showToast('Filter laporan telah direset', 'info');
         }
