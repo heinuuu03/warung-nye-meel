@@ -62,7 +62,7 @@
     <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none max-w-xs sm:max-w-sm w-full px-4 flex justify-center"></div>
 
-    <!-- Screen Login (Dikembalikan Seperti Semula yang Elegan) -->
+    <!-- Screen Login -->
     <div id="loginScreen" class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-amber-100 via-yellow-50 to-amber-200 dark:from-slate-950 dark:via-zinc-900 dark:to-slate-900">
         <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-white/60 dark:border-zinc-800 relative overflow-hidden">
             <div class="absolute -top-12 -right-12 w-32 h-32 bg-brand/30 rounded-full blur-2xl"></div>
@@ -86,7 +86,7 @@
                     <input type="text" id="username" value="admin" required class="w-full px-3.5 py-2.5 sm:py-3 bg-slate-50 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700 rounded-xl focus:ring-2 focus:ring-brand focus:border-brand transition outline-none text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200">
                 </div>
                 <div>
-                    <label class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-1">Password</label>
+                    <label class="block text-[11px] font-extrabold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Password</label>
                     <input type="password" id="password" value="1234" required class="w-full px-3.5 py-2.5 sm:py-3 bg-slate-50 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700 rounded-xl focus:ring-2 focus:ring-brand focus:border-brand transition outline-none text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200">
                 </div>
                 <button type="submit" class="w-full bg-brand hover:bg-brand-dark text-slate-900 font-extrabold py-3 sm:py-3.5 rounded-xl shadow-lg shadow-brand/30 hover:shadow-brand/50 transition-all active:scale-[0.98] mt-2 text-xs sm:text-sm flex items-center justify-center gap-2">
@@ -1552,8 +1552,9 @@
                 csv += `"${e.formattedDate}","${e.desc}","${e.category}",${e.amount}\n`;
             });
             const link = document.createElement("a");
-            link.href = encodeURI(csv);
-            link.download = `Laporan_Pengeluaran_${new Date().toISOString().slice(0,10)}.csv`;
+            link.setAttribute("href", encodeURI(csv));
+            link.setAttribute("download", `Laporan_Pengeluaran_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
             link.click();
             showToast('Pengeluaran berhasil diexport ke Excel!', 'success');
         }
