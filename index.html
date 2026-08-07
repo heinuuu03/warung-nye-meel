@@ -544,7 +544,7 @@
                             <h3 id="statNetProfit" class="text-lg sm:text-xl font-black mt-1">Rp 0</h3>
                         </div>
                         <div id="netProfitCard">
-                            <span id="statNetProfitStatus" class="inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 mt-1">Netral</span>
+                            <span id="statNetProfitStatus" class="inline-block text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 mt-1">Netral</span>
                         </div>
                     </div>
                 </div>
@@ -1553,8 +1553,7 @@
             });
             const link = document.createElement("a");
             link.setAttribute("href", encodeURI(csv));
-            link.setAttribute("download", `Laporan_Pengeluaran_${new Date().toISOString().slice(0,10)}.csv`);
-            document.body.appendChild(link);
+            link.download = `Laporan_Pengeluaran_${new Date().toISOString().slice(0,10)}.csv`;
             link.click();
             showToast('Pengeluaran berhasil diexport ke Excel!', 'success');
         }
